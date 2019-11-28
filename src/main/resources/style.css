@@ -1,0 +1,15 @@
+.bg400{
+    -fx-background-image: url('tlo400.jpg');
+    -fx-background-size: 100% 100%;
+}
+
+.bg760{
+    -fx-background-image: url('tlo760.jpg');
+    -fx-background-size: 100% 100%;
+}
+
+.bgwait600x400{
+    -fx-background-image: url('wait600x400.jpg');
+    -fx-background-size: 100% 100%;
+
+}
