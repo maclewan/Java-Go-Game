@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
+import Controllers.GameRules;
 public class GuiController {
 
     //temp
@@ -61,8 +61,13 @@ public class GuiController {
                 addChecker(a,b);
             }
             else {
-                removeChecker(a, b);
-                checkers[a][b]=null;    //aby mozna bylo pozniej dodac nowy pionek w miejsce usunietego
+
+                if ((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack &&checkers[a][b].getFill().equals(Color.BLACK) )) {
+                    removeChecker(a, b);
+                    checkers[a][b]=null;    //aby mozna bylo pozniej dodac nowy pionek w miejsce usunietego
+                }
+
+
             }
     }
 
@@ -84,24 +89,70 @@ public class GuiController {
 
     }
 
+    /*Dodaje pionek*/
     void addChecker(int a, int b){
-        checkers[a][b] = new Circle();
-        checkers[a][b].setCenterX(a*40+20);
-        checkers[a][b].setCenterY(b*40+20);
-        checkers[a][b].setRadius(18);
+        if(!isSuicide(a,b)) {
+            checkers[a][b] = new Circle();
+            checkers[a][b].setCenterX(a * 40 + 20);
+            checkers[a][b].setCenterY(b * 40 + 20);
+            checkers[a][b].setRadius(18);
 
-        System.out.println(isBlack);
-        if(isBlack)
-            checkers[a][b].setFill(Color.BLACK);
-        else
-            checkers[a][b].setFill(Color.WHITE);
+            System.out.println(isBlack);
+            if (isBlack)
+                checkers[a][b].setFill(Color.BLACK);
+            else
+                checkers[a][b].setFill(Color.WHITE);
 
-        board.getChildren().add(checkers[a][b]);
+            board.getChildren().add(checkers[a][b]);
+        }
+
     }
 
+    /*Usuwam pionek*/
     void removeChecker(int a, int b){
         board.getChildren().remove(checkers[a][b]);
     }
+
+    //-----------------------------------------------------------------------------TUTAJ SPRAWDZAM ZASADY
+    /*Sprawdzam czy zostanie dokonane morderstwo*/
+     boolean isKill(int a, int b)
+    {
+        if(isSurround(a,b))
+        {
+
+
+
+        }
+        return false;
+    }
+    /*Sprawdzam czy jest samobojstwo*/
+    boolean isSuicide(int a, int b) {
+        if (isSurround(a, b))
+        {
+            if (!isBlack && checkers[a + 1][b].getFill().equals(Color.BLACK) && checkers[a - 1][b].getFill().equals(Color.BLACK) && checkers[a][b + 1].getFill().equals(Color.BLACK) && checkers[a][b - 1].getFill().equals(Color.BLACK))
+                return true;
+            if(isBlack && checkers[a+1][b].getFill().equals(Color.WHITE) && checkers[a-1][b].getFill().equals(Color.WHITE) && checkers[a][b+1].getFill().equals(Color.WHITE) && checkers[a][b-1].getFill().equals(Color.WHITE))
+                return true;
+        }
+        return false;
+    }
+
+    /*Sprawdzam czy pionek jest otoczony*/
+    boolean isSurround(int a, int b)
+    {
+        if (checkers[a + 1][b] != null && checkers[a - 1][b] != null && checkers[a][b + 1] != null && checkers[a][b - 1] != null) {
+            return true;
+        }
+            return false;
+    }
+
+    /*licze ile mam towarzyszy obok pionka*/
+    void haveComrade(int a, int b)
+    {
+
+    }
+
+
 
 
 }
