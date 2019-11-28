@@ -29,14 +29,23 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Locale.setDefault(new Locale("pl"));
+
         Parent root;
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("MenuFrame.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
         root = loader.load();
-        primaryStage.setTitle("Menu");
-        Scene s = new Scene(root);
-        primaryStage.setScene(s);
+        primaryStage.setTitle("Hello World");
+        primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
+
+       // Parent root;
+       // FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("MenuFrame.fxml"));
+        //root = loader.load();
+        //primaryStage.setTitle("Menu");
+        //Scene s = new Scene(root);
+       // primaryStage.setScene(s);
+       // primaryStage.setResizable(false);
+       // primaryStage.show();
     }
 
     public static void main(String[] args) {
