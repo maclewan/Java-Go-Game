@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import Controllers.GameRules;
@@ -18,7 +19,7 @@ public class GuiController {
     //temp
     boolean isBlack;
 
-    Circle[][] checkers = new Circle[19][19];
+    Ellipse[][] checkers = new Ellipse[19][19];
 
     @FXML // fx:id="board"
     private Pane board; // Value injected by FXMLLoader
@@ -60,15 +61,9 @@ public class GuiController {
             if(checkers[a][b]==null){
                 addChecker(a,b);
             }
-            else {
-
-                if ((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack &&checkers[a][b].getFill().equals(Color.BLACK) )) {
-                    removeChecker(a, b);
-                    checkers[a][b]=null;    //aby mozna bylo pozniej dodac nowy pionek w miejsce usunietego
-                }
-
-
-            }
+            else
+                removeChecker(a, b);
+            
     }
 
     @FXML
@@ -92,16 +87,24 @@ public class GuiController {
     /*Dodaje pionek*/
     void addChecker(int a, int b){
         if(!isSuicide(a,b)) {
-            checkers[a][b] = new Circle();
+            checkers[a][b] = new Ellipse();
             checkers[a][b].setCenterX(a * 40 + 20);
             checkers[a][b].setCenterY(b * 40 + 20);
-            checkers[a][b].setRadius(18);
+            checkers[a][b].setRadiusY(18);
+            checkers[a][b].setRadiusX(18);
+            checkers[a][b].setStrokeWidth(2);
+
 
             System.out.println(isBlack);
-            if (isBlack)
+            if (isBlack) {
                 checkers[a][b].setFill(Color.BLACK);
-            else
+                checkers[a][b].setStroke(Color.WHITE);
+            }
+
+            else {
                 checkers[a][b].setFill(Color.WHITE);
+                checkers[a][b].setStroke(Color.BLACK);
+            }
 
             board.getChildren().add(checkers[a][b]);
         }
@@ -110,7 +113,10 @@ public class GuiController {
 
     /*Usuwam pionek*/
     void removeChecker(int a, int b){
+        System.out.println("t0");
         board.getChildren().remove(checkers[a][b]);
+        System.out.println("t1");
+        checkers[a][b] = null;
     }
 
     //-----------------------------------------------------------------------------TUTAJ SPRAWDZAM ZASADY
