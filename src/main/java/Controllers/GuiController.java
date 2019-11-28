@@ -246,6 +246,7 @@ public class GuiController {
         return counter;
     }
 
+
     void killGroupedCheckers() {
         for(int i=0; i<groupList.size();i++){
             int counter=0;
