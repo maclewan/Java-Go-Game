@@ -263,6 +263,7 @@ public class GuiController {
 
     /*Sprawdzam czy jest samobojstwo*/
     boolean isSuicide(int a, int b) {
+
         if (isSurround(a, b) &&  !allreadyChecked[a][b])
         {
             allreadyChecked[a][b]=true;
