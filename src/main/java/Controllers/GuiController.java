@@ -131,29 +131,32 @@ public class GuiController {
             allreadyChecked[a][b]=true;
             if(comradesAmmount(a,b)==0) return true;
             if(!isBlack) {
-                if(checkers[a + 1][b].getFill().equals(Color.WHITE)) {
-                    if(!allreadyChecked[a][b+1])isSuicide((a+1),b);
+                if(checkers[a + 1][b].getFill().equals(Color.WHITE)|| (a+1==19)) {
+                    if(!allreadyChecked[a][b+1] && isSuicide(a,b+1)) {
+                            return true;
+                    }
                 }
-                if(checkers[a - 1][b].getFill().equals(Color.WHITE))
+
+                if(checkers[a - 1][b].getFill().equals(Color.WHITE)|| (a-1==0))
                 {
-                    if(!allreadyChecked[a][b+1])isSuicide((a-1),b);
+                    if(!allreadyChecked[a][b+1] && !isSuicide((a-1),b))  return false;
                 }
-                if(checkers[a][b+1].getFill().equals(Color.WHITE))
+                if(checkers[a][b+1].getFill().equals(Color.WHITE) || (b+1==19))
                 {
-                    if(!allreadyChecked[a][b+1])isSuicide(a,(b+1));
+                    if(!allreadyChecked[a][b+1] && !isSuicide(a,(b+1))) return false;
                 }
-                if(checkers[a][b-1].getFill().equals(Color.WHITE)){
-                    if(!allreadyChecked[a][b+1])isSuicide(a,(b-1));
+                if(checkers[a][b-1].getFill().equals(Color.WHITE) || (b-1==0)){
+                    if(!allreadyChecked[a][b+1] && !isSuicide(a,(b-1))) return false;
                 }
             }
             else {
-                if (checkers[a + 1][b].getFill().equals(Color.BLACK))
+                if (checkers[a + 1][b].getFill().equals(Color.BLACK)|| (a+1==19))
                     if(!allreadyChecked[a][b+1])isSuicide((a+1),b);
-                if (checkers[a - 1][b].getFill().equals(Color.BLACK))
+                if (checkers[a - 1][b].getFill().equals(Color.BLACK)|| (a-1==0))
                     if(!allreadyChecked[a][b+1])isSuicide((a-1),b);
-                if (checkers[a][b + 1].getFill().equals(Color.BLACK))
+                if (checkers[a][b + 1].getFill().equals(Color.BLACK)|| (b+1==19))
                     if(!allreadyChecked[a][b+1])isSuicide(a,(b+1));
-                if (checkers[a][b - 1].getFill().equals(Color.BLACK))
+                if (checkers[a][b - 1].getFill().equals(Color.BLACK)|| (b-1==0))
                     if(!allreadyChecked[a][b+1])isSuicide(a,(b-1));
             }
             return true;
