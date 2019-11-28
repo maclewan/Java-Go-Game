@@ -60,7 +60,7 @@ public class GuiController {
         diffR = Math.sqrt(diffX * diffX + diffY * diffY);
 
         if(diffR>15){
-            System.out.println("out of range");   //clicked out of any points range
+             //clicked out of any points range
         }
         else
         if(checkers[a][b]==null){
@@ -87,7 +87,6 @@ public class GuiController {
     @FXML
     void passBlackOnAction(ActionEvent event) {
         groupCheckers();
-        System.out.println(groupList);
 
     }
 
@@ -108,7 +107,6 @@ public class GuiController {
         checkers[a][b].setStrokeWidth(2);
 
 
-            System.out.println(isBlack);
             if (isBlack) {
                 checkers[a][b].setFill(Color.BLACK);
                 checkers[a][b].setStroke(Color.WHITE);
@@ -157,7 +155,6 @@ public class GuiController {
         groupList.clear();
         for (int i = 0; i < 19; i++) {
             for (int j = 0; j < 19; j++) {
-                System.out.println(i + "," + j);
                 if (checkers[i][j] != null && !groupedArr[i][j]) {
                     Paint tempCol = checkers[i][j].getFill();
                     ArrayList<Point> tempArr = new ArrayList<>();
@@ -252,7 +249,6 @@ public class GuiController {
 
             for(int j=0; j<groupList.get(i).size();j++){
                 counter+=countBreaths(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY());
-                System.out.println("Pos: "+groupList.get(i).get(j).getX()+","+groupList.get(i).get(j).getY()+" has: "+counter+" breaths" );
             }
             if(counter==0){
                 for(int j=groupList.get(i).size()-1; j>=0;j--){
