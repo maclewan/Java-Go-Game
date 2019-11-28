@@ -15,6 +15,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import Controllers.GameRules;
 
 import java.awt.geom.Ellipse2D;
