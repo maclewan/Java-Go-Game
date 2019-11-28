@@ -11,14 +11,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-import Controllers.GameRules;
-
-import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 public class GuiController {
@@ -65,14 +59,22 @@ public class GuiController {
         diffY = Math.abs(y - (b * 40 + 20));
         diffR = Math.sqrt(diffX * diffX + diffY * diffY);
 
-        if (diffR > 15) {
-            //clicked out of any points range
-        } else if (checkers[a][b] == null) {
-            addChecker(a, b);
-        } else
+        if(diffR>15){
+            System.out.println("out of range");   //clicked out of any points range
+        }
+        else
+        if(checkers[a][b]==null){
+            cleanAllreadyChecked();
+            addChecker(a,b);
+        }
+        else
+        if((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK)))
+        {
             removeChecker(a, b);
-
+            checkers[a][b]=null;
+        }
     }
+
 
     @FXML
     void colourOnAction(ActionEvent event) {
