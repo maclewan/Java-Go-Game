@@ -130,39 +130,39 @@ public class GuiController {
             allreadyChecked[a][b]=true;
             if(comradesAmmount(a,b)==0) return true;
             if(!isBlack) {
-                if(checkers[a + 1][b].getFill().equals(Color.WHITE)|| (a+1==19)) {
+                if((a+1)<=18 && checkers[a + 1][b].getFill().equals(Color.WHITE)) {
                     if(!allreadyChecked[a+1][b]) return isSuicide(a+1,b);
                     else return true;
                 }
-                if(checkers[a - 1][b].getFill().equals(Color.WHITE)|| (a-1==0)) {
+                if((a-1)>=0 && checkers[a - 1][b].getFill().equals(Color.WHITE)) {
                     if(!allreadyChecked[a-1][b]) return  isSuicide((a-1),b);
                     else return true;
                 }
-                if(checkers[a][b+1].getFill().equals(Color.WHITE) || (b+1==19)) {
+                if((b+1)<=18 && checkers[a][b+1].getFill().equals(Color.WHITE) ) {
                     if (!allreadyChecked[a][b + 1]) return isSuicide(a, (b + 1));
                     else return true;
                 }
-                if(checkers[a][b-1].getFill().equals(Color.WHITE) || (b-1==0)){
+                if((b-1)>=0 && checkers[a][b-1].getFill().equals(Color.WHITE)){
                     if(!allreadyChecked[a][b-1]) return isSuicide(a,(b-1));
                     else return true;
 
                 }
             }
-            else {
-                if (checkers[a + 1][b].getFill().equals(Color.BLACK)|| (a+1==19))
+            if(isBlack) {
+                if ((a+1)<=18 && checkers[a + 1][b].getFill().equals(Color.BLACK))
                     if(!allreadyChecked[a+1][b]) return isSuicide(a+1,b);
                     else return true;
-                if (checkers[a - 1][b].getFill().equals(Color.BLACK)|| (a-1==0))
+                if ((a-1)>=0 && checkers[a - 1][b].getFill().equals(Color.BLACK))
                     if(!allreadyChecked[a-1][b]) return  isSuicide((a-1),b);
                     else return true;
-                if (checkers[a][b + 1].getFill().equals(Color.BLACK)|| (b+1==19))
+                if ((b+1)<=18 && checkers[a][b + 1].getFill().equals(Color.BLACK))
                     if (!allreadyChecked[a][b + 1]) return isSuicide(a, (b + 1));
                     else return true;
-                if (checkers[a][b - 1].getFill().equals(Color.BLACK)|| (b-1==0))
+                if ((b-1)>=0 && checkers[a][b - 1].getFill().equals(Color.BLACK))
                     if(!allreadyChecked[a][b-1]) return isSuicide(a,(b-1));
                     else return true;
             }
-            return false;
+            return true;
 
         }
         return false;
@@ -171,10 +171,10 @@ public class GuiController {
     /*Sprawdzam czy pionek jest otoczony*/
     boolean isSurround(int a, int b)
     {
-        if (checkers[a + 1][b] != null && checkers[a - 1][b] != null && checkers[a][b + 1] != null && checkers[a][b - 1] != null) {
-            return true;
-        }
+        if ((a+1<=18 && checkers[a + 1][b] == null ) || (a-1>=0 && checkers[a - 1][b] == null ) || (b+1<=18 &&checkers[a][b + 1] == null) || (b-1>=0 && checkers[a][b - 1] == null)) {
             return false;
+        }
+            return true;
     }
 
     /*licze ile mam towarzyszy obok pionka*/
@@ -182,45 +182,48 @@ public class GuiController {
     {
         int towarzysz=0;
         if(!isBlack) {
-            if(checkers[a + 1][b].getFill().equals(Color.WHITE)) {
-                isSuicide((a+1),b);
+            if(a+1<=18 && checkers[a + 1][b].getFill().equals(Color.WHITE)) {
+                //isSuicide((a+1),b);
                 towarzysz++;
             }
-            if(checkers[a - 1][b].getFill().equals(Color.WHITE))
+            if(a-1>=0 && checkers[a - 1][b].getFill().equals(Color.WHITE))
             {
-                isSuicide((a-1),b);
+                //isSuicide((a-1),b);
                 towarzysz++;
             }
-            if(checkers[a][b+1].getFill().equals(Color.WHITE))
+            if(b+1<=18 && checkers[a][b+1].getFill().equals(Color.WHITE))
             {
-                isSuicide(a,(b+1));
+                //isSuicide(a,(b+1));
                 towarzysz++;
             }
-            if(checkers[a][b-1].getFill().equals(Color.WHITE)){
-                isSuicide(a,(b-1));
+            if(b-1>=0 && checkers[a][b-1].getFill().equals(Color.WHITE)){
+               // isSuicide(a,(b-1));
                 towarzysz++;
             }
         }
         else {
-            if (checkers[a + 1][b].getFill().equals(Color.BLACK))
+            if (a+1<=18 && checkers[a + 1][b].getFill().equals(Color.BLACK))
                 towarzysz++;
-            if (checkers[a - 1][b].getFill().equals(Color.BLACK))
+            if (a-1>=0 && checkers[a - 1][b].getFill().equals(Color.BLACK))
                 towarzysz++;
-            if (checkers[a][b + 1].getFill().equals(Color.BLACK))
+            if (b+1<=18 && checkers[a][b + 1].getFill().equals(Color.BLACK))
                 towarzysz++;
-            if (checkers[a][b - 1].getFill().equals(Color.BLACK))
+            if (b-1>=0 && checkers[a][b - 1].getFill().equals(Color.BLACK))
                 towarzysz++;
         }
         return towarzysz;
     }
 
+    /*czyszcze tablice*/
     void cleanAllreadyChecked()
     {
-        for(int i=0;i<19;i++) {
-            for(int j=0;j<19;j++){
+        for(int i=0;i<=18;i++) {
+            for(int j=0;j<=18;j++){
                 allreadyChecked[i][j]=false;
             }
         }
+
+
     }
 
 
