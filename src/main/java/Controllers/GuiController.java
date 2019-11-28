@@ -119,6 +119,8 @@ public class GuiController {
 
 
 
+
+
     //-----------------------------------------------------------------------------TUTAJ SPRAWDZAM ZASADY
     /*Sprawdzam czy zostanie dokonane morderstwo*/
 
