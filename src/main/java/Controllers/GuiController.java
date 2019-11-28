@@ -99,7 +99,7 @@ public class GuiController {
 
     /*Dodaje pionek*/
     void addChecker(int a, int b) {
-        if(!isSuicide(a,b)) {
+
         checkers[a][b] = new Ellipse();
         checkers[a][b].setCenterX(a * 40 + 20);
         checkers[a][b].setCenterY(b * 40 + 20);
@@ -108,16 +108,15 @@ public class GuiController {
         checkers[a][b].setStrokeWidth(2);
 
 
-        if (isBlack) {
-            checkers[a][b].setFill(Color.BLACK);
-            checkers[a][b].setStroke(Color.WHITE);
-        } else {
-            checkers[a][b].setFill(Color.WHITE);
-            checkers[a][b].setStroke(Color.BLACK);
-        }
+            System.out.println(isBlack);
+            if (isBlack)
+                checkers[a][b].setFill(Color.BLACK);
+            else
+                checkers[a][b].setFill(Color.WHITE);
 
-        board.getChildren().add(checkers[a][b]);
-        }
+            board.getChildren().add(checkers[a][b]);
+            if(isSuicide(a,b)) removeChecker(a, b);
+
 
     }
 
