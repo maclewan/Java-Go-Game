@@ -63,7 +63,11 @@ public class GuiController {
                addChecker(a,b);
             }
         else
-            removeChecker(a, b);
+            if((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK)))
+            {
+                removeChecker(a, b);
+                checkers[a][b]=null;
+            }
     }
 
     @FXML
@@ -152,6 +156,7 @@ public class GuiController {
                 if (checkers[a][b - 1].getFill().equals(Color.BLACK))
                     if(!allreadyChecked[a][b+1])isSuicide(a,(b-1));
             }
+            return true;
 
         }
         return false;
