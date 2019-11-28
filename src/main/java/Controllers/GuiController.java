@@ -60,9 +60,10 @@ public class GuiController {
             if(checkers[a][b]==null){
                 addChecker(a,b);
             }
-            else
-                removeChecker(a,b);
-
+            else {
+                removeChecker(a, b);
+                checkers[a][b]=null;    //aby mozna bylo pozniej dodac nowy pionek w miejsce usunietego
+            }
     }
 
     @FXML
