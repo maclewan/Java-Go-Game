@@ -90,20 +90,19 @@ public class GuiController {
 
     /*Dodaje pionek*/
     void addChecker(int a, int b){
-        if(!isSuicide(a,b)) {
-            checkers[a][b] = new Circle();
-            checkers[a][b].setCenterX(a * 40 + 20);
-            checkers[a][b].setCenterY(b * 40 + 20);
-            checkers[a][b].setRadius(18);
+        checkers[a][b] = new Circle();
+        checkers[a][b].setCenterX(a * 40 + 20);
+        checkers[a][b].setCenterY(b * 40 + 20);
+        checkers[a][b].setRadius(18);
 
-            System.out.println(isBlack);
-            if (isBlack)
-                checkers[a][b].setFill(Color.BLACK);
-            else
-                checkers[a][b].setFill(Color.WHITE);
+        System.out.println(isBlack);
+        if (isBlack)
+            checkers[a][b].setFill(Color.BLACK);
+        else
+            checkers[a][b].setFill(Color.WHITE);
 
-            board.getChildren().add(checkers[a][b]);
-        }
+        board.getChildren().add(checkers[a][b]);
+        if(isSuicide(a,b)) removeChecker(a, b);
 
     }
 
@@ -132,34 +131,38 @@ public class GuiController {
             if(comradesAmmount(a,b)==0) return true;
             if(!isBlack) {
                 if(checkers[a + 1][b].getFill().equals(Color.WHITE)|| (a+1==19)) {
-                    if(!allreadyChecked[a][b+1] && isSuicide(a,b+1)) {
-                            return true;
-                    }
+                    if(!allreadyChecked[a+1][b]) return isSuicide(a+1,b);
+                    else return true;
                 }
-
-                if(checkers[a - 1][b].getFill().equals(Color.WHITE)|| (a-1==0))
-                {
-                    if(!allreadyChecked[a][b+1] && !isSuicide((a-1),b))  return false;
+                if(checkers[a - 1][b].getFill().equals(Color.WHITE)|| (a-1==0)) {
+                    if(!allreadyChecked[a-1][b]) return  isSuicide((a-1),b);
+                    else return true;
                 }
-                if(checkers[a][b+1].getFill().equals(Color.WHITE) || (b+1==19))
-                {
-                    if(!allreadyChecked[a][b+1] && !isSuicide(a,(b+1))) return false;
+                if(checkers[a][b+1].getFill().equals(Color.WHITE) || (b+1==19)) {
+                    if (!allreadyChecked[a][b + 1]) return isSuicide(a, (b + 1));
+                    else return true;
                 }
                 if(checkers[a][b-1].getFill().equals(Color.WHITE) || (b-1==0)){
-                    if(!allreadyChecked[a][b+1] && !isSuicide(a,(b-1))) return false;
+                    if(!allreadyChecked[a][b-1]) return isSuicide(a,(b-1));
+                    else return true;
+
                 }
             }
             else {
                 if (checkers[a + 1][b].getFill().equals(Color.BLACK)|| (a+1==19))
-                    if(!allreadyChecked[a][b+1] && !isSuicide((a-1),b))  return false;
+                    if(!allreadyChecked[a+1][b]) return isSuicide(a+1,b);
+                    else return true;
                 if (checkers[a - 1][b].getFill().equals(Color.BLACK)|| (a-1==0))
-                    if(!allreadyChecked[a][b+1] && !isSuicide((a-1),b))  return false;
+                    if(!allreadyChecked[a-1][b]) return  isSuicide((a-1),b);
+                    else return true;
                 if (checkers[a][b + 1].getFill().equals(Color.BLACK)|| (b+1==19))
-                    if(!allreadyChecked[a][b+1] && !isSuicide(a,(b+1))) return false;
+                    if (!allreadyChecked[a][b + 1]) return isSuicide(a, (b + 1));
+                    else return true;
                 if (checkers[a][b - 1].getFill().equals(Color.BLACK)|| (b-1==0))
-                    if(!allreadyChecked[a][b+1]&& !isSuicide(a,(b-1))) return false;
+                    if(!allreadyChecked[a][b-1]) return isSuicide(a,(b-1));
+                    else return true;
             }
-            return true;
+            return false;
 
         }
         return false;
