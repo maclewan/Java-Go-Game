@@ -1,6 +1,7 @@
 package Controllers;
 
 
+import client.Point;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,17 +10,27 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import Controllers.GameRules;
+
+import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
+
 public class GuiController {
 
     //temp
     boolean isBlack;
 
-    Circle[][] checkers = new Circle[19][19];
+
+    Ellipse[][] checkers = new Ellipse[19][19];
+    boolean[][] groupedArr = new boolean[19][19];
     boolean[][] allreadyChecked = new boolean[19][19];
+    ArrayList<ArrayList<Point>> groupList = new ArrayList();
+
 
     @FXML // fx:id="board"
     private Pane board; // Value injected by FXMLLoader
@@ -40,89 +51,244 @@ public class GuiController {
     private Label pointsWhite; // Value injected by FXMLLoader
 
 
-
     @FXML
     void boardClicked(MouseEvent e) {
-        int a, b,x,y,diffX,diffY;
+        int a, b, x, y, diffX, diffY;
         double diffR;
 
-        x=(int)e.getX();
-        y=(int)e.getY();
-        a=(int) (e.getX())/40;
-        b=(int) (e.getY())/40;
-        diffX=Math.abs(x-(a*40+20));
-        diffY=Math.abs(y-(b*40+20));
-        diffR=Math.sqrt(diffX*diffX+diffY*diffY);
+        x = (int) e.getX();
+        y = (int) e.getY();
+        a = (int) (e.getX()) / 40;
+        b = (int) (e.getY()) / 40;
+        diffX = Math.abs(x - (a * 40 + 20));
+        diffY = Math.abs(y - (b * 40 + 20));
+        diffR = Math.sqrt(diffX * diffX + diffY * diffY);
 
-        if(diffR>15){
-            System.out.println("out of range");   //clicked out of any points range
-        }
-        else
-            if(checkers[a][b]==null){
-                cleanAllreadyChecked();
-               addChecker(a,b);
-            }
-        else
-            if((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK)))
-            {
-                removeChecker(a, b);
-                checkers[a][b]=null;
-            }
+        if (diffR > 15) {
+            //clicked out of any points range
+        } else if (checkers[a][b] == null) {
+            addChecker(a, b);
+        } else
+            removeChecker(a, b);
+
     }
 
     @FXML
     void colourOnAction(ActionEvent event) {
 
-        isBlack=!isBlack;
+        isBlack = !isBlack;
 
 
     }
 
     @FXML
     void passBlackOnAction(ActionEvent event) {
+        groupCheckers();
+        System.out.println(groupList);
 
     }
 
     @FXML
     void passWhiteOnAction(ActionEvent event) {
+        killer();
 
     }
 
     /*Dodaje pionek*/
-    void addChecker(int a, int b){
-        checkers[a][b] = new Circle();
+    void addChecker(int a, int b) {
+        /*if(!isSuicide(a,b)) {*/
+        checkers[a][b] = new Ellipse();
         checkers[a][b].setCenterX(a * 40 + 20);
         checkers[a][b].setCenterY(b * 40 + 20);
-        checkers[a][b].setRadius(18);
+        checkers[a][b].setRadiusY(18);
+        checkers[a][b].setRadiusX(18);
+        checkers[a][b].setStrokeWidth(2);
 
-        System.out.println(isBlack);
-        if (isBlack)
+
+        if (isBlack) {
             checkers[a][b].setFill(Color.BLACK);
-        else
+            checkers[a][b].setStroke(Color.WHITE);
+        } else {
             checkers[a][b].setFill(Color.WHITE);
+            checkers[a][b].setStroke(Color.BLACK);
+        }
 
         board.getChildren().add(checkers[a][b]);
-        if(isSuicide(a,b)) removeChecker(a, b);
+        /*}*/
 
     }
 
     /*Usuwam pionek*/
-    void removeChecker(int a, int b){
+    void removeChecker(int a, int b) {
         board.getChildren().remove(checkers[a][b]);
+        checkers[a][b] = null;
+        groupedArr[a][b] = false;
     }
+
 
     //-----------------------------------------------------------------------------TUTAJ SPRAWDZAM ZASADY
-    /*Sprawdzam czy zostanie dokonane morderstwo*/
-     boolean isKill(int a, int b)
-    {
-        if(isSurround(a,b))
-        {
 
 
+    /*Funkcja zabijająca piony bez oddechu*/
+    void killer() {
 
+        //2.sprawdzanie oddechów dla solo
+        //3.zabijanie
+        //4. sprawdzanie oddechów dla grup
+        //5.zabijanie
+        for (int i = 0; i < 19; i++) {           //sprawdznie i zabijanie pojedynczych klocków
+            for (int j = 0; j < 19; j++) {
+                if (groupedArr[i][j])
+                    continue;
+                if (countBreaths(i, j) == 0) {
+                    removeChecker(i, j);
+                }
+            }
         }
-        return false;
+
+        killGroupedCheckers();
+
+
+
+
     }
+
+
+    /*Grupuje zbite piony w grupy*/
+    void groupCheckers() {
+        groupedArr = new boolean[19][19];
+        groupList.clear();
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 19; j++) {
+                System.out.println(i + "," + j);
+                if (checkers[i][j] != null && !groupedArr[i][j]) {
+                    Paint tempCol = checkers[i][j].getFill();
+                    ArrayList<Point> tempArr = new ArrayList<>();
+                    getComrade(i, j, tempCol, tempArr);
+                    if (tempArr.size() > 1)
+                        groupList.add(new ArrayList<>(tempArr));
+                }
+            }
+        }
+
+    }
+
+    /*Sprawdzanie i dodawanie sąsiadów*/
+    void getComrade(int a, int b, Paint color, ArrayList<Point> comList) {
+        if (groupedArr[a][b]) {    //czy tego punktu juz nie ma w liście
+            return;
+        }
+
+        comList.add(new Point(a, b, color));         //dodaj punkt
+
+        /*sprawdzam okoliczne punkty*/
+        try {
+            if (checkers[a][b + 1].getFill() == color) {         //jeśli kolor sie zgadza
+                groupedArr[a][b] = true;                      //oznaczam pkt [a][b] jako element zgrupowany
+                getComrade(a, b + 1, color, comList);        //sprawdzam znajomych dla sąsiada o tym samym kolorze
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (NullPointerException e) {
+        }
+        try {
+            if (checkers[a - 1][b].getFill() == color) {
+                groupedArr[a][b] = true;
+                getComrade(a - 1, b, color, comList);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (NullPointerException e) {
+        }
+        try {
+            if (checkers[a][b - 1].getFill() == color) {
+                groupedArr[a][b] = true;
+                getComrade(a, b - 1, color, comList);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (NullPointerException e) {
+        }
+        try {
+            if (checkers[a + 1][b].getFill() == color) {
+                groupedArr[a][b] = true;
+                getComrade(a + 1, b, color, comList);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (NullPointerException e) {
+        }
+
+
+    }
+
+
+    int countBreaths(int a, int b) {
+        int counter = 0;
+        try {
+            if (checkers[a + 1][b] == null) {
+                counter++;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+        try {
+            if (checkers[a - 1][b] == null) {
+                counter++;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+        try {
+            if (checkers[a][b + 1] == null) {
+                counter++;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+        try {
+            if (checkers[a][b - 1] == null) {
+                counter++;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+        return counter;
+    }
+
+
+    void killGroupedCheckers() {
+        for(int i=0; i<groupList.size();i++){
+            int counter=0;
+
+            for(int j=0; j<groupList.get(i).size();j++){
+                counter+=countBreaths(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY());
+                System.out.println("Pos: "+groupList.get(i).get(j).getX()+","+groupList.get(i).get(j).getY()+" has: "+counter+" breaths" );
+            }
+            if(counter==0){
+                for(int j=groupList.get(i).size()-1; j>=0;j--){
+                    removeChecker(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY());
+                }
+            }
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*Sprawdzam czy jest samobojstwo*/
     boolean isSuicide(int a, int b) {
         if (isSurround(a, b) &&  !allreadyChecked[a][b])
@@ -215,18 +381,15 @@ public class GuiController {
     }
 
     /*czyszcze tablice*/
-    void cleanAllreadyChecked()
-    {
-        for(int i=0;i<=18;i++) {
-            for(int j=0;j<=18;j++){
-                allreadyChecked[i][j]=false;
+    void cleanAllreadyChecked() {
+        for (int i = 0; i <= 18; i++) {
+            for (int j = 0; j <= 18; j++) {
+                allreadyChecked[i][j] = false;
             }
         }
 
 
     }
-
-
 
 
 }
