@@ -31,15 +31,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Locale.setDefault(new Locale("pl"));
-/*
-        Parent root;
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
-        root = loader.load();
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(false);
-        primaryStage.show();
-*/
+
+        
         Parent root;
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("MenuFrame.fxml"));
         MenuFrameController mfc = new MenuFrameController();
