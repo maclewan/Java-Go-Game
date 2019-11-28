@@ -133,10 +133,6 @@ public class GuiController {
     /*Funkcja zabijająca piony bez oddechu*/
     void killer() {
 
-        //2.sprawdzanie oddechów dla solo
-        //3.zabijanie
-        //4. sprawdzanie oddechów dla grup
-        //5.zabijanie
         for (int i = 0; i < 19; i++) {           //sprawdznie i zabijanie pojedynczych klocków
             for (int j = 0; j < 19; j++) {
                 if (groupedArr[i][j])
@@ -146,12 +142,7 @@ public class GuiController {
                 }
             }
         }
-
-        killGroupedCheckers();
-
-
-
-
+        killGroupedCheckers();         //sprawdzanie i zabijanie grup
     }
 
 
@@ -174,7 +165,7 @@ public class GuiController {
 
     }
 
-    /*Sprawdzanie i dodawanie sąsiadów*/
+    /*Sprawdzanie i dodawanie sąsiadów do grupy*/
     void getComrade(int a, int b, Paint color, ArrayList<Point> comList) {
         if (groupedArr[a][b]) {    //czy tego punktu juz nie ma w liście
             return;
@@ -266,27 +257,6 @@ public class GuiController {
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
