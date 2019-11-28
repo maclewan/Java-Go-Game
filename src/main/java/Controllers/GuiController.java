@@ -1,6 +1,7 @@
 package Controllers;
 
 
+import client.Point;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,17 +10,25 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import Controllers.GameRules;
+
+import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
+
 public class GuiController {
 
     //temp
     boolean isBlack;
 
     Ellipse[][] checkers = new Ellipse[19][19];
+    boolean[][] groupedArr = new boolean[19][19];
+    ArrayList<ArrayList<Point>> groupList= new ArrayList();
+
 
     @FXML // fx:id="board"
     private Pane board; // Value injected by FXMLLoader
@@ -76,6 +85,8 @@ public class GuiController {
 
     @FXML
     void passBlackOnAction(ActionEvent event) {
+        groupCheckers();
+        System.out.println(groupList);
 
     }
 
@@ -114,6 +125,7 @@ public class GuiController {
     void removeChecker(int a, int b){
         board.getChildren().remove(checkers[a][b]);
         checkers[a][b] = null;
+        groupedArr[a][b] = false;
     }
 
 
@@ -122,18 +134,107 @@ public class GuiController {
 
 
     //-----------------------------------------------------------------------------TUTAJ SPRAWDZAM ZASADY
-    /*Sprawdzam czy zostanie dokonane morderstwo*/
-
-     boolean isKill(int a, int b)
-    {
-        if(isSurround(a,b))
-        {
 
 
 
-        }
-        return false;
+
+
+
+    /*Funkcja zabijająca piony bez oddechu*/
+    void killer(Ellipse[][] checkers){
+
+        //1. pogrupowanie
+        //2. sprawdzanie oddechów dla grup i dla solo
+        //3.zabijanie
     }
+
+    /*Grupuje zbite piony w grupy*/
+    void groupCheckers(){
+        groupedArr = new boolean[19][19];
+        groupList.clear();
+        for(int i=0;i<19;i++){
+            for(int j=0;j<19;j++){
+                System.out.println(i+","+j);
+                if(checkers[i][j]!=null&&!groupedArr[i][j]){
+                    Paint tempCol = checkers[i][j].getFill();
+                    ArrayList<Point> tempArr = new ArrayList<>();
+                    getComrade(i,j,tempCol,tempArr);
+                    if(tempArr.size()>1)
+                        groupList.add(new ArrayList<>(tempArr));
+                }
+            }
+        }
+    }
+
+    /*Sprawdzanie i dodawanie sąsiadów*/
+    void getComrade(int a, int b, Paint color, ArrayList<Point> comList){
+        if(groupedArr[a][b]){    //czy tego punktu juz nie ma w liście
+            return;
+        }
+
+        comList.add(new Point(a,b,color));         //dodaj punkt
+
+        /*sprawdzam okoliczne punkty*/
+        try{
+            if(checkers[a][b+1].getFill()==color){         //jeśli kolor sie zgadza
+                groupedArr[a][b]=true;                      //oznaczam pkt [a][b] jako element zgrupowany
+                getComrade(a,b+1,color,comList);        //sprawdzam znajomych dla sąsiada o tym samym kolorze
+            }
+        }
+        catch(ArrayIndexOutOfBoundsException e){}
+        catch(NullPointerException e){}
+        try{
+            if(checkers[a-1][b].getFill()==color){
+                groupedArr[a][b]=true;
+                getComrade(a-1,b,color,comList);
+            }
+        }
+        catch(ArrayIndexOutOfBoundsException e){}
+        catch(NullPointerException e){}
+        try{
+            if(checkers[a][b-1].getFill()==color){
+                groupedArr[a][b]=true;
+                getComrade(a,b-1,color,comList);
+            }
+        }
+        catch(ArrayIndexOutOfBoundsException e){}
+        catch(NullPointerException e){}
+        try{
+            if(checkers[a+1][b].getFill()==color){
+                groupedArr[a][b]=true;
+                getComrade(a+1,b,color,comList);
+            }
+        }
+        catch(ArrayIndexOutOfBoundsException e){}
+        catch(NullPointerException e){}
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /*Sprawdzam czy jest samobojstwo*/
     boolean isSuicide(int a, int b) {
@@ -156,11 +257,8 @@ public class GuiController {
             return false;
     }
 
-    /*licze ile mam towarzyszy obok pionka*/
-    void haveComrade(int a, int b)
-    {
 
-    }
+
 
 
 
