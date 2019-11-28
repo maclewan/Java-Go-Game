@@ -96,7 +96,7 @@ public class GuiController {
 
     /*Dodaje pionek*/
     void addChecker(int a, int b) {
-        /*if(!isSuicide(a,b)) {*/
+        if(!isSuicide(a,b)) {
         checkers[a][b] = new Ellipse();
         checkers[a][b].setCenterX(a * 40 + 20);
         checkers[a][b].setCenterY(b * 40 + 20);
@@ -114,7 +114,7 @@ public class GuiController {
         }
 
         board.getChildren().add(checkers[a][b]);
-        /*}*/
+        }
 
     }
 
