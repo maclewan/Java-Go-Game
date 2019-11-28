@@ -55,7 +55,7 @@ public class GuiController {
         diffR=Math.sqrt(diffX*diffX+diffY*diffY);
 
         if(diffR>15){
-            System.out.println("out of range");   //clicked out of any points range
+                     //clicked out of any points range
         }
         else
             if(checkers[a][b]==null){
@@ -95,7 +95,6 @@ public class GuiController {
             checkers[a][b].setStrokeWidth(2);
 
 
-            System.out.println(isBlack);
             if (isBlack) {
                 checkers[a][b].setFill(Color.BLACK);
                 checkers[a][b].setStroke(Color.WHITE);
@@ -113,14 +112,16 @@ public class GuiController {
 
     /*Usuwam pionek*/
     void removeChecker(int a, int b){
-        System.out.println("t0");
         board.getChildren().remove(checkers[a][b]);
-        System.out.println("t1");
         checkers[a][b] = null;
     }
 
+
+
+
     //-----------------------------------------------------------------------------TUTAJ SPRAWDZAM ZASADY
     /*Sprawdzam czy zostanie dokonane morderstwo*/
+
      boolean isKill(int a, int b)
     {
         if(isSurround(a,b))
@@ -131,6 +132,7 @@ public class GuiController {
         }
         return false;
     }
+
     /*Sprawdzam czy jest samobojstwo*/
     boolean isSuicide(int a, int b) {
         if (isSurround(a, b))
