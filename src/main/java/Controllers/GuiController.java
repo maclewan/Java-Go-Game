@@ -109,10 +109,14 @@ public class GuiController {
 
 
             System.out.println(isBlack);
-            if (isBlack)
+            if (isBlack) {
                 checkers[a][b].setFill(Color.BLACK);
-            else
+                checkers[a][b].setStroke(Color.WHITE);
+            }
+            else {
                 checkers[a][b].setFill(Color.WHITE);
+                checkers[a][b].setStroke(Color.BLACK);
+            }
 
             board.getChildren().add(checkers[a][b]);
             if(isSuicide(a,b)) removeChecker(a, b);
