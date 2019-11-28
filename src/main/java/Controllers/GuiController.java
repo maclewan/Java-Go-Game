@@ -19,6 +19,7 @@ public class GuiController {
     boolean isBlack;
 
     Circle[][] checkers = new Circle[19][19];
+    boolean[][] allreadyChecked = new boolean[19][19];
 
     @FXML // fx:id="board"
     private Pane board; // Value injected by FXMLLoader
@@ -58,17 +59,11 @@ public class GuiController {
         }
         else
             if(checkers[a][b]==null){
-                addChecker(a,b);
+                cleanAllreadyChecked();
+               addChecker(a,b);
             }
-            else {
-
-                if ((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack &&checkers[a][b].getFill().equals(Color.BLACK) )) {
-                    removeChecker(a, b);
-                    checkers[a][b]=null;    //aby mozna bylo pozniej dodac nowy pionek w miejsce usunietego
-                }
-
-
-            }
+        else
+            removeChecker(a, b);
     }
 
     @FXML
@@ -127,12 +122,37 @@ public class GuiController {
     }
     /*Sprawdzam czy jest samobojstwo*/
     boolean isSuicide(int a, int b) {
-        if (isSurround(a, b))
+        if (isSurround(a, b) &&  !allreadyChecked[a][b])
         {
-            if (!isBlack && checkers[a + 1][b].getFill().equals(Color.BLACK) && checkers[a - 1][b].getFill().equals(Color.BLACK) && checkers[a][b + 1].getFill().equals(Color.BLACK) && checkers[a][b - 1].getFill().equals(Color.BLACK))
-                return true;
-            if(isBlack && checkers[a+1][b].getFill().equals(Color.WHITE) && checkers[a-1][b].getFill().equals(Color.WHITE) && checkers[a][b+1].getFill().equals(Color.WHITE) && checkers[a][b-1].getFill().equals(Color.WHITE))
-                return true;
+            allreadyChecked[a][b]=true;
+            if(comradesAmmount(a,b)==0) return true;
+            if(!isBlack) {
+                if(checkers[a + 1][b].getFill().equals(Color.WHITE)) {
+                    if(!allreadyChecked[a][b+1])isSuicide((a+1),b);
+                }
+                if(checkers[a - 1][b].getFill().equals(Color.WHITE))
+                {
+                    if(!allreadyChecked[a][b+1])isSuicide((a-1),b);
+                }
+                if(checkers[a][b+1].getFill().equals(Color.WHITE))
+                {
+                    if(!allreadyChecked[a][b+1])isSuicide(a,(b+1));
+                }
+                if(checkers[a][b-1].getFill().equals(Color.WHITE)){
+                    if(!allreadyChecked[a][b+1])isSuicide(a,(b-1));
+                }
+            }
+            else {
+                if (checkers[a + 1][b].getFill().equals(Color.BLACK))
+                    if(!allreadyChecked[a][b+1])isSuicide((a+1),b);
+                if (checkers[a - 1][b].getFill().equals(Color.BLACK))
+                    if(!allreadyChecked[a][b+1])isSuicide((a-1),b);
+                if (checkers[a][b + 1].getFill().equals(Color.BLACK))
+                    if(!allreadyChecked[a][b+1])isSuicide(a,(b+1));
+                if (checkers[a][b - 1].getFill().equals(Color.BLACK))
+                    if(!allreadyChecked[a][b+1])isSuicide(a,(b-1));
+            }
+
         }
         return false;
     }
@@ -147,9 +167,49 @@ public class GuiController {
     }
 
     /*licze ile mam towarzyszy obok pionka*/
-    void haveComrade(int a, int b)
+    int comradesAmmount(int a, int b)
     {
+        int towarzysz=0;
+        if(!isBlack) {
+            if(checkers[a + 1][b].getFill().equals(Color.WHITE)) {
+                isSuicide((a+1),b);
+                towarzysz++;
+            }
+            if(checkers[a - 1][b].getFill().equals(Color.WHITE))
+            {
+                isSuicide((a-1),b);
+                towarzysz++;
+            }
+            if(checkers[a][b+1].getFill().equals(Color.WHITE))
+            {
+                isSuicide(a,(b+1));
+                towarzysz++;
+            }
+            if(checkers[a][b-1].getFill().equals(Color.WHITE)){
+                isSuicide(a,(b-1));
+                towarzysz++;
+            }
+        }
+        else {
+            if (checkers[a + 1][b].getFill().equals(Color.BLACK))
+                towarzysz++;
+            if (checkers[a - 1][b].getFill().equals(Color.BLACK))
+                towarzysz++;
+            if (checkers[a][b + 1].getFill().equals(Color.BLACK))
+                towarzysz++;
+            if (checkers[a][b - 1].getFill().equals(Color.BLACK))
+                towarzysz++;
+        }
+        return towarzysz;
+    }
 
+    void cleanAllreadyChecked()
+    {
+        for(int i=0;i<19;i++) {
+            for(int j=0;j<19;j++){
+                allreadyChecked[i][j]=false;
+            }
+        }
     }
 
 
