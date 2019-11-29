@@ -31,6 +31,7 @@ public class GuiController {
     boolean[][] groupedArr = new boolean[19][19];
     boolean[][] allreadyChecked = new boolean[19][19];
     ArrayList<ArrayList<Point>> groupList = new ArrayList();
+    Point lastAdded = new Point(-1,-1,Color.WHITE);
 
 
     @FXML // fx:id="board"
@@ -69,6 +70,7 @@ public class GuiController {
             //clicked out of any points range
         } else if (checkers[a][b] == null) {
             addChecker(a, b);
+
         } else
             removeChecker(a, b);
 
@@ -109,9 +111,11 @@ public class GuiController {
         if (isBlack) {
             checkers[a][b].setFill(Color.BLACK);
             checkers[a][b].setStroke(Color.WHITE);
+            lastAdded = new Point(a,b,Color.BLACK);
         } else {
             checkers[a][b].setFill(Color.WHITE);
             checkers[a][b].setStroke(Color.BLACK);
+            lastAdded = new Point(a,b,Color.WHITE);
         }
 
         board.getChildren().add(checkers[a][b]);
@@ -133,8 +137,11 @@ public class GuiController {
     /*Funkcja zabijająca piony bez oddechu*/
     void killer() {
 
+
         for (int i = 0; i < 19; i++) {           //sprawdznie i zabijanie pojedynczych klocków
             for (int j = 0; j < 19; j++) {
+                if(i==lastAdded.getX()&&j==lastAdded.getY())
+                    continue;
                 if (groupedArr[i][j])
                     continue;
                 if (countBreaths(i, j) == 0) {
@@ -142,7 +149,14 @@ public class GuiController {
                 }
             }
         }
-        killGroupedCheckers();         //sprawdzanie i zabijanie grup
+        killGroupedCheckers();                   //sprawdzanie i zabijanie grup
+        if (!groupedArr[lastAdded.getX()][lastAdded.getY()]){                     //sprawdzanie ostatnio dodanego
+            if (countBreaths(lastAdded.getX(), lastAdded.getY()) == 0) {
+                removeChecker(lastAdded.getX(), lastAdded.getY());
+            }
+        }
+
+
     }
 
 
@@ -258,6 +272,46 @@ public class GuiController {
 
     }
 
+
+    boolean isSuicide2(int a, int b){
+        int breaths = countBreaths(a,b);
+        if(breaths!=0)
+            return false;
+
+        //symuluje dodanie piona i patrzę czy po wszystkim zginie czy niet
+        Ellipse[][] checkersBack = new Ellipse[19][19];
+        checkersBack = checkers.clone();
+
+        checkers[a][b] = new Ellipse();
+        checkers[a][b].setCenterX(a * 40 + 20);
+        checkers[a][b].setCenterY(b * 40 + 20);
+        checkers[a][b].setRadiusY(18);
+        checkers[a][b].setRadiusX(18);
+        checkers[a][b].setStrokeWidth(2);
+
+
+        if(isBlack){
+            checkers[a][b].setFill(Color.BLACK);
+        }
+        else{
+            checkers[a][b].setFill(Color.WHITE);
+        }
+        groupCheckers();
+        killer();
+        if(checkers[a][b]!=null){
+            checkers=checkersBack.clone();
+            return true;
+        }
+        else{
+            checkers=checkersBack.clone();
+            return false;
+        }
+
+
+
+
+
+    }
 
 
     /*Sprawdzam czy jest samobojstwo*/
