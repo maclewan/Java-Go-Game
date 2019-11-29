@@ -1,6 +1,6 @@
 package Controllers;
 
-import clients.Client;
+import clients.ClientPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,9 +24,9 @@ public class LobbyFrameController {
     void btnExistingGameOnAction(ActionEvent event) throws IOException, ClassNotFoundException, InterruptedException {
 
         openWaitingFrame(false);
-        startGame();
-        Client client2=new Client();
-        client2.main();
+        //startGame();
+        ClientPlayer client=new ClientPlayer();
+        client.main();
 
     }
 
