@@ -68,9 +68,12 @@ public class GuiController {
             cleanAllreadyChecked();
             addChecker(a,b);
         }
-        else
-        if((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK)))
+        else if((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK)))
         {
+            removeChecker(a, b);
+            checkers[a][b]=null;
+        }
+        else{
             removeChecker(a, b);
             checkers[a][b]=null;
         }
@@ -352,8 +355,7 @@ public class GuiController {
     }
 
     /*Sprawdzam czy pionek jest otoczony*/
-    boolean isSurround(int a, int b)
-    {
+    boolean isSurround(int a, int b) {
         if ((a+1<=18 && checkers[a + 1][b] == null ) || (a-1>=0 && checkers[a - 1][b] == null ) || (b+1<=18 &&checkers[a][b + 1] == null) || (b-1>=0 && checkers[a][b - 1] == null)) {
             return false;
         }
@@ -361,8 +363,7 @@ public class GuiController {
     }
 
     /*licze ile mam towarzyszy obok pionka*/
-    int comradesAmmount(int a, int b)
-    {
+    int comradesAmmount(int a, int b) {
         int towarzysz=0;
         if(!isBlack) {
             if(a+1<=18 && checkers[a + 1][b].getFill().equals(Color.WHITE)) {
