@@ -267,7 +267,7 @@ public class GuiController {
         if (isSurround(a, b) &&  !allreadyChecked[a][b])
         {
             allreadyChecked[a][b]=true;
-            if(comradesAmmount(a,b)==0) return true;
+            if(comradesAmmount(a,b)==0) { System.out.println("1"); return true; }
             if(!isBlack) {
                 if((a+1)<=18 && checkers[a + 1][b].getFill().equals(Color.WHITE)) {
                     if(!allreadyChecked[a+1][b]) return isSuicide(a+1,b);
@@ -290,18 +290,18 @@ public class GuiController {
             if(isBlack) {
                 if ((a+1)<=18 && checkers[a + 1][b].getFill().equals(Color.BLACK))
                     if(!allreadyChecked[a+1][b]) return isSuicide(a+1,b);
-                    else return true;
+                    else return false;
                 if ((a-1)>=0 && checkers[a - 1][b].getFill().equals(Color.BLACK))
                     if(!allreadyChecked[a-1][b]) return  isSuicide((a-1),b);
-                    else return true;
+                    else return false;
                 if ((b+1)<=18 && checkers[a][b + 1].getFill().equals(Color.BLACK))
                     if (!allreadyChecked[a][b + 1]) return isSuicide(a, (b + 1));
-                    else return true;
+                    else return false;
                 if ((b-1)>=0 && checkers[a][b - 1].getFill().equals(Color.BLACK))
                     if(!allreadyChecked[a][b-1]) return isSuicide(a,(b-1));
-                    else return true;
+                    else return false;
             }
-            return true;
+            return false;
 
         }
         return false;
