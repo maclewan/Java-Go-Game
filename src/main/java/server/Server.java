@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -26,25 +26,34 @@ public class Server {
             System.out.println("Czekanie na odpowiedz klienta");
 
             /*Tworzenie socket i czekanie na polaczenie z klientem*/
-            Socket socket = server.accept();
+            Socket socket1 = server.accept();
+            Socket socket2 = server.accept();
 
             /*czytanie z socket do ObjectInputStream object*/
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+            ObjectInputStream ois1 = new ObjectInputStream(socket1.getInputStream());
+            ObjectInputStream ois2 = new ObjectInputStream(socket2.getInputStream());
 
             /*Convertowanie ObjectInputStream object na Stringa*/
-            String message = (String) ois.readObject();
+            String message = (String) ois1.readObject();
             System.out.println("Dostalem widomosc: " + message);
 
             //tworz ObjectOutputStream object
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            ObjectOutputStream oos1 = new ObjectOutputStream(socket1.getOutputStream());
+            ObjectOutputStream oos2 = new ObjectOutputStream(socket2.getOutputStream());
 
             //zapisz object do Socket
-            oos.writeObject("Czesc kliencie "+message);
+            oos1.writeObject("Czesc kliencie "+message);
+            oos2.writeObject("Czesc kliencie "+message);
+
 
             //zamknij wszystkie zrodla
-            ois.close();
-            oos.close();
-            socket.close();
+            ois1.close();
+            oos1.close();
+            socket1.close();
+
+            ois2.close();
+            oos2.close();
+            socket2.close();
 
             //terminate the server jesli client wysle zapytanie wyjscia
             if(message.equalsIgnoreCase("exit")) break;
