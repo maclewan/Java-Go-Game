@@ -51,7 +51,7 @@ public class MenuFrameController {
         else if(type==1){
             try {
                 stage.close();
-
+/*
                 FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("WaitingFrame.fxml"));
                 WaitingFrameController wfc = new WaitingFrameController();
                 loaderG.setController(wfc);
@@ -62,6 +62,20 @@ public class MenuFrameController {
                 stageG.setScene(sceneG);
                 stageG.show();
                 wfc.setStage(stageG);
+
+ */
+                FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("LobbyFrame.fxml"));
+                LobbyFrameController lfc = new LobbyFrameController();
+                loaderG.setController(lfc);
+
+                Scene sceneG = new Scene(loaderG.load());
+                Stage stageG = new Stage();
+                stageG.setTitle("Go");
+                stageG.setScene(sceneG);
+                stageG.show();
+                lfc.setStage(stageG);
+
+
 
             } catch (IOException ioe) {}
         }

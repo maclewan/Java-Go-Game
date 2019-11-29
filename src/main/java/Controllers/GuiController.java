@@ -28,7 +28,7 @@ public class GuiController {
     boolean[][] allreadyChecked = new boolean[19][19];
     ArrayList<ArrayList<Point>> groupList = new ArrayList();
     ArrayList<Point> lastlyKilled = new ArrayList<>();
-    Point lastAdded = new Point(-1,-1,Color.WHITE);
+    Point lastAdded = new Point(0,0,Color.WHITE);
 
 
 
@@ -509,7 +509,14 @@ public class GuiController {
     }
 /*
     void bootMove(){
-        int[][] pote
+
+        int[][] killPotential = new int[19][19];
+        for(int i=0;i<19;i++){
+            for(int j=0;j<19;j++){
+                if(isSuicide2(i,j))
+            }
+        }
+
 
 
 
