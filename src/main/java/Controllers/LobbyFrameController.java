@@ -31,6 +31,10 @@ public class LobbyFrameController {
         stageG.setScene(sceneG);
         stageG.show();
 
+        openWaitingFrame(false);
+        startGame();
+        Client client2=new Client();
+        client2.main();
 
 
         /* openWaitingFrame(false);
