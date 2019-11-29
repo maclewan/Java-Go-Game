@@ -25,4 +25,8 @@ public class WaitingFrameController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+    public void closeStage(){
+       stage.close();
+    }
 }

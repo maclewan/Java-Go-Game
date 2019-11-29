@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,6 +21,7 @@ public class GuiController {
 
     //temp
     public boolean isBlack;
+    WaitingFrameController wfc;
 
 
     public Ellipse[][] checkers = new Ellipse[19][19];
@@ -34,6 +36,8 @@ public class GuiController {
 
     @FXML
     private void initialize() {
+        wfc.closeStage();   //zamykanie okna waiting
+
          ArrayList<Label> labelList= new ArrayList<>();
         for(int i=0;i<19;i++){
             labelList.add(new Label(Integer.toString(i)));
@@ -573,4 +577,7 @@ public class GuiController {
 
     }
 
+    public void setWfc(WaitingFrameController wfc) {
+        this.wfc = wfc;
+    }
 }
