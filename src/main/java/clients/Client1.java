@@ -1,4 +1,4 @@
-package ClientTestowy;
+package clients;
 
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
  * Ta klasa implementuje socket Client
  *
  */
-public class Main {
+public class Client1 {
 
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
         //get the localhost IP address, if server is running on some other IP, you need to use that
