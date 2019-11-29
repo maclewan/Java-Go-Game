@@ -18,28 +18,43 @@ public class Server {
     /*port socket serer-a*/
     private static int port = 6666;
 
-    public static void main(String args[]) throws IOException, ClassNotFoundException{
+
+
+    public static void main() throws IOException, ClassNotFoundException{
         /*tworzenie socket serwer*/
         server = new ServerSocket(port);
 
-        while(true){
-            System.out.println("Czekanie na odpowiedz klienta");
+        System.out.println("Stworzylem server");
 
-            /*Tworzenie socket i czekanie na polaczenie z klientem*/
-            Socket socket1 = server.accept();
-            Socket socket2 = server.accept();
+        System.out.println("Czekanie na odpowiedz klienta");
+
+        /*Tworzenie socket i czekanie na polaczenie z klientem*/
+        /*Wysylam potwierdzenie do klienta1*/
+        Socket socket1 = server.accept();
+        //tworz ObjectOutputStream object
+        ObjectOutputStream oos1 = new ObjectOutputStream(socket1.getOutputStream());
+        oos1.writeObject("Jestes graczem nr 1");
+
+        Socket socket2 = server.accept();
+        /*Wysylam potwierdzenie do klienta2*/
+        ObjectOutputStream oos2 = new ObjectOutputStream(socket2.getOutputStream());
+        oos2.writeObject("Jestes graczem nr 2");
+
+        while(true){
+
+
 
             /*czytanie z socket do ObjectInputStream object*/
-            ObjectInputStream ois1 = new ObjectInputStream(socket1.getInputStream());
-            ObjectInputStream ois2 = new ObjectInputStream(socket2.getInputStream());
+            ObjectInputStream checker1 = new ObjectInputStream(socket1.getInputStream());
+            ObjectInputStream checker2 = new ObjectInputStream(socket2.getInputStream());
 
             /*Convertowanie ObjectInputStream object na Stringa*/
-            String message = (String) ois1.readObject();
+            String message = (String) checker1.readObject();
+            System.out.println("Dostalem widomosc: " + message);
+            message = (String) checker2.readObject();
             System.out.println("Dostalem widomosc: " + message);
 
-            //tworz ObjectOutputStream object
-            ObjectOutputStream oos1 = new ObjectOutputStream(socket1.getOutputStream());
-            ObjectOutputStream oos2 = new ObjectOutputStream(socket2.getOutputStream());
+
 
             //zapisz object do Socket
             oos1.writeObject("Czesc kliencie "+message);
@@ -47,11 +62,11 @@ public class Server {
 
 
             //zamknij wszystkie zrodla
-            ois1.close();
+            checker1.close();
             oos1.close();
             socket1.close();
 
-            ois2.close();
+            checker2.close();
             oos2.close();
             socket2.close();
 

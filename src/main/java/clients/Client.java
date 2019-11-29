@@ -13,7 +13,7 @@ import java.net.Socket;
  */
 public class Client {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException{
+    public static void main() throws IOException, ClassNotFoundException, InterruptedException{
         /*Tutaj wyswietlam menu*/
         /*Main main1= new Main();
         String[] arg = null;
