@@ -1,6 +1,5 @@
 package Controllers;
 
-import clients.ClientPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,12 +21,24 @@ public class LobbyFrameController {
 
     @FXML
     void btnExistingGameOnAction(ActionEvent event) throws IOException, ClassNotFoundException, InterruptedException {
+        stage.close();
 
-        openWaitingFrame(false);
-        //startGame();
-        ClientPlayer client=new ClientPlayer();
-        client.main();
+        FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
+        ClientController gc = new ClientController();
+        loaderG.setController(gc);
 
+        Scene sceneG = new Scene(loaderG.load());
+        Stage stageG = new Stage();
+        stageG.setTitle("Go");
+        stageG.setScene(sceneG);
+        stageG.show();
+
+
+
+        /* openWaitingFrame(false);
+            //startGame();
+            ClientPlayer client = new ClientPlayer();
+            client.main();*/
     }
 
     @FXML
@@ -35,9 +46,6 @@ public class LobbyFrameController {
         openWaitingFrame(true);
         Server myServer= new Server();
         myServer.main();
-       // Client client1=new Client();
-
-        //client1.main();
     }
 
 

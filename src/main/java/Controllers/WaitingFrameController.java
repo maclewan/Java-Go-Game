@@ -13,11 +13,6 @@ public class WaitingFrameController {
 
    @FXML
    void initialize() throws IOException, ClassNotFoundException {
-       if(createServer)
-       {
-
-
-       }
 
    }
 

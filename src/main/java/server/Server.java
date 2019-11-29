@@ -50,7 +50,7 @@
                  *
                  * */
 
-                /*Czekam na klienta*/
+                /*Czekam na klienta 1*/
                 System.out.println("Czekam na 1 gracza");
                 Socket socket1 = server.accept();
                 System.out.println("Gracz 1 dolaczyl do serwera");
@@ -61,13 +61,6 @@
                 String message1 = (String) checker1.readObject();
                 System.out.println("Dostalem widomosc od 1 gracza: " + message1);
 
-
-
-                /*Konce obcowanie z klientem pierwszym*/
-                /*zamykam wszystkie zrodla*/
-                //checker1.close();
-                //oos1.close();
-                //socket1.close();
                 /*Sprawdzam czy to juz koniec naszej zabawy*/
                 if(message1.equalsIgnoreCase("exit")) break;
 
@@ -76,7 +69,7 @@
                  * Lacze sie z kientem nr 2
                  *
                  * */
-                /*Czekam na klienta*/
+                /*Czekam na klienta 2*/
                 System.out.println("Czekam na 2 gracza");
                 Socket socket2 = server.accept();
                 System.out.println("Gracz 2 dolaczyl do serwera");
@@ -107,31 +100,7 @@
                 socket2.close();
                 /*Sprawdzam czy to juz koniec naszej zabawy*/
                 if(message2.equalsIgnoreCase("exit")) break;
-        /*czytanie z socket do ObjectInputStream object*/
-        //ObjectInputStream checker1 = new ObjectInputStream(socket1.getInputStream());
-       /* ObjectInputStream checker2 = new ObjectInputStream(socket2.getInputStream());
 
-        /*Convertowanie ObjectInputStream object na Stringa*/
-/*
-
-        message = (String) checker2.readObject();
-        System.out.println("Dostalem widomosc: " + message);
-
-
-
-        //zapisz object do Socket
-        oos1.writeObject("Czesc kliencie "+message);
-        oos2.writeObject("Czesc kliencie "+message);
-
-
-        //zamknij wszystkie zrodla
-        checker1.close();
-        oos1.close();
-        socket1.close();
-
-        checker2.close();
-        oos2.close();
-        socket2.close();*/
 
 
         }

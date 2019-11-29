@@ -1,5 +1,10 @@
 package clients;
 
+import Controllers.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -13,9 +18,23 @@ import java.util.Scanner;
  *
  */
 public class ClientPlayer {
+    public void openMyBoard() throws IOException, ClassNotFoundException, InterruptedException {
+        boolean tmp=true;
+            /*Wyswietlam okno*/
+            FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
+            GuiController gc = new GuiController();
+            loaderG.setController(gc);
 
-    String myMessage;
-    public static void main() throws IOException, ClassNotFoundException, InterruptedException{
+            Scene sceneG = new Scene(loaderG.load());
+            Stage stageG = new Stage();
+            stageG.setTitle("Go");
+            stageG.setScene(sceneG);
+            stageG.show();
+            tmp=!tmp;
+            System.out.println("Wyswietlilem okno");
+    }
+
+    public void handleServer() throws IOException, InterruptedException, ClassNotFoundException {
         Scanner scan = new Scanner(System.in);
         //get the localhost IP address, if server is running on some other IP, you need to use that
         InetAddress host = InetAddress.getLocalHost();
@@ -46,5 +65,21 @@ public class ClientPlayer {
             oos.close();
             Thread.sleep(100);
         }
+
+    }
+
+
+
+
+    String myMessage;
+    public void main() throws IOException, ClassNotFoundException, InterruptedException {
+        /*Wyswietlam okno*/
+        openMyBoard();
+        handleServer();
+
+
+/*koncze wyswietlac okno*/
+
+
     }
 }

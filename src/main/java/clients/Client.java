@@ -1,10 +1,13 @@
 package clients;
 
+import client.Main;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+
 
 /**
  *
@@ -13,11 +16,13 @@ import java.net.Socket;
  */
 public class Client {
 
+
+
     public static void main() throws IOException, ClassNotFoundException, InterruptedException{
         /*Tutaj wyswietlam menu*/
-        /*Main main1= new Main();
+        Main main1= new Main();
         String[] arg = null;
-        Main.main(arg);*/
+        Main.main(arg);
 
 
         //get the localhost IP address, if server is running on some other IP, you need to use that
