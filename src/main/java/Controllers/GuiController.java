@@ -16,6 +16,9 @@ import javafx.scene.shape.Ellipse;
 import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+import java.util.Scanner;
 
 public class GuiController {
 
@@ -72,6 +75,9 @@ public class GuiController {
     @FXML // fx:id="pointsWhite"
     private Label pointsWhite; // Value injected by FXMLLoader
 
+    @FXML
+    private Button botMove;
+
 
     @FXML
     void boardClicked(MouseEvent e) {
@@ -123,7 +129,15 @@ public class GuiController {
     @FXML
     void btnPassWhiteOnAction(ActionEvent event) {
         killer();
+    }
 
+    @FXML
+    void botOnAction(ActionEvent event) {
+
+        isBlack=!isBlack;     //wybiera drugi kolor;
+        botMove();
+
+        isBlack=!isBlack;     //wybiera drugi kolor;
     }
 
     /*Dodaje pionek*/
@@ -226,12 +240,12 @@ public class GuiController {
         groupList.clear();
         for (int i = 0; i < 19; i++) {
             for (int j = 0; j < 19; j++) {
-                if (checkers[i][j] != null && !groupedArr[i][j]) {
+                if (checkers[i][j] != null && !groupedArr[i][j]) {    //jesli istnieje i nie jest zgrupowany
                     Paint tempCol = checkers[i][j].getFill();
-                    ArrayList<Point> tempArr = new ArrayList<>();
+                    ArrayList<Point> tempArr = new ArrayList<>();    //nowa grupa
                     getComrade(i, j, tempCol, tempArr);
                     if (tempArr.size() > 1)
-                        groupList.add(new ArrayList<>(tempArr));
+                        groupList.add(new ArrayList<>(tempArr));     //jesli grupa nie jest pojedyncza to dodaj
                 }
             }
         }
@@ -397,7 +411,6 @@ public class GuiController {
         killerSimulation(pointsToKill);
 
         if(myContains(pointsToKill,a,b)){
-            System.out.println("This point is suicide: "+a+","+b);
             return true;
         }
         else{
@@ -507,19 +520,61 @@ public class GuiController {
         }
         return false;
     }
-/*
-    void bootMove(){
+
+    void botMove(){       //przykłądowy bot
 
         int[][] killPotential = new int[19][19];
         for(int i=0;i<19;i++){
             for(int j=0;j<19;j++){
-                if(isSuicide2(i,j))
+                if(checkers[i][j]!=null)
+                    continue;
+                addChecker(i,j);
+
+                if(checkers[i][j]==null){
+                    killPotential[i][j]=-1;
+                    continue;
+                }
+                ArrayList<Point> pointsToKill = new ArrayList<>();     //liczenie potencjału zabójczości
+                groupCheckers();
+                killerSimulation(pointsToKill);
+                killPotential[i][j]=pointsToKill.size();
+                removeChecker(i,j);
             }
         }
+
+        ArrayList<int[]> maxValueIndexes = new ArrayList<>();      //szukanie indeksów o maksymalnym potencjale zabijania
+        int maxVal=-1;
+        for(int i=0;i<19;i++) {
+            for (int j = 0; j < 19; j++) {
+                if(killPotential[i][j]==-1){
+                    continue;
+                }
+                if(killPotential[i][j]>maxVal) {        //gdy wiekszy, zeruj tablice z indeksami
+                    maxVal = killPotential[i][j];
+                    maxValueIndexes = new ArrayList<>();
+                    maxValueIndexes.add(new int[2]);
+                    maxValueIndexes.get(0)[0]=i;
+                    maxValueIndexes.get(0)[1]=j;
+                }
+                else if(killPotential[i][j]==maxVal){     //gdy równy dodaj do listy
+                    maxValueIndexes.add(new int[2]);
+                    maxValueIndexes.get(maxValueIndexes.size()-1)[0]=i;
+                    maxValueIndexes.get(maxValueIndexes.size()-1)[1]=j;
+                }
+
+
+            }
+        }
+
+
+        Random rand = new Random();                       //wybierz losowe pole do wstawienia piona z najoptymalniejszych
+        int[] randomElement = maxValueIndexes.get(rand.nextInt(maxValueIndexes.size()));
+
+        addChecker(randomElement[0],randomElement[1]);
 
 
 
 
     }
-*/
+
 }

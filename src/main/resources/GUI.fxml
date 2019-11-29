@@ -103,5 +103,6 @@
          </font>
       </Label>
       <ToggleButton fx:id="colour" layoutX="995.0" layoutY="611.0" mnemonicParsing="false" onAction="#colourOnAction" text="Black" />
+      <Button fx:id="botMove" layoutX="47.0" layoutY="356.0" mnemonicParsing="false" onAction="#botOnAction" text="Button" />
    </children>
 </Pane>
