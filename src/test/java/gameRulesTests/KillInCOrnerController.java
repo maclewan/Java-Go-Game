@@ -25,9 +25,7 @@ public class KillInCOrnerController extends GuiController{
         test.isBlack=true;
         /*nie korzystam z addChecker poniewaz jest tam czesc odpowiedzialna za dodanie do planszy*/
         test.checkers[0][0]=pc;
-        //test.isSuicide(1,18);
         assert(test.isSuicide(0,0));
-       //assert(test.checkers[1][18].getFill().equals(Color.BLACK));
 
     }
 
