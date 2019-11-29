@@ -290,18 +290,18 @@ public class GuiController {
             if(isBlack) {
                 if ((a+1)<=18 && checkers[a + 1][b].getFill().equals(Color.BLACK))
                     if(!allreadyChecked[a+1][b]) return isSuicide(a+1,b);
-                    else return false;
+                    else return true;
                 if ((a-1)>=0 && checkers[a - 1][b].getFill().equals(Color.BLACK))
                     if(!allreadyChecked[a-1][b]) return  isSuicide((a-1),b);
-                    else return false;
+                    else return true;
                 if ((b+1)<=18 && checkers[a][b + 1].getFill().equals(Color.BLACK))
                     if (!allreadyChecked[a][b + 1]) return isSuicide(a, (b + 1));
-                    else return false;
+                    else return true;
                 if ((b-1)>=0 && checkers[a][b - 1].getFill().equals(Color.BLACK))
                     if(!allreadyChecked[a][b-1]) return isSuicide(a,(b-1));
-                    else return false;
+                    else return true;
             }
-            return false;
+            return true;
 
         }
         return false;
