@@ -13,16 +13,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class GuiController {
 
     //temp
-    boolean isBlack;
+    public boolean isBlack;
 
 
-    Ellipse[][] checkers = new Ellipse[19][19];
+    public Ellipse[][] checkers = new Ellipse[19][19];
     boolean[][] groupedArr = new boolean[19][19];
     boolean[][] allreadyChecked = new boolean[19][19];
     ArrayList<ArrayList<Point>> groupList = new ArrayList();
@@ -371,7 +370,7 @@ public class GuiController {
 
 
     /*Sprawdzam czy jest samobojstwo*/
-    boolean isSuicide(int a, int b) {
+    public boolean isSuicide(int a, int b) {
 
         if (isSurround(a, b) &&  !allreadyChecked[a][b])
         {
