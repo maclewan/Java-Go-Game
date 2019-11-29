@@ -18,11 +18,14 @@ public class Server {
     /*port socket serer-a*/
     private static int port = 6666;
 
-    public static void main(String args[]) throws IOException, ClassNotFoundException{
+
+
+    public static void main() throws IOException, ClassNotFoundException{
         /*tworzenie socket serwer*/
         server = new ServerSocket(port);
 
         while(true){
+
             System.out.println("Czekanie na odpowiedz klienta");
 
             /*Tworzenie socket i czekanie na polaczenie z klientem*/
@@ -35,6 +38,8 @@ public class Server {
 
             /*Convertowanie ObjectInputStream object na Stringa*/
             String message = (String) ois1.readObject();
+            System.out.println("Dostalem widomosc: " + message);
+            message = (String) ois2.readObject();
             System.out.println("Dostalem widomosc: " + message);
 
             //tworz ObjectOutputStream object
