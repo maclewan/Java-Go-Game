@@ -67,6 +67,7 @@
             <Circle fill="DODGERBLUE" layoutX="500.0" layoutY="620.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
             <Circle fill="DODGERBLUE" layoutX="260.0" layoutY="620.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
             <Circle fill="#ff1f1f" layoutX="380.0" layoutY="380.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+            <Label layoutX="5.0" layoutY="10.0" text="1" />
          </children>
       </Pane>
       <Label layoutX="20.0" layoutY="30.0" text="Gracz Biały" textFill="WHITE">
@@ -89,8 +90,8 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="passBlack" layoutX="1000.0" layoutY="150.0" mnemonicParsing="false" onAction="#passBlackOnAction" style="-fx-background-color: e8c992;" text="Pass" />
-      <Button fx:id="passWhite" layoutX="20.0" layoutY="150.0" mnemonicParsing="false" onAction="#passWhiteOnAction" style="-fx-background-color: e8c992;" text="Pass" />
+      <Button fx:id="btnPassBlack" layoutX="1000.0" layoutY="150.0" mnemonicParsing="false" onAction="#btnPassBlackOnAction" style="-fx-background-color: e8c992;" text="Pass" />
+      <Button fx:id="btnPassWhite" layoutX="20.0" layoutY="150.0" mnemonicParsing="false" onAction="#btnPassWhiteOnAction" style="-fx-background-color: e8c992;" text="Pass" />
       <Label fx:id="pointsBlack" layoutX="1074.0" layoutY="80.0" text="iloscPktow">
          <font>
             <Font name="System Bold" size="18.0" />

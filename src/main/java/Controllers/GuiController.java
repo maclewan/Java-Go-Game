@@ -13,6 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
 
+import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class GuiController {
@@ -29,6 +31,29 @@ public class GuiController {
     Point lastAdded = new Point(-1,-1,Color.WHITE);
 
 
+
+
+    @FXML
+    private void initialize() {
+         ArrayList<Label> labelList= new ArrayList<>();
+        for(int i=0;i<19;i++){
+            labelList.add(new Label(Integer.toString(i)));
+            labelList.get(labelList.size()-1).setLayoutX(15+40*i);
+            labelList.get(labelList.size()-1).setLayoutY(0);
+            labelList.get(labelList.size()-1).setStyle("-fx-font-weight: bold");
+
+            board.getChildren().add(labelList.get(labelList.size()-1));
+
+            labelList.add(new Label(Integer.toString(i)));
+            labelList.get(labelList.size()-1).setLayoutX(0);
+            labelList.get(labelList.size()-1).setLayoutY(10+40*i);
+            labelList.get(labelList.size()-1).setStyle("-fx-font-weight: bold");
+
+            board.getChildren().add(labelList.get(labelList.size()-1));
+        }
+    }
+
+
     @FXML // fx:id="board"
     private Pane board; // Value injected by FXMLLoader
 
@@ -36,10 +61,10 @@ public class GuiController {
     private ToggleButton colour; // Value injected by FXMLLoader
 
     @FXML // fx:id="passBlack"
-    private Button passBlack; // Value injected by FXMLLoader
+    private Button btnPassBlack; // Value injected by FXMLLoader
 
     @FXML // fx:id="passWhite"
-    private Button passWhite; // Value injected by FXMLLoader
+    private Button btnPassWhite; // Value injected by FXMLLoader
 
     @FXML // fx:id="pointsBlack"
     private Label pointsBlack; // Value injected by FXMLLoader
@@ -90,13 +115,13 @@ public class GuiController {
     }
 
     @FXML
-    void passBlackOnAction(ActionEvent event) {
+    void btnPassBlackOnAction(ActionEvent event) {
         groupCheckers();
 
     }
 
     @FXML
-    void passWhiteOnAction(ActionEvent event) {
+    void btnPassWhiteOnAction(ActionEvent event) {
         killer();
 
     }
@@ -482,6 +507,12 @@ public class GuiController {
         }
         return false;
     }
+/*
+    void bootMove(){
+        int[][] pote
 
 
+
+    }
+*/
 }

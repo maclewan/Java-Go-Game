@@ -13,18 +13,18 @@ public class MenuFrameController {
     Stage stage;
 
     @FXML
-    private Button onePlayer;
+    private Button btnOnePlayer;
 
     @FXML
-    private Button twoPlayers;
+    private Button btnTwoPlayers;
 
     @FXML
-    void onePlayerOnAction(ActionEvent event) {
+    void btnOnePlayerOnAction(ActionEvent event) {
         startGame(0);
     }
 
     @FXML
-    void twoPlayersOnAction(ActionEvent event) {
+    void btnTwoPlayersOnAction(ActionEvent event) {
         startGame(1);
     }
 
