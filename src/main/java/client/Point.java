@@ -13,6 +13,8 @@ public class Point {
         this.color=color;
     }
 
+
+
     public int getX() {
         return x;
     }
@@ -20,7 +22,10 @@ public class Point {
     public int getY() {
         return y;
     }
+
     public Paint getColor(){
         return color;
     }
+
+
 }

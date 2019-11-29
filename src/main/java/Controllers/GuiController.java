@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class GuiController {
@@ -122,7 +123,7 @@ public class GuiController {
         }
 
             board.getChildren().add(checkers[a][b]);
-            if(isSuicide(a,b)) removeChecker(a, b);
+            if(isSuicide2(a,b)) removeChecker(a, b);
 
 
     }
@@ -139,6 +140,7 @@ public class GuiController {
 
 
     /*Funkcja zabijająca piony bez oddechu*/
+
     void killer() {
 
 
@@ -163,6 +165,31 @@ public class GuiController {
 
     }
 
+    void killerSimulation(ArrayList<Point> pointsToKill) {
+
+
+        for (int i = 0; i < 19; i++) {           //sprawdznie i zabijanie pojedynczych klocków
+            for (int j = 0; j < 19; j++) {
+                if(i==lastAdded.getX()&&j==lastAdded.getY())
+                    continue;
+                if (groupedArr[i][j])
+                    continue;
+                if (countBreathsSim(i, j,pointsToKill) == 0&&checkers[i][j]!=null) {
+                    pointsToKill.add(new Point(i,j,Color.GRAY));
+
+                    System.out.println("added point to kill list: "+i+","+j+" breath count: "+ countBreaths(i, j));
+                }
+            }
+        }
+        killGroupedCheckersSim(pointsToKill);                   //sprawdzanie i zabijanie grup
+        if (!groupedArr[lastAdded.getX()][lastAdded.getY()]){                     //sprawdzanie ostatnio dodanego
+            if (countBreathsSim(lastAdded.getX(), lastAdded.getY(),pointsToKill) == 0) {
+                pointsToKill.add(new Point(lastAdded.getX(), lastAdded.getY(),Color.GRAY));
+            }
+        }
+
+
+    }
 
     /*Grupuje zbite piony w grupy*/
     void groupCheckers() {
@@ -257,6 +284,35 @@ public class GuiController {
         return counter;
     }
 
+    int countBreathsSim(int a, int b, ArrayList<Point> pointsToKill) {
+        int counter = 0;
+        try {
+            if (checkers[a + 1][b] == null||myContains(pointsToKill,a+1,b)) {
+                counter++;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+        try {
+            if (checkers[a - 1][b] == null||myContains(pointsToKill,a-1,b)) {
+                counter++;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+        try {
+            if (checkers[a][b + 1] == null||myContains(pointsToKill,a,b+1)) {
+                counter++;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+        try {
+            if (checkers[a][b - 1] == null||myContains(pointsToKill,a,b-1)) {
+                counter++;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+        return counter;
+    }
+
 
     void killGroupedCheckers() {
         for(int i=0; i<groupList.size();i++){
@@ -274,44 +330,42 @@ public class GuiController {
 
     }
 
+    void killGroupedCheckersSim(ArrayList<Point> pointsToKill) {
+        for(int i=0; i<groupList.size();i++){
+            int counter=0;
+
+            for(int j=0; j<groupList.get(i).size();j++){
+                counter+=countBreathsSim(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),pointsToKill);
+            }
+            if(counter==0){
+                for(int j=groupList.get(i).size()-1; j>=0;j--){
+                    pointsToKill.add(new Point(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),Color.GRAY));
+                }
+            }
+        }
+
+    }
+
 
     boolean isSuicide2(int a, int b){
-        int breaths = countBreaths(a,b);
-        if(breaths!=0)
-            return false;
+        System.out.println("Call suicide2 for: "+a+","+b);
 
-        //symuluje dodanie piona i patrzę czy po wszystkim zginie czy niet
-        Ellipse[][] checkersBack = new Ellipse[19][19];
-        checkersBack = checkers.clone();
-
-        checkers[a][b] = new Ellipse();
-        checkers[a][b].setCenterX(a * 40 + 20);
-        checkers[a][b].setCenterY(b * 40 + 20);
-        checkers[a][b].setRadiusY(18);
-        checkers[a][b].setRadiusX(18);
-        checkers[a][b].setStrokeWidth(2);
-
-
-        if(isBlack){
-            checkers[a][b].setFill(Color.BLACK);
-        }
-        else{
-            checkers[a][b].setFill(Color.WHITE);
-        }
+        ArrayList<Point> pointsToKill = new ArrayList<>();
         groupCheckers();
-        killer();
-        if(checkers[a][b]!=null){
-            checkers=checkersBack.clone();
+        killerSimulation(pointsToKill);
+
+        for(int i=0;i<pointsToKill.size();i++)
+            System.out.println(pointsToKill.get(i).getX()+","+pointsToKill.get(i).getY()+";");
+
+
+        if(myContains(pointsToKill,a,b)){
+            System.out.println("This point is suicide: "+a+","+b);
             return true;
         }
         else{
-            checkers=checkersBack.clone();
+            System.out.println("This point is not suicide: "+a+","+b);
             return false;
         }
-
-
-
-
 
     }
 
@@ -407,6 +461,15 @@ public class GuiController {
         }
 
 
+    }
+
+    public boolean myContains(ArrayList<Point> arr, int x, int y) {
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr.get(i).getY() == y && arr.get(i).getX() == x) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
