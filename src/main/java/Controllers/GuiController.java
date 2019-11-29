@@ -317,6 +317,15 @@ public class GuiController {
     void killGroupedCheckers() {
         for(int i=0; i<groupList.size();i++){
             int counter=0;
+            if(myContains(groupList.get(i),lastAdded.getX(),lastAdded.getY())){
+                ArrayList<Point> tempPointList = new ArrayList<>(groupList.get(i));
+                groupList.add(tempPointList);
+                groupList.remove(i);
+
+
+            }
+
+
 
             for(int j=0; j<groupList.get(i).size();j++){
                 counter+=countBreaths(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY());
@@ -333,7 +342,12 @@ public class GuiController {
     void killGroupedCheckersSim(ArrayList<Point> pointsToKill) {
         for(int i=0; i<groupList.size();i++){
             int counter=0;
+            if(myContains(groupList.get(i),lastAdded.getX(),lastAdded.getY())){
+                ArrayList<Point> tempPointList = new ArrayList<>(groupList.get(i));
+                groupList.remove(i);
+                groupList.add(tempPointList);
 
+            }
             for(int j=0; j<groupList.get(i).size();j++){
                 counter+=countBreathsSim(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),pointsToKill);
             }
