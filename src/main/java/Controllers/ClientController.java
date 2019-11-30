@@ -26,6 +26,7 @@ public class ClientController {
 
     //temp
     public boolean isBlack;
+    boolean isFirst=true;
 
 
     public Ellipse[][] checkers = new Ellipse[19][19];
@@ -35,35 +36,46 @@ public class ClientController {
     ArrayList<Point> lastlyKilled = new ArrayList<>();
     Point lastAdded = new Point(0,0,Color.WHITE);
 
+    /*DO SOCKETA*/
+    Scanner scan = new Scanner(System.in);
+    //get the localhost IP address, if server is running on some other IP, you need to use that
+    InetAddress host = InetAddress.getLocalHost();
+    Socket socket = null;
+    ObjectOutputStream oos = null;
+    ObjectInputStream ois = null;
+    String myMessage;
+    String message;
 
+    public ClientController() throws IOException, ClassNotFoundException {
+        /*Tutaj sprawdzam czy to byl pierwszy*/
+
+        //******************************//
+        //---- UNDER CONSTRUCKTION------//
+        //******************************//
+
+        /*Lacze z serwerrem*/
+        /*skonfiguruj polaczenie socket do servera*/
+        /*socket = new Socket(host.getHostName(), 6666);
+
+        /*odbierz odpowiedz serwera*/
+        /*ois = new ObjectInputStream(socket.getInputStream());
+        isBlack= (boolean) ois.readObject();
+
+        /*napisz do socket uzywajac ObjectOutputStream*/
+       /* oos = new ObjectOutputStream(socket.getOutputStream());
+        oos.writeObject("OK");
+
+        socket.close();
+        ois.close();
+        oos.close();*/
+    }
+
+    /*KONIEC DO SOCKETA*/
 
 
 
     @FXML
     private void initialize() throws IOException {
-        /*DO SOCKETA*/
-        Scanner scan = new Scanner(System.in);
-        //get the localhost IP address, if server is running on some other IP, you need to use that
-        InetAddress host = InetAddress.getLocalHost();
-        Socket socket = null;
-        ObjectOutputStream oos = null;
-        ObjectInputStream ois = null;
-        String myMessage;
-        String message;
-
-        /*KONIEC DO SOCKETA*/
-        /*Lacze z serwerrem*/
-        /*skonfiguruj polaczenie socket do servera*/
-        socket = new Socket(host.getHostName(), 6666);
-
-
-
-
-
-
-
-
-
 
 
 
@@ -84,10 +96,7 @@ public class ClientController {
             board.getChildren().add(labelList.get(labelList.size()-1));
         }
 
-        /*napisz do socket uzywajac ObjectOutputStream*/
-        myMessage  = scan.nextLine();
-        oos = new ObjectOutputStream(socket.getOutputStream());
-        oos.writeObject(myMessage);
+
     }
 
 
@@ -114,7 +123,7 @@ public class ClientController {
 
 
     @FXML
-    void boardClicked(MouseEvent e) {
+    void boardClicked(MouseEvent e) throws IOException, ClassNotFoundException {
         int a, b, x, y, diffX, diffY;
         double diffR;
 
@@ -129,15 +138,41 @@ public class ClientController {
         if(diffR>15){
             //clicked out of any points range
         }
-        else
-        if(checkers[a][b]==null){
+        else if(checkers[a][b]==null){
+            /*Lacze z serwerrem*/
+            /*skonfiguruj polaczenie socket do servera*/
+            socket = new Socket(host.getHostName(), 6666);
+
+            /*odbierz odpowiedz serwera*/
+            ois = new ObjectInputStream(socket.getInputStream());
+            int a1= (int) ois.readObject();
+            int b1= (int) ois.readObject();
+            if(a1!=-1 && b1!=-1) {
+                cleanAllreadyChecked();
+                addChecker(a1, b1);
+            }
+            //robie ruch
             cleanAllreadyChecked();
             addChecker(a,b);
+
+
+            /*napisz do socket uzywajac ObjectOutputStream*/
+            oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.writeObject(a);
+            oos.writeObject(b);
+
+
+
+
+
+
+
         }
         else if((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK)))
         {
             removeChecker(a, b);
             checkers[a][b]=null;
+
         }
         else{
             removeChecker(a, b);

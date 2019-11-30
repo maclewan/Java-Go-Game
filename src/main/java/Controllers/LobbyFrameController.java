@@ -12,7 +12,6 @@ import java.io.IOException;
 
 public class LobbyFrameController {
     Stage stage;
-
     @FXML
     private Button btnNewGame;
 
@@ -26,7 +25,6 @@ public class LobbyFrameController {
         FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
         ClientController gc = new ClientController();
         loaderG.setController(gc);
-
         Scene sceneG = new Scene(loaderG.load());
         Stage stageG = new Stage();
         stageG.setTitle("Go");
