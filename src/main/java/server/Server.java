@@ -24,10 +24,10 @@
         public static void main() throws IOException, ClassNotFoundException, InterruptedException {
         /*tworzenie socket serwer*/
         server = new ServerSocket(port);
-                int a1=-1;
-                int b1=-1;
-                int a2=-1;
-                int b2=-1;
+                int a1=20;
+                int b1=20;
+                int a2=20;
+                int b2=20;
         System.out.println("Stworzylem server");
         /*Tutaj daje wiadomosc klientom ktory byl pierwszy*/
 
@@ -42,6 +42,8 @@
                 /*Daje klientowi 1 odpowiedz*/
                 ObjectOutputStream oosP1 = new ObjectOutputStream(socketP1.getOutputStream());
                 oosP1.writeObject(true);
+
+
                 /*Czekam na klienta 2*/
                 System.out.println("Czekam na 2 gracza");
                 Socket socketP2 = server.accept();
@@ -93,7 +95,6 @@
                 /*Konwertuje na inta*/
                 a1 = (int) checker1.readObject();
                 System.out.println("Dostalem widomosc od 1 gracza: " + a1);
-
                 /*Konwertuje na inta*/
                 b1 = (int) checker1.readObject();
                 System.out.println("Dostalem widomosc od 1 gracza: " + b1);
@@ -110,8 +111,6 @@
                 Socket socket2 = server.accept();
                 System.out.println("Gracz 2 dolaczyl do serwera");
 
-
-
                 /*Teraz biore wiadomosc od klienta 2*/
                 ObjectInputStream checker2 = new ObjectInputStream(socket2.getInputStream());
 
@@ -121,18 +120,16 @@
                 b2 = (int) checker2.readObject();
                 System.out.println("Dostalem widomosc od 2 gracza: " + b2);
 
-
                 /*Daje klientowi 1 odpowiedz*/
                 ObjectOutputStream oos1 = new ObjectOutputStream(socket1.getOutputStream());
                 oos1.writeObject(a2);
                 oos1.writeObject(b2);
 
-
-
                 /*Daje klientowi 2 odpowiedz*/
                 ObjectOutputStream oos2 = new ObjectOutputStream(socket2.getOutputStream());
                 oos2.writeObject(a1);
                 oos2.writeObject(b1);
+
 
 
                 /*Sprawdzam czy to juz koniec naszej zabawy*/

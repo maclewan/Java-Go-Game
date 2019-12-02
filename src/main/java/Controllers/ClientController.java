@@ -128,23 +128,27 @@ public class ClientController {
         /*skonfiguruj polaczenie socket do servera*/
         socket = new Socket(host.getHostName(), 6666);
 
-        /*odbierz odpowiedz serwera*/
-        ois = new ObjectInputStream(socket.getInputStream());
-        int a1 = (int) ois.readObject();
-        int b1 = (int) ois.readObject();
-        if (a1 != -1 && b1 != -1) {
-            cleanAllreadyChecked();
-            isBlack = !isBlack;
-            addChecker(a1, b1);
-            isBlack = !isBlack;
-        }
+
+        //if(!isBlack && firstTime) {
+            /*napisz do socket uzywajac ObjectOutputStream*/
+            oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.writeObject(a);
+            oos.writeObject(b);
+          //  firstTime=false;
+        //}
+            /*odbierz odpowiedz serwera*/
+            ois = new ObjectInputStream(socket.getInputStream());
+            int a1 = (int) ois.readObject();
+            int b1 = (int) ois.readObject();
+            if (a1 != 20 && b1 != 20) {
+                cleanAllreadyChecked();
+                isBlack = !isBlack;
+                addChecker(a1, b1);
+                isBlack = !isBlack;
+            }
+        yourTurn=true;
 
 
-
-        /*napisz do socket uzywajac ObjectOutputStream*/
-        oos = new ObjectOutputStream(socket.getOutputStream());
-        oos.writeObject(a);
-        oos.writeObject(b);
 
 
 
@@ -188,6 +192,7 @@ public class ClientController {
                 removeChecker(a, b);
                 checkers[a][b] = null;
             }
+            yourTurn=false;
         }else          System.out.println("To nie twoja tura, poczekoj");
 
     }
@@ -210,6 +215,7 @@ public class ClientController {
     @FXML
     void btnPassWhiteOnAction(ActionEvent event) throws IOException, ClassNotFoundException {
         //killer();
+        System.out.println("Lacze sie z servem i wysylam i odbieram");
         exchangeInfo(a,b);
     }
 
