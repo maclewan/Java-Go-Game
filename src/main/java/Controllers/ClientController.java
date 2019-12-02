@@ -28,7 +28,7 @@ public class ClientController {
     public boolean isBlack;
     boolean yourTurn=true;
 
-
+    int a, b, x, y, diffX, diffY;
     public Ellipse[][] checkers = new Ellipse[19][19];
     boolean[][] groupedArr = new boolean[19][19];
     boolean[][] allreadyChecked = new boolean[19][19];
@@ -60,6 +60,9 @@ public class ClientController {
         /*odbierz odpowiedz serwera*/
         ois = new ObjectInputStream(socket.getInputStream());
         isBlack= (boolean) ois.readObject();
+        if(isBlack)        System.out.println("Jestem czarny");
+        else  System.out.println("Jestem bialy");
+
 
         /*napisz do socket uzywajac ObjectOutputStream*/
         oos = new ObjectOutputStream(socket.getOutputStream());
@@ -76,8 +79,6 @@ public class ClientController {
 
     @FXML
     private void initialize() throws IOException {
-
-
 
         ArrayList<Label> labelList= new ArrayList<>();
         for(int i=0;i<19;i++){
@@ -121,92 +122,74 @@ public class ClientController {
     @FXML
     private Button botMove;
 
+    @FXML
+    void exchangeInfo(int a, int b) throws IOException, ClassNotFoundException {
+        /*Lacze z serwerrem*/
+        /*skonfiguruj polaczenie socket do servera*/
+        socket = new Socket(host.getHostName(), 6666);
+
+        /*odbierz odpowiedz serwera*/
+        ois = new ObjectInputStream(socket.getInputStream());
+        int a1 = (int) ois.readObject();
+        int b1 = (int) ois.readObject();
+        if (a1 != -1 && b1 != -1) {
+            cleanAllreadyChecked();
+            isBlack = !isBlack;
+            addChecker(a1, b1);
+            isBlack = !isBlack;
+        }
+
+
+
+        /*napisz do socket uzywajac ObjectOutputStream*/
+        oos = new ObjectOutputStream(socket.getOutputStream());
+        oos.writeObject(a);
+        oos.writeObject(b);
+
+
+
+
+        //robie ruch
+        /*cleanAllreadyChecked();
+        addChecker(a, b);
+        System.out.println("Robie se rucha");*/
+
+        socket.close();
+        ois.close();
+        oos.close();
+        yourTurn=true;
+    }
+
 
     @FXML
     void boardClicked(MouseEvent e) throws IOException, ClassNotFoundException {
         if (yourTurn) {
-        int a, b, x, y, diffX, diffY;
-        double diffR;
+            //int a, b, x, y, diffX, diffY;
+            double diffR;
 
-        x = (int) e.getX();
-        y = (int) e.getY();
-        a = (int) (e.getX()) / 40;
-        b = (int) (e.getY()) / 40;
-        diffX = Math.abs(x - (a * 40 + 20));
-        diffY = Math.abs(y - (b * 40 + 20));
-        diffR = Math.sqrt(diffX * diffX + diffY * diffY);
+            x = (int) e.getX();
+            y = (int) e.getY();
+            a = (int) (e.getX()) / 40;
+            b = (int) (e.getY()) / 40;
+            diffX = Math.abs(x - (a * 40 + 20));
+            diffY = Math.abs(y - (b * 40 + 20));
+            diffR = Math.sqrt(diffX * diffX + diffY * diffY);
 
-        if(diffR>15){
-            //clicked out of any points range
-        }
-        else if(checkers[a][b]==null) {
-                /*Lacze z serwerrem*/
-                /*skonfiguruj polaczenie socket do servera*/
-                socket = new Socket(host.getHostName(), 6666);
-
-
-                if (!isBlack) {
-                    yourTurn=false;
-                    System.out.println("Jestem bialy");
-                    /*odbierz odpowiedz serwera*/
-                    ois = new ObjectInputStream(socket.getInputStream());
-                    int a1 = (int) ois.readObject();
-                    int b1 = (int) ois.readObject();
-                    if (a1 != -1 && b1 != -1) {
-                        cleanAllreadyChecked();
-                        isBlack = !isBlack;
-                        addChecker(a1, b1);
-                        isBlack = !isBlack;
-                    }
-                }
-
-
-                //robie ruch
+            if (diffR > 15) {
+                //clicked out of any points range
+            } else if (checkers[a][b] == null) {
                 cleanAllreadyChecked();
                 addChecker(a, b);
-            initialize();
-            System.out.println("Robie se rucha");
-//tutaj trzeba na nowo odmalowac plansze****************************************
-
-                //JAVA REPAINT()
-
-//********************************************************
-                /*napisz do socket uzywajac ObjectOutputStream*/
-                oos = new ObjectOutputStream(socket.getOutputStream());
-                oos.writeObject(a);
-                oos.writeObject(b);
-
-                if (isBlack) {
-                    yourTurn=false;
-                    System.out.println("Jestem czarny");
-                    /*odbierz odpowiedz serwera*/
-                    ois = new ObjectInputStream(socket.getInputStream());
-                    int a1 = (int) ois.readObject();
-                    int b1 = (int) ois.readObject();
-                    if (a1 != -1 && b1 != -1) {
-                        cleanAllreadyChecked();
-                        isBlack = !isBlack;
-                        addChecker(a1, b1);
-                        isBlack = !isBlack;
-                    }
-                }
-
-
-                socket.close();
-                ois.close();
-                oos.close();
-                yourTurn=true;
-
+                //exchangeInfo(a,b);
             } else if ((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK))) {
                 removeChecker(a, b);
                 checkers[a][b] = null;
-
             } else {
                 removeChecker(a, b);
                 checkers[a][b] = null;
             }
-        }
-        else                     System.out.println("Czekaj na przeciwnika");
+        }else          System.out.println("To nie twoja tura, poczekoj");
+
     }
 
 
@@ -225,9 +208,12 @@ public class ClientController {
     }
 
     @FXML
-    void btnPassWhiteOnAction(ActionEvent event) {
-        killer();
+    void btnPassWhiteOnAction(ActionEvent event) throws IOException, ClassNotFoundException {
+        //killer();
+        exchangeInfo(a,b);
     }
+
+
 
     @FXML
     void botOnAction(ActionEvent event) {
@@ -239,6 +225,7 @@ public class ClientController {
     }
 
     /*Dodaje pionek*/
+    @FXML
     void addChecker(int a, int b) {
 
 
