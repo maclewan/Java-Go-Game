@@ -155,15 +155,16 @@ public class ClientController {
             int b1 = (int) ois.readObject();
             if (a1 != 20 && b1 != 20) {
                 cleanAllreadyChecked();
-                isBlack = !isBlack;
-                addChecker(a1, b1);
-                isBlack = !isBlack;
+                if ((checkers[a][b] != null) && ((!isBlack && checkers[a][b].getFill().equals(Color.BLACK)) || (isBlack && checkers[a][b].getFill().equals(Color.WHITE) ))) {
+                    removeChecker(a,b);
+                }
+                else {
+                    isBlack = !isBlack;
+                    addChecker(a1, b1);
+                    isBlack = !isBlack;
+                }
             }
-        yourTurn=true;
-
-
-
-
+            yourTurn=true;
 
 
         //robie ruch
@@ -198,14 +199,13 @@ public class ClientController {
                 cleanAllreadyChecked();
                 addChecker(a, b);
                 //exchangeInfo(a,b);
+                yourTurn=false;
             } else if ((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK))) {
                 removeChecker(a, b);
                 checkers[a][b] = null;
-            } else {
-                removeChecker(a, b);
-                checkers[a][b] = null;
+                yourTurn=false;
             }
-            yourTurn=false;
+            else yourTurn=true;
         }else          System.out.println("To nie twoja tura, poczekoj");
 
     }
