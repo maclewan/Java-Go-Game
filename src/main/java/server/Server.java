@@ -43,14 +43,14 @@
                 ObjectOutputStream oosP1 = new ObjectOutputStream(socketP1.getOutputStream());
                 oosP1.writeObject(true);
 
+                /*Teraz biore wiadomosc od klienta 1 */
+                ObjectInputStream checkera = new ObjectInputStream(socketP1.getInputStream());
+
 
                 /*Czekam na klienta 2*/
                 System.out.println("Czekam na 2 gracza");
                 Socket socketP2 = server.accept();
                 System.out.println("Gracz 2 dolaczyl do serwera");
-
-                /*Teraz biore wiadomosc od klienta 1 */
-                ObjectInputStream checkera = new ObjectInputStream(socketP1.getInputStream());
 
                 /*Konwertuje na inta*/
                 String a = (String) checkera.readObject();
@@ -66,6 +66,17 @@
                 /*Konwertuje na inta*/
                 String b = (String) checkerb.readObject();
                 System.out.println("Dostalem widomosc od 2 gracza: " + b);
+
+
+
+                /*informuje klienta 1 ze wszyscy sa*/
+                oosP2.writeObject(true);
+
+                /*informuje klienta 2 ze wszyscy sa*/
+                oosP1.writeObject(true);
+
+
+
 
                 checkera.close();
                 checkerb.close();

@@ -28,6 +28,7 @@ public class ClientController {
     public boolean isBlack;
     boolean yourTurn=true;
 
+
     int a, b, x, y, diffX, diffY;
     public Ellipse[][] checkers = new Ellipse[19][19];
     boolean[][] groupedArr = new boolean[19][19];
@@ -67,6 +68,18 @@ public class ClientController {
         /*napisz do socket uzywajac ObjectOutputStream*/
         oos = new ObjectOutputStream(socket.getOutputStream());
         oos.writeObject("OK");
+
+        ////////////MACIEJU//////////////////
+        /////////////////////////////////////
+        //TU TRZE WYSWIETLIC OKNO LADOWANIA//
+        /////////////////////////////////////
+        ////////////MACIEJU//////////////////
+
+
+        /*Odbierz wiadomosc nt 2 gracza*/
+        /*odbierz odpowiedz serwera*/
+        boolean isSecond = (boolean) ois.readObject();
+
 
         socket.close();
         ois.close();
