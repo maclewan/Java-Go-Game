@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import server.Server;
 
 import java.io.IOException;
 
@@ -36,18 +35,13 @@ public class LobbyFrameController {
         Client client2=new Client();
         client2.main();
 
-
-        /* openWaitingFrame(false);
-            //startGame();
-            ClientPlayer client = new ClientPlayer();
-            client.main();*/
     }
 
     @FXML
     void btnNewGameOnAction(ActionEvent event) throws IOException, ClassNotFoundException, InterruptedException {
-        openWaitingFrame(true);
-        Server myServer= new Server();
-        myServer.main();
+        //openWaitingFrame(true);
+       // Server myServer= new Server();
+        //myServer.main();
     }
 
 
