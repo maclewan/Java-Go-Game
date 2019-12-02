@@ -36,33 +36,33 @@
                 //******************************//
 
                 /*Czekam na klienta 1*/
-                /*System.out.println("Czekam na 1 gracza");
+                System.out.println("Czekam na 1 gracza");
                 Socket socketP1 = server.accept();
                 System.out.println("Gracz 1 dolaczyl do serwera");
                 /*Daje klientowi 1 odpowiedz*/
-                /*ObjectOutputStream oosP1 = new ObjectOutputStream(socketP1.getOutputStream());
+                ObjectOutputStream oosP1 = new ObjectOutputStream(socketP1.getOutputStream());
                 oosP1.writeObject(true);
                 /*Czekam na klienta 2*/
-                /*System.out.println("Czekam na 2 gracza");
+                System.out.println("Czekam na 2 gracza");
                 Socket socketP2 = server.accept();
                 System.out.println("Gracz 2 dolaczyl do serwera");
 
                 /*Teraz biore wiadomosc od klienta 1 */
-                /*ObjectInputStream checkera = new ObjectInputStream(socketP1.getInputStream());
+                ObjectInputStream checkera = new ObjectInputStream(socketP1.getInputStream());
 
                 /*Konwertuje na inta*/
-               /* String a = (String) checkera.readObject();
+                String a = (String) checkera.readObject();
                 System.out.println("Dostalem widomosc od 1 gracza: " + a);
 
                 /*Daje klientowi 2 odpowiedz*/
-               /* ObjectOutputStream oosP2 = new ObjectOutputStream(socketP2.getOutputStream());
+                ObjectOutputStream oosP2 = new ObjectOutputStream(socketP2.getOutputStream());
                 oosP2.writeObject(false);
 
                 /*Teraz biore wiadomosc od klienta 2 */
-                /*ObjectInputStream checkerb = new ObjectInputStream(socketP1.getInputStream());
+                ObjectInputStream checkerb = new ObjectInputStream(socketP2.getInputStream());
 
                 /*Konwertuje na inta*/
-               /* String b = (String) checkerb.readObject();
+                String b = (String) checkerb.readObject();
                 System.out.println("Dostalem widomosc od 2 gracza: " + b);
 
                 checkera.close();
@@ -70,7 +70,7 @@
                 oosP1.close();
                 socketP1.close();
                 oosP2.close();
-                socketP2.close();*/
+                socketP2.close();
 
 
 

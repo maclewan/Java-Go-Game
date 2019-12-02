@@ -48,26 +48,26 @@ public class ClientController {
 
     public ClientController() throws IOException, ClassNotFoundException {
         /*Tutaj sprawdzam czy to byl pierwszy*/
-
+        System.out.println("Dolaczylem sb do servera");
         //******************************//
         //---- UNDER CONSTRUCKTION------//
         //******************************//
 
         /*Lacze z serwerrem*/
         /*skonfiguruj polaczenie socket do servera*/
-        /*socket = new Socket(host.getHostName(), 6666);
+        socket = new Socket(host.getHostName(), 6666);
 
         /*odbierz odpowiedz serwera*/
-        /*ois = new ObjectInputStream(socket.getInputStream());
+        ois = new ObjectInputStream(socket.getInputStream());
         isBlack= (boolean) ois.readObject();
 
         /*napisz do socket uzywajac ObjectOutputStream*/
-       /* oos = new ObjectOutputStream(socket.getOutputStream());
+        oos = new ObjectOutputStream(socket.getOutputStream());
         oos.writeObject("OK");
 
         socket.close();
         ois.close();
-        oos.close();*/
+        oos.close();
     }
 
     /*KONIEC DO SOCKETA*/
@@ -149,7 +149,9 @@ public class ClientController {
             int b1= (int) ois.readObject();
             if(a1!=-1 && b1!=-1) {
                 cleanAllreadyChecked();
+                isBlack=!isBlack;
                 addChecker(a1, b1);
+                isBlack=!isBlack;
             }
             //robie ruch
             cleanAllreadyChecked();
@@ -164,6 +166,10 @@ public class ClientController {
 
 
 
+
+            socket.close();
+            ois.close();
+            oos.close();
 
 
 
