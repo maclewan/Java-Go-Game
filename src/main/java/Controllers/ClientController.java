@@ -26,7 +26,7 @@ public class ClientController {
 
     //temp
     public boolean isBlack;
-    boolean isFirst=true;
+    boolean yourTurn=true;
 
 
     public Ellipse[][] checkers = new Ellipse[19][19];
@@ -124,6 +124,7 @@ public class ClientController {
 
     @FXML
     void boardClicked(MouseEvent e) throws IOException, ClassNotFoundException {
+        if (yourTurn) {
         int a, b, x, y, diffX, diffY;
         double diffR;
 
@@ -138,52 +139,74 @@ public class ClientController {
         if(diffR>15){
             //clicked out of any points range
         }
-        else if(checkers[a][b]==null){
-            /*Lacze z serwerrem*/
-            /*skonfiguruj polaczenie socket do servera*/
-            socket = new Socket(host.getHostName(), 6666);
+        else if(checkers[a][b]==null) {
+                /*Lacze z serwerrem*/
+                /*skonfiguruj polaczenie socket do servera*/
+                socket = new Socket(host.getHostName(), 6666);
 
-            /*odbierz odpowiedz serwera*/
-            ois = new ObjectInputStream(socket.getInputStream());
-            int a1= (int) ois.readObject();
-            int b1= (int) ois.readObject();
-            if(a1!=-1 && b1!=-1) {
+
+                if (!isBlack) {
+                    yourTurn=false;
+                    System.out.println("Jestem bialy");
+                    /*odbierz odpowiedz serwera*/
+                    ois = new ObjectInputStream(socket.getInputStream());
+                    int a1 = (int) ois.readObject();
+                    int b1 = (int) ois.readObject();
+                    if (a1 != -1 && b1 != -1) {
+                        cleanAllreadyChecked();
+                        isBlack = !isBlack;
+                        addChecker(a1, b1);
+                        isBlack = !isBlack;
+                    }
+                }
+
+
+                //robie ruch
                 cleanAllreadyChecked();
-                isBlack=!isBlack;
-                addChecker(a1, b1);
-                isBlack=!isBlack;
+                addChecker(a, b);
+            initialize();
+            System.out.println("Robie se rucha");
+//tutaj trzeba na nowo odmalowac plansze****************************************
+
+                //JAVA REPAINT()
+
+//********************************************************
+                /*napisz do socket uzywajac ObjectOutputStream*/
+                oos = new ObjectOutputStream(socket.getOutputStream());
+                oos.writeObject(a);
+                oos.writeObject(b);
+
+                if (isBlack) {
+                    yourTurn=false;
+                    System.out.println("Jestem czarny");
+                    /*odbierz odpowiedz serwera*/
+                    ois = new ObjectInputStream(socket.getInputStream());
+                    int a1 = (int) ois.readObject();
+                    int b1 = (int) ois.readObject();
+                    if (a1 != -1 && b1 != -1) {
+                        cleanAllreadyChecked();
+                        isBlack = !isBlack;
+                        addChecker(a1, b1);
+                        isBlack = !isBlack;
+                    }
+                }
+
+
+                socket.close();
+                ois.close();
+                oos.close();
+                yourTurn=true;
+
+            } else if ((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK))) {
+                removeChecker(a, b);
+                checkers[a][b] = null;
+
+            } else {
+                removeChecker(a, b);
+                checkers[a][b] = null;
             }
-            //robie ruch
-            cleanAllreadyChecked();
-            addChecker(a,b);
-
-
-            /*napisz do socket uzywajac ObjectOutputStream*/
-            oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(a);
-            oos.writeObject(b);
-
-
-
-
-
-            socket.close();
-            ois.close();
-            oos.close();
-
-
-
         }
-        else if((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK)))
-        {
-            removeChecker(a, b);
-            checkers[a][b]=null;
-
-        }
-        else{
-            removeChecker(a, b);
-            checkers[a][b]=null;
-        }
+        else                     System.out.println("Czekaj na przeciwnika");
     }
 
 

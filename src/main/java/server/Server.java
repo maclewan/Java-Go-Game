@@ -21,7 +21,7 @@
 
 
 
-        public static void main() throws IOException, ClassNotFoundException{
+        public static void main() throws IOException, ClassNotFoundException, InterruptedException {
         /*tworzenie socket serwer*/
         server = new ServerSocket(port);
                 int a1=-1;
@@ -87,10 +87,18 @@
                 Socket socket1 = server.accept();
                 System.out.println("Gracz 1 dolaczyl do serwera");
 
-                /*Daje klientowi 1 odpowiedz*/
-                ObjectOutputStream oos1 = new ObjectOutputStream(socket1.getOutputStream());
-                oos1.writeObject(a2);
-                oos1.writeObject(b2);
+                /*Teraz biore wiadomosc od klienta 1 */
+                ObjectInputStream checker1 = new ObjectInputStream(socket1.getInputStream());
+
+                /*Konwertuje na inta*/
+                a1 = (int) checker1.readObject();
+                System.out.println("Dostalem widomosc od 1 gracza: " + a1);
+
+                /*Konwertuje na inta*/
+                b1 = (int) checker1.readObject();
+                System.out.println("Dostalem widomosc od 1 gracza: " + b1);
+
+
 
                 /**
                  *
@@ -103,25 +111,14 @@
                 System.out.println("Gracz 2 dolaczyl do serwera");
 
 
-                /*Teraz biore wiadomosc od klienta 1 */
-                ObjectInputStream checker1 = new ObjectInputStream(socket1.getInputStream());
-
-                /*Konwertuje na inta*/
-                a1 = (int) checker1.readObject();
-                System.out.println("Dostalem widomosc od 1 gracza: " + a1);
-
-                /*Konwertuje na inta*/
-                b1 = (int) checker1.readObject();
-                System.out.println("Dostalem widomosc od 1 gracza: " + b1);
-
-                /*Sprawdzam czy to juz koniec naszej zabawy*/
-                //if(message1.equalsIgnoreCase("exit")) break;
-
                 /*Daje klientowi 2 odpowiedz*/
                 ObjectOutputStream oos2 = new ObjectOutputStream(socket2.getOutputStream());
                 oos2.writeObject(a1);
                 oos2.writeObject(b1);
 
+
+                /*Sprawdzam czy to juz koniec naszej zabawy*/
+                //if(message1.equalsIgnoreCase("exit")) break;
 
                 /*Teraz biore wiadomosc od klienta 2*/
                 ObjectInputStream checker2 = new ObjectInputStream(socket2.getInputStream());
@@ -131,6 +128,21 @@
                 System.out.println("Dostalem widomosc od 2 gracza: " + a2);
                 b2 = (int) checker2.readObject();
                 System.out.println("Dostalem widomosc od 2 gracza: " + b2);
+
+
+
+
+                /*Daje klientowi 1 odpowiedz*/
+                ObjectOutputStream oos1 = new ObjectOutputStream(socket1.getOutputStream());
+                oos1.writeObject(a2);
+                oos1.writeObject(b2);
+
+
+
+
+
+
+
 
 
 
