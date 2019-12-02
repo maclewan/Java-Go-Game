@@ -69,7 +69,7 @@ public class ClientController {
         oos = new ObjectOutputStream(socket.getOutputStream());
         oos.writeObject("OK");
 
-        ////////////MACIEJU//////////////////
+        //////////// MACIEJU //////////////////
         /////////////////////////////////////
         //TU TRZE WYSWIETLIC OKNO LADOWANIA//
         /////////////////////////////////////
