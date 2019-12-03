@@ -2,6 +2,8 @@ package Controllers;
 
 import clients.Client;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,27 +16,9 @@ import java.util.Scanner;
 
 public class WaitingFrameController{
     Stage stage;
-    //boolean isBlack=false;
 
 
-    /*DO SOCKETA*/
-    Scanner scan = new Scanner(System.in);
-    //get the localhost IP address, if server is running on some other IP, you need to use that
-    InetAddress host;
 
-    {
-        try {
-            host = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-    }
-
-    Socket socket = null;
-    ObjectOutputStream oos = null;
-    ObjectInputStream ois = null;
-    String myMessage;
-    String message;
 
 
 
@@ -44,72 +28,36 @@ public class WaitingFrameController{
 
         ClientController clientController = new ClientController();
 
-
-        /*Tutaj sprawdzam czy to byl pierwszy*/
-        System.out.println("Dolaczylem sb do servera");
-        //******************************//
-        //---- UNDER CONSTRUCKTION------//
-        //******************************//
-
-        /*Lacze z serwerrem*/
-        /*skonfiguruj polaczenie socket do servera*/
-        socket = new Socket(host.getHostName(), 6666);
-
-        /*odbierz odpowiedz serwera*/
-        ois = new ObjectInputStream(socket.getInputStream());
-        clientController.isBlack= (boolean) ois.readObject();
-        if(clientController.isBlack)        System.out.println("Jestem czarny");
-        else  {
-            System.out.println("Jestem bialy");
-            clientController.yourTurn=false;
-        }
-
-
-        /*napisz do socket uzywajac ObjectOutputStream*/
-        oos = new ObjectOutputStream(socket.getOutputStream());
-        oos.writeObject("OK");
-
-        //////////// MACIEJU //////////////////
-        /////////////////////////////////////
-        //TU TRZE WYSWIETLIC OKNO LADOWANIA//
-
-
-
-        /////////////////////////////////////
-        ////////////MACIEJU//////////////////
-
-
-        /*Odbierz wiadomosc nt 2 gracza*/
-        /*odbierz odpowiedz serwera*/
-        boolean isSecond = (boolean) ois.readObject();       //tu sie wiesza
-
-
-
-
-        //otwieram gui
-
-
-        socket.close();
-        ois.close();
-        oos.close();
+        Thread observer = new Observer(this);
+        observer.start();
 
     }
-/*
-    public void setCreateServer(boolean createServer) throws IOException, ClassNotFoundException {
-        this.createServer = createServer;
 
-    }
-*/
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public void startGame(){
+    public void startGame(ClientController clientController){
+        stage.close();
 
-
-
+        //new game
+        try {
+            FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
+            ClientController gc = clientController;
+            loaderG.setController(gc);
+            Scene sceneG = new Scene(loaderG.load());
+            Stage stageG = new Stage();
+            stageG.setTitle("Go");
+            stageG.setScene(sceneG);
+            stageG.show();
         }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     }
 

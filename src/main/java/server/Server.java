@@ -15,7 +15,7 @@ import java.net.Socket;
 
 public class Server {
         private static ServerSocket server;
-        /*port socket serer-a*/
+        /*port socket serwer-a*/
         private static int port = 6666;
 
 
@@ -54,7 +54,7 @@ public class Server {
 
                 /*Konwertuje na inta*/
                 String a = (String) checkera.readObject();
-                System.out.println("Dostalem widomosc od 1 gracza: " + a);
+                System.out.println("Dostalem waidomosc od 1 gracza: " + a);
 
                 /*Daje klientowi 2 odpowiedz*/
                 ObjectOutputStream oosP2 = new ObjectOutputStream(socketP2.getOutputStream());
