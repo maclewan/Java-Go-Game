@@ -19,6 +19,7 @@ public class WaitingFrameController {
 
 
 
+
    @FXML
    void initialize(){
     try {
