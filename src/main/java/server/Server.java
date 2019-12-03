@@ -21,7 +21,7 @@
 
 
 
-        public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+        public static void main() throws IOException, ClassNotFoundException, InterruptedException {
         /*tworzenie socket serwer*/
         server = new ServerSocket(port);
                 int a1=20;

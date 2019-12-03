@@ -27,7 +27,6 @@ public class ClientController {
     //temp
     public boolean isBlack;
     boolean yourTurn=true;
-    boolean firstTurn=true;
 
 
     int a, b, x, y, diffX, diffY;
@@ -63,10 +62,7 @@ public class ClientController {
         ois = new ObjectInputStream(socket.getInputStream());
         isBlack= (boolean) ois.readObject();
         if(isBlack)        System.out.println("Jestem czarny");
-        else  {
-            System.out.println("Jestem bialy");
-            yourTurn=false;
-        }
+        else  System.out.println("Jestem bialy");
 
 
         /*napisz do socket uzywajac ObjectOutputStream*/
@@ -159,17 +155,17 @@ public class ClientController {
             int b1 = (int) ois.readObject();
             if (a1 != 20 && b1 != 20) {
                 cleanAllreadyChecked();
-               /* if ((checkers[a1][b1] != null) && ((!isBlack && checkers[a1][b1].getFill().equals(Color.BLACK)) || (isBlack && checkers[a1][b1].getFill().equals(Color.WHITE) ))) {
-                    removeChecker(a1,b1);
+                if ((checkers[a][b] != null) && ((!isBlack && checkers[a][b].getFill().equals(Color.BLACK)) || (isBlack && checkers[a][b].getFill().equals(Color.WHITE) ))) {
+                    removeChecker(a,b);
                 }
-                else {*/
+                else {
                     isBlack = !isBlack;
                     addChecker(a1, b1);
                     isBlack = !isBlack;
-                //}
+                }
             }
+            yourTurn=true;
 
-        yourTurn=true;
 
         //robie ruch
         /*cleanAllreadyChecked();
@@ -179,8 +175,8 @@ public class ClientController {
         socket.close();
         ois.close();
         oos.close();
+        yourTurn=true;
     }
-
 
 
     @FXML
@@ -202,16 +198,14 @@ public class ClientController {
             } else if (checkers[a][b] == null) {
                 cleanAllreadyChecked();
                 addChecker(a, b);
-                yourTurn=false;
                 //exchangeInfo(a,b);
-                //serverMenagment.sendInfo(a,b);
-                //serverMenagment.getInfo();
+                yourTurn=false;
             } else if ((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK))) {
                 removeChecker(a, b);
                 checkers[a][b] = null;
                 yourTurn=false;
             }
-            else yourTurn=true;//to je chyba nie potrzebne
+            else yourTurn=true;
         }else          System.out.println("To nie twoja tura, poczekoj");
 
     }
