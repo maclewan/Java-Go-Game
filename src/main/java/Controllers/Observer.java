@@ -45,8 +45,7 @@ public class Observer extends Thread{
             ClientController clientController = new ClientController();
 
 
-            /*Tutaj sprawdzam czy to byl pierwszy*/
-            System.out.println("Dolaczylem sb do servera");
+
             //******************************//
             //---- UNDER CONSTRUCKTION------//
             //******************************//
@@ -57,6 +56,9 @@ public class Observer extends Thread{
 
             /*odbierz odpowiedz serwera*/
             ois = new ObjectInputStream(socket.getInputStream());
+            System.out.println("Dolaczylem sb do servera");
+
+            /*Tutaj sprawdzam czy to byl pierwszy*/
             clientController.isBlack = (boolean) ois.readObject();
             if (clientController.isBlack) System.out.println("Jestem czarny");
             else {
