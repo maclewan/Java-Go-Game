@@ -1,5 +1,7 @@
 package Controllers;
 
+import javafx.application.Platform;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,6 +13,7 @@ import java.util.Scanner;
 public class Observer extends Thread{
     WaitingFrameController wfc;
 
+
     public Observer(WaitingFrameController wfc){
         this.wfc=wfc;
     }
@@ -19,6 +22,10 @@ public class Observer extends Thread{
     @Override
     public synchronized void run() {
         try {
+
+
+
+
 
             /*DO SOCKETA*/
             Scanner scan = new Scanner(System.in);
@@ -69,7 +76,10 @@ public class Observer extends Thread{
             boolean isSecond = (boolean) ois.readObject();       //tu sie wiesza
 
             /*zacznij gre - otworz gui*/
-            wfc.startGame(clientController);
+            Platform.runLater(() ->  {
+                wfc.startGame(clientController);
+            });
+
 
 
 

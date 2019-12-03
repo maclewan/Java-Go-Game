@@ -30,7 +30,9 @@ public class LobbyFrameController {
         stageG.setTitle("Waiting");
         stageG.setScene(sceneG);
         stageG.show();
+
         wfc.setStage(stageG);
+
 
 /*
         FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));

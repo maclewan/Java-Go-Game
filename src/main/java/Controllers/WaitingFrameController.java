@@ -15,7 +15,8 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class WaitingFrameController{
-    Stage stage;
+    Stage stage= new Stage();
+
 
 
 
@@ -25,6 +26,7 @@ public class WaitingFrameController{
 
     @FXML
     void initialize() throws IOException, ClassNotFoundException {
+
 
         ClientController clientController = new ClientController();
 
@@ -38,9 +40,13 @@ public class WaitingFrameController{
         this.stage = stage;
     }
 
-    public void startGame(ClientController clientController){
-        stage.close();
+    public Stage getStage() {
+        return stage;
+    }
 
+    public synchronized void startGame(ClientController clientController){
+
+        stage.close();
         //new game
         try {
             FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
