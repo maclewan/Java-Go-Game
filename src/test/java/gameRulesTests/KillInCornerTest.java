@@ -1,15 +1,14 @@
 package gameRulesTests;
-/**
- * Test na zabicie w lewym gornym rogu
- *
- * */
-import Controllers.*;
+
+
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
+import Controllers.*;
 import javafx.scene.shape.Ellipse;
 import org.junit.Test;
 
-/*Test bada lewy gorny rog planszy*/
-public class KillInCornerTest {
+/*Test bada lwy gorny rog planszy*/
+public class KillInCOrnerController extends GuiController{
 
     @Test
     public void test() {

@@ -207,7 +207,7 @@ public class ClientController {
             diffR = Math.sqrt(diffX * diffX + diffY * diffY);
 
             if (diffR > 15) {
-                //clicked out of any points range
+                /*clicked out of any points range*/
             } else if (checkers[a][b] == null) {
                 cleanAllreadyChecked();
                 addChecker(a, b);
@@ -221,7 +221,7 @@ public class ClientController {
                 yourTurn=false;
             }
             else yourTurn=true;//to je chyba nie potrzebne
-        }else          System.out.println("To nie twoja tura, poczekoj");
+        }else          System.out.println("To nie twoja tura, poczekaj");
 
     }
 
@@ -640,7 +640,7 @@ public class ClientController {
         return false;
     }
 
-    void botMove(){       //przykłądowy bot
+    void botMove(){       /*przykładowy bot*/
 
         int[][] killPotential = new int[19][19];
         for(int i=0;i<19;i++){

@@ -23,12 +23,12 @@ public class GuiController {
     public boolean isBlack;
 
     Stage stage;
-    public Ellipse[][] checkers = new Ellipse[19][19];
-    boolean[][] groupedArr = new boolean[19][19];
-    boolean[][] allreadyChecked = new boolean[19][19];
-    ArrayList<ArrayList<Point>> groupList = new ArrayList();
-    ArrayList<Point> lastlyKilled = new ArrayList<>();
-    Point lastAdded = new Point(0,0,Color.WHITE);
+    private Ellipse[][] checkers = new Ellipse[19][19];
+    private boolean[][] groupedArr = new boolean[19][19];              /*czy pion należy do jakiejs grupy*/
+    private boolean[][] allreadyChecked = new boolean[19][19];
+    private ArrayList<ArrayList<Point>> groupList = new ArrayList();   /*zgrupowane piony*/
+    private ArrayList<Point> lastlyKilled = new ArrayList<>();         /*zasada ko*/
+    private Point lastAdded = new Point(0,0,Color.WHITE);         /*do funkcji isSuicide*/
 
 
 
@@ -90,22 +90,14 @@ public class GuiController {
         diffY = Math.abs(y - (b * 40 + 20));
         diffR = Math.sqrt(diffX * diffX + diffY * diffY);
 
-        if(diffR>15){
-             //clicked out of any points range
-        }
-        else
-        if(checkers[a][b]==null){
-            cleanAllreadyChecked();
-            addChecker(a,b);
-        }
-        else if((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK)))
-        {
-            removeChecker(a, b);
-            checkers[a][b]=null;
-        }
-        else{
-            removeChecker(a, b);
-            checkers[a][b]=null;
+        if(!(diffR>15)) {  //if clicked not out of any points range
+            if (checkers[a][b] == null) { /*jesli nie ma to dodaj*/
+                addChecker(a, b);
+            }
+            else {       /*UWAGA tymczasowe tylko*/
+                removeChecker(a, b);
+                checkers[a][b] = null;
+            }
         }
     }
 
@@ -121,12 +113,16 @@ public class GuiController {
     @FXML
     void btnPassBlackOnAction(ActionEvent event) {
         groupCheckers();
+        killer();
 
     }
 
     @FXML
     void btnPassWhiteOnAction(ActionEvent event) {
-        killer();
+        for(int i=0;i<10;i++){
+            botOnAction(new ActionEvent());
+        }
+
     }
 
     @FXML
@@ -171,6 +167,7 @@ public class GuiController {
 
     /*Usuwam pionek*/
     void removeChecker(int a, int b) {
+
         board.getChildren().remove(checkers[a][b]);
         checkers[a][b] = null;
         groupedArr[a][b] = false;
@@ -418,86 +415,11 @@ public class GuiController {
     }
 
 
-    /*Sprawdzam czy jest samobojstwo*/
-    public boolean isSuicide(int a, int b) {
 
-        if (isSurround(a, b) &&  !allreadyChecked[a][b])
-        {
-            allreadyChecked[a][b]=true;
-            if(!isBlack) {
-                if((b+1)<=18 && checkers[a][b+1].getFill().equals(Color.WHITE) ) {
-                    if (!allreadyChecked[a][b + 1]) return isSuicide(a, (b + 1));
-                }
-                if((b-1)>=0 && checkers[a][b-1].getFill().equals(Color.WHITE)){
-                    if(!allreadyChecked[a][b-1]) return isSuicide(a,(b-1));
-                }
-                if((a+1)<=18 && checkers[a + 1][b].getFill().equals(Color.WHITE)) {
-                    if(!allreadyChecked[a+1][b]) return isSuicide(a+1,b);
-                }
-                if((a-1)>=0 && checkers[a - 1][b].getFill().equals(Color.WHITE)) {
-                    if(!allreadyChecked[a-1][b]) return  isSuicide((a-1),b);
-                }
 
-            }
-            if(isBlack) {
-                if ((a+1)<=18 && checkers[a + 1][b].getFill().equals(Color.BLACK))
-                    if(!allreadyChecked[a+1][b]) return isSuicide(a+1,b);
-                if ((a-1)>=0 && checkers[a - 1][b].getFill().equals(Color.BLACK))
-                    if(!allreadyChecked[a-1][b]) return  isSuicide((a-1),b);
-                if ((b+1)<=18 && checkers[a][b + 1].getFill().equals(Color.BLACK))
-                    if (!allreadyChecked[a][b + 1]) return isSuicide(a, (b + 1));
-                if ((b-1)>=0 && checkers[a][b - 1].getFill().equals(Color.BLACK))
-                    if(!allreadyChecked[a][b-1]) return isSuicide(a,(b-1));
-            }
-            return true;
 
-        }
-        return false;
-    }
 
-    /*Sprawdzam czy pionek jest otoczony*/
-    boolean isSurround(int a, int b) {
-        if ((a+1<=18 && checkers[a + 1][b] == null ) || (a-1>=0 && checkers[a - 1][b] == null ) || (b+1<=18 &&checkers[a][b + 1] == null) || (b-1>=0 && checkers[a][b - 1] == null)) {
-            return false;
-        }
-            return true;
-    }
 
-    /*licze ile mam towarzyszy obok pionka*/
-    int comradesAmmount(int a, int b) {
-        int towarzysz=0;
-        if(!isBlack) {
-            if(a+1<=18 && checkers[a + 1][b].getFill().equals(Color.WHITE)) {
-                //isSuicide((a+1),b);
-                towarzysz++;
-            }
-            if(a-1>=0 && checkers[a - 1][b].getFill().equals(Color.WHITE))
-            {
-                //isSuicide((a-1),b);
-                towarzysz++;
-            }
-            if(b+1<=18 && checkers[a][b+1].getFill().equals(Color.WHITE))
-            {
-                //isSuicide(a,(b+1));
-                towarzysz++;
-            }
-            if(b-1>=0 && checkers[a][b-1].getFill().equals(Color.WHITE)){
-               // isSuicide(a,(b-1));
-                towarzysz++;
-            }
-        }
-        else {
-            if (a+1<=18 && checkers[a + 1][b].getFill().equals(Color.BLACK))
-                towarzysz++;
-            if (a-1>=0 && checkers[a - 1][b].getFill().equals(Color.BLACK))
-                towarzysz++;
-            if (b+1<=18 && checkers[a][b + 1].getFill().equals(Color.BLACK))
-                towarzysz++;
-            if (b-1>=0 && checkers[a][b - 1].getFill().equals(Color.BLACK))
-                towarzysz++;
-        }
-        return towarzysz;
-    }
 
     /*czyszcze tablice*/
     void cleanAllreadyChecked() {
@@ -519,57 +441,60 @@ public class GuiController {
         return false;
     }
 
-    void botMove(){       //przykłądowy bot
+    void botMove(){       /*przykładowy bot*/
 
-        int[][] killPotential = new int[19][19];
-        for(int i=0;i<19;i++){
-            for(int j=0;j<19;j++){
-                if(checkers[i][j]!=null)
-                    continue;
-                addChecker(i,j);
+            int[][] killPotential = new int[19][19];
+            for (int i = 0; i < 19; i++) {
+                for (int j = 0; j < 19; j++) {
+                    if (checkers[i][j] != null) {
+                        killPotential[i][j] = -1;
+                        continue;
+                    }
+                    addChecker(i, j);
 
-                if(checkers[i][j]==null){
-                    killPotential[i][j]=-1;
-                    continue;
+                    if (checkers[i][j] == null) {
+                        killPotential[i][j] = -1;
+                        continue;
+                    }
+                    ArrayList<Point> pointsToKill = new ArrayList<>();     //liczenie potencjału zabójczości
+                    groupCheckers();
+                    killerSimulation(pointsToKill);
+                    killPotential[i][j] = pointsToKill.size();
+                    removeChecker(i, j);
                 }
-                ArrayList<Point> pointsToKill = new ArrayList<>();     //liczenie potencjału zabójczości
-                groupCheckers();
-                killerSimulation(pointsToKill);
-                killPotential[i][j]=pointsToKill.size();
-                removeChecker(i,j);
             }
-        }
 
-        ArrayList<int[]> maxValueIndexes = new ArrayList<>();      //szukanie indeksów o maksymalnym potencjale zabijania
-        int maxVal=-1;
-        for(int i=0;i<19;i++) {
-            for (int j = 0; j < 19; j++) {
-                if(killPotential[i][j]==-1){
-                    continue;
-                }
-                if(killPotential[i][j]>maxVal) {        //gdy wiekszy, zeruj tablice z indeksami
-                    maxVal = killPotential[i][j];
-                    maxValueIndexes = new ArrayList<>();
-                    maxValueIndexes.add(new int[2]);
-                    maxValueIndexes.get(0)[0]=i;
-                    maxValueIndexes.get(0)[1]=j;
-                }
-                else if(killPotential[i][j]==maxVal){     //gdy równy dodaj do listy
-                    maxValueIndexes.add(new int[2]);
-                    maxValueIndexes.get(maxValueIndexes.size()-1)[0]=i;
-                    maxValueIndexes.get(maxValueIndexes.size()-1)[1]=j;
-                }
+            ArrayList<int[]> maxValueIndexes = new ArrayList<>();      //szukanie indeksów o maksymalnym potencjale zabijania
+            int maxVal = -1;
+            for (int i = 0; i < 19; i++) {
+                for (int j = 0; j < 19; j++) {
+                    if (killPotential[i][j] == -1) {
+                        continue;
+                    }
+                    if (killPotential[i][j] > maxVal) {        //gdy wiekszy, zeruj tablice z indeksami
+                        maxVal = killPotential[i][j];
+                        maxValueIndexes = new ArrayList<>();
+                        maxValueIndexes.add(new int[2]);
+                        maxValueIndexes.get(0)[0] = i;
+                        maxValueIndexes.get(0)[1] = j;
+                    } else if (killPotential[i][j] == maxVal) {     //gdy równy dodaj do listy
+                        maxValueIndexes.add(new int[2]);
+                        maxValueIndexes.get(maxValueIndexes.size() - 1)[0] = i;
+                        maxValueIndexes.get(maxValueIndexes.size() - 1)[1] = j;
+                    }
 
 
+                }
             }
-        }
 
-
-        Random rand = new Random();                       //wybierz losowe pole do wstawienia piona z najoptymalniejszych
-        int[] randomElement = maxValueIndexes.get(rand.nextInt(maxValueIndexes.size()));
-
-        addChecker(randomElement[0],randomElement[1]);
-
+            try {
+                Random rand = new Random();                       //wybierz losowe pole do wstawienia piona z najoptymalniejszych
+                int[] randomElement = maxValueIndexes.get(rand.nextInt(maxValueIndexes.size()));
+                addChecker(randomElement[0], randomElement[1]);
+            }
+            catch(IllegalArgumentException iae){
+                System.out.println("Brak pól");
+            }
 
 
 
@@ -577,5 +502,9 @@ public class GuiController {
 
     public void setStage(Stage stage) {
         this.stage=stage;
+    }
+
+    public Ellipse[][] getCheckers() {
+        return checkers;
     }
 }
