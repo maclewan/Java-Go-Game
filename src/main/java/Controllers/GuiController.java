@@ -30,6 +30,8 @@ public class GuiController {
     private ArrayList<ArrayList<Point>> groupList = new ArrayList();   /*zgrupowane piony*/
     private ArrayList<Point> lastlyKilled = new ArrayList<>();         /*zasada ko*/
     private Point lastAdded = new Point(0,0,Color.WHITE);         /*do funkcji isSuicide*/
+    private int killedBlack=0;
+    private int killedWhite=0;
 
 
 
@@ -96,7 +98,7 @@ public class GuiController {
                 addChecker(a, b);
             }
             else {       /*UWAGA tymczasowe tylko*/
-                removeChecker(a, b);
+                removeChecker(a, b,false);
                 checkers[a][b] = null;
             }
         }
@@ -159,15 +161,33 @@ public class GuiController {
 
             board.getChildren().add(checkers[a][b]);
 
-            if(isSuicide2(a,b)) removeChecker(a, b);
-            if(myContains(lastlyKilled,a,b)) removeChecker(a, b);
+            if(isSuicide2(a,b)) removeChecker(a, b,false);
+            if(myContains(lastlyKilled,a,b)) removeChecker(a, b,false);
 
 
 
     }
 
+    public void incrementWhitePoints(){
+        killedWhite++;
+        pointsWhite.setText(Integer.toString(killedWhite));
+    }
+
+    public void incrementBlackPoints(){
+        killedBlack++;
+        pointsBlack.setText(Integer.toString(killedBlack));
+    }
+
+
+
     /*Usuwam pionek*/
-    void removeChecker(int a, int b) {
+    void removeChecker(int a, int b, boolean seriously) {
+        if(seriously) {
+            if (checkers[a][b].getFill() == Color.BLACK)
+                incrementWhitePoints();
+             else
+                incrementBlackPoints();
+        }
 
         board.getChildren().remove(checkers[a][b]);
         checkers[a][b] = null;
@@ -191,14 +211,14 @@ public class GuiController {
                     continue;
                 if (countBreaths(i, j) == 0&&checkers[i][j]!=null) {
                     lastlyKilled.add(new Point(i,j,Color.GREY));
-                    removeChecker(i, j);
+                    removeChecker(i, j,true);
                 }
             }
         }
         killGroupedCheckers();                                                   //sprawdzanie i zabijanie grup
         if (!groupedArr[lastAdded.getX()][lastAdded.getY()]){                     //sprawdzanie ostatnio dodanego
             if (countBreaths(lastAdded.getX(), lastAdded.getY()) == 0) {
-                removeChecker(lastAdded.getX(), lastAdded.getY());
+                removeChecker(lastAdded.getX(), lastAdded.getY(),true);
             }
         }
 
@@ -371,7 +391,7 @@ public class GuiController {
             }
             if(counter==0){
                 for(int j=groupList.get(i).size()-1; j>=0;j--){
-                    removeChecker(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY());
+                    removeChecker(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),true);
                 }
             }
         }
@@ -422,16 +442,7 @@ public class GuiController {
 
 
 
-    /*czyszcze tablice*/
-    void cleanAllreadyChecked() {
-        for (int i = 0; i <= 18; i++) {
-            for (int j = 0; j <= 18; j++) {
-                allreadyChecked[i][j] = false;
-            }
-        }
 
-
-    }
 
     public boolean myContains(ArrayList<Point> arr, int x, int y) {
         for (int i = 0; i < arr.size(); i++) {
@@ -461,7 +472,7 @@ public class GuiController {
                     groupCheckers();
                     killerSimulation(pointsToKill);
                     killPotential[i][j] = pointsToKill.size();
-                    removeChecker(i, j);
+                    removeChecker(i, j,false);
                 }
             }
 
