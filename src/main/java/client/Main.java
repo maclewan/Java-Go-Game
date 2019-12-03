@@ -22,7 +22,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.Mnemonic;
 import javafx.stage.Stage;
 
 import java.util.Locale;
@@ -32,7 +31,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Locale.setDefault(new Locale("pl"));
 
-        
+
         Parent root;
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("MenuFrame.fxml"));
         MenuFrameController mfc = new MenuFrameController();
