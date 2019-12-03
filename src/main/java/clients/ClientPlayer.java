@@ -18,9 +18,10 @@ import java.util.Scanner;
  *
  */
 public class ClientPlayer {
+    /*
     public void openMyBoard() throws IOException, ClassNotFoundException, InterruptedException {
         boolean tmp=true;
-            /*Wyswietlam okno*/
+            //Wyswietlam okno
             FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
             GuiController gc = new GuiController();
             loaderG.setController(gc);
@@ -33,6 +34,7 @@ public class ClientPlayer {
             tmp=!tmp;
             System.out.println("Wyswietlilem okno");
     }
+    */
 
     public void handleServer() throws IOException, InterruptedException, ClassNotFoundException {
         Scanner scan = new Scanner(System.in);
@@ -69,17 +71,17 @@ public class ClientPlayer {
     }
 
 
-
+/*
 
     String myMessage;
     public void main() throws IOException, ClassNotFoundException, InterruptedException {
-        /*Wyswietlam okno*/
+        //Wyswietlam okno
         openMyBoard();
         handleServer();
-
+*/
 
 /*koncze wyswietlac okno*/
 
 
-    }
 }
+
