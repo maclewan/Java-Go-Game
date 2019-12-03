@@ -40,7 +40,7 @@ public class KillMoreControllerTest {
         test.checkers[5][3]=pc;
         test.checkers[3][3]=pc;
         test.checkers[4][3]=pc;
-        assert(test.isSuicide(3,3));
+        assert(test.isSuicide2(3,3));
 
 
     }
