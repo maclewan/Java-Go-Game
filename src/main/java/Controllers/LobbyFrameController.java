@@ -1,5 +1,6 @@
 package Controllers;
 
+import clients.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class LobbyFrameController {
+
+    /*
     Stage stage;
     @FXML
     private Button btnNewGame;
@@ -19,29 +22,19 @@ public class LobbyFrameController {
 
     @FXML
     void btnExistingGameOnAction(ActionEvent event) throws IOException, ClassNotFoundException, InterruptedException {
-        stage.close();
 
-        FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
-        ClientController gc = new ClientController();
-        loaderG.setController(gc);
-        Scene sceneG = new Scene(loaderG.load());
-        Stage stageG = new Stage();
-        stageG.setTitle("Go");
-        stageG.setScene(sceneG);
-        stageG.show();
 
-        openWaitingFrame(false);
-        startGame();
+
+
         Client client2=new Client();
         client2.main();
+        startGame();
 
     }
 
     @FXML
     void btnNewGameOnAction(ActionEvent event) throws IOException, ClassNotFoundException, InterruptedException {
-        //openWaitingFrame(true);
-       // Server myServer= new Server();
-        //myServer.main();
+
     }
 
 
@@ -58,15 +51,16 @@ public class LobbyFrameController {
             stageG.setScene(sceneG);
             stageG.show();
             wfc.setStage(stageG);
-            wfc.setCreateServer(makeServer);
+            //wfc.setCreateServer(makeServer);
             stage.close();
         }
         catch(IOException | ClassNotFoundException e){}
     }
+    /*
     public void startGame() {
 
             try {
-                stage.close();
+
 
                 FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
                 GuiController gc = new GuiController();
@@ -83,8 +77,10 @@ public class LobbyFrameController {
             }
 
     }
+
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
+*/
 }
