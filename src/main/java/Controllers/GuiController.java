@@ -508,4 +508,8 @@ public class GuiController {
     public Ellipse[][] getCheckers() {
         return checkers;
     }
+
+    public void setCheckers(Ellipse[][] checkers) {
+        this.checkers = checkers;
+    }
 }
