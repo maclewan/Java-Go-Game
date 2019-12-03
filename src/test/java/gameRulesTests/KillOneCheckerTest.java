@@ -26,7 +26,7 @@ public class KillOneCheckerTest {
         test.isBlack=true;
         /*nie korzystam z addChecker poniewaz jest tam czesc odpowiedzialna za dodanie do planszy*/
         test.checkers[2][3]=pc;
-        assert(test.isSuicide(2,3));
+        assert(test.isSuicide2(2,3));
 
 
     }

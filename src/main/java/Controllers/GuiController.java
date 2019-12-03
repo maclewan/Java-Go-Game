@@ -23,7 +23,7 @@ public class GuiController {
     public boolean isBlack;
 
     Stage stage;
-    private Ellipse[][] checkers = new Ellipse[19][19];
+    public Ellipse[][] checkers = new Ellipse[19][19];
     private boolean[][] groupedArr = new boolean[19][19];              /*czy pion należy do jakiejs grupy*/
     private boolean[][] allreadyChecked = new boolean[19][19];
     private ArrayList<ArrayList<Point>> groupList = new ArrayList();   /*zgrupowane piony*/
