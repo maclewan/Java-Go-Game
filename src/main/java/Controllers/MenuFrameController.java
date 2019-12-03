@@ -10,7 +10,7 @@ import java.io.IOException;
 
 
 public class MenuFrameController {
-    Stage stage;
+    private Stage stage;
 
     @FXML
     private Button btnOnePlayer;
@@ -34,46 +34,35 @@ public class MenuFrameController {
         if(type==0) {
 
             try {
-                stage.close();
 
                 FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
                 GuiController gc = new GuiController();
                 loaderG.setController(gc);
 
                 Scene sceneG = new Scene(loaderG.load());
-                Stage stageG = new Stage();
-                stageG.setTitle("Go");
-                stageG.setScene(sceneG);
-                stageG.show();
+
+                stage.setTitle("Go");
+                stage.setScene(sceneG);
+                stage.setX(stage.getX()-350);
+                stage.setY(stage.getY()-100);
+                gc.setStage(stage);
 
             } catch (IOException ioe) {}
         }
         else if(type==1){
             try {
-                stage.close();
-/*
-                FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("WaitingFrame.fxml"));
+
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("WaitingFrame.fxml"));
                 WaitingFrameController wfc = new WaitingFrameController();
-                loaderG.setController(wfc);
+                loader.setController(wfc);
 
-                Scene sceneG = new Scene(loaderG.load());
-                Stage stageG = new Stage();
-                stageG.setTitle("Waiting");
-                stageG.setScene(sceneG);
-                stageG.show();
-                wfc.setStage(stageG);
+                Scene sceneG = new Scene(loader.load());
 
- */
-                FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("LobbyFrame.fxml"));
-                LobbyFrameController lfc = new LobbyFrameController();
-                loaderG.setController(lfc);
+                stage.setTitle("Waiting");
+                stage.setScene(sceneG);
+                stage.setX(stage.getX()-100);
+                wfc.setStage(stage);
 
-                Scene sceneG = new Scene(loaderG.load());
-                Stage stageG = new Stage();
-                stageG.setTitle("Go");
-                stageG.setScene(sceneG);
-                stageG.show();
-                lfc.setStage(stageG);
 
 
 

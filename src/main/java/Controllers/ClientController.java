@@ -12,25 +12,28 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class ClientController {
 
-    //temp
+
     public boolean isBlack;
     boolean yourTurn=true;
     boolean firstTurn=true;
 
 
 
+    private Stage stage;
     int a, b, x, y, diffX, diffY;
     public Ellipse[][] checkers = new Ellipse[19][19];
     boolean[][] groupedArr = new boolean[19][19];
@@ -50,59 +53,8 @@ public class ClientController {
     String message;
     boolean isStarted;
 
-    public ClientController() throws IOException, ClassNotFoundException {
-
-        //Tutaj sprawdzam czy to byl pierwszy*/
- //       System.out.println("Dolaczylem sb do servera");
-        //******************************//
-        //---- UNDER CONSTRUCKTION------//
-        //******************************//
-
-        //Lacze z serwerrem*/
-        //skonfiguruj polaczenie socket do servera*/
- /*       socket = new Socket(host.getHostName(), 6666);
-
-        //odbierz odpowiedz serwera*/
-  /*      ois = new ObjectInputStream(socket.getInputStream());
-        isBlack= (boolean) ois.readObject();
-        if(isBlack)        System.out.println("Jestem czarny");
-        else  {
-            System.out.println("Jestem bialy");
-            yourTurn=false;
-        }
-
-
-        //napisz do socket uzywajac ObjectOutputStream*/
-    /*    oos = new ObjectOutputStream(socket.getOutputStream());
-        oos.writeObject("OK");
-
-        //////////// MACIEJU //////////////////
-        /////////////////////////////////////
-        //TU TRZE WYSWIETLIC OKNO LADOWANIA//
-
-
-
-        /////////////////////////////////////
-        ////////////MACIEJU//////////////////
-
-
-        //Odbierz wiadomosc nt 2 gracza*/
-        //odbierz odpowiedz serwera*/
-      /*  boolean isSecond = (boolean) ois.readObject();       //tu sie wiesza
-
-
-
-        //otwieram gui
-
-
-        socket.close();
-        ois.close();
-        oos.close();
-        */
+    public ClientController() throws UnknownHostException {
     }
-
-    /*KONIEC DO SOCKETA*/
-
 
 
     @FXML
@@ -696,4 +648,7 @@ public class ClientController {
 
     }
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 }

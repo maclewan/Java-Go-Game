@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class WaitingFrameController{
-    Stage stage= new Stage();
+    private Stage stage= new Stage();
 
 
 
@@ -40,17 +40,23 @@ public class WaitingFrameController{
 
     public synchronized void startGame(ClientController clientController){
 
-        stage.close();
+
         //new game
         try {
             FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
             ClientController gc = clientController;
             loaderG.setController(gc);
+            gc.setStage(stage);
+
             Scene sceneG = new Scene(loaderG.load());
-            Stage stageG = new Stage();
-            stageG.setTitle("Go");
-            stageG.setScene(sceneG);
-            stageG.show();
+
+            stage.setTitle("Go");
+            stage.setScene(sceneG);
+            stage.show();
+            stage.setMinWidth(1200);
+            stage.setMinHeight(800);
+            stage.setX(stage.getX()-250);
+            stage.setY(stage.getY()-100);
         }
         catch (IOException e) {
             e.printStackTrace();
