@@ -181,6 +181,8 @@ public class ClientController {
         oos.close();
     }
 
+
+
     @FXML
     void boardClicked(MouseEvent e) throws IOException, ClassNotFoundException {
         if (yourTurn) {
