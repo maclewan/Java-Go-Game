@@ -4,8 +4,6 @@ package Controllers;
 import client.Point;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -14,7 +12,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -44,7 +41,7 @@ public class ClientController {
 
     /*DO SOCKETA*/
     Scanner scan = new Scanner(System.in);
-    //get the localhost IP address, if server is running on some other IP, you need to use that
+    //zdobadz localhost
     InetAddress host = InetAddress.getLocalHost();
     Socket socket = null;
     ObjectOutputStream oos = null;

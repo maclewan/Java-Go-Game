@@ -402,7 +402,7 @@ public class GuiController {
     }
 
 
-    boolean isSuicide2(int a, int b){
+    public boolean isSuicide2(int a, int b){
 
         ArrayList<Point> pointsToKill = new ArrayList<>();
         groupCheckers();

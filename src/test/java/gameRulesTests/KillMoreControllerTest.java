@@ -1,11 +1,14 @@
 package gameRulesTests;
-
+/**
+ * Test na zabicie wielu pionkow
+ *
+ * */
 import Controllers.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import org.junit.Test;
 
-public class KillMoreControllerTest extends GuiController{
+public class KillMoreControllerTest {
 
     @Test
     public void test() {

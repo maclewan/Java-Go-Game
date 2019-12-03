@@ -23,13 +23,9 @@ public class Observer extends Thread{
     public synchronized void run() {
         try {
 
-
-
-
-
             /*DO SOCKETA*/
             Scanner scan = new Scanner(System.in);
-            //get the localhost IP address, if server is running on some other IP, you need to use that
+            //zdobadz localhost
             InetAddress host;
 
 
@@ -75,7 +71,7 @@ public class Observer extends Thread{
 
             /*Odbierz wiadomosc nt 2 gracza*/
             /*odbierz odpowiedz serwera*/
-            boolean isSecond = (boolean) ois.readObject();       //tu sie wiesza
+            boolean isSecond = (boolean) ois.readObject();       //tu czeka
 
             /*zacznij gre - otworz gui*/
             Platform.runLater(() ->  {
