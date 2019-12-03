@@ -34,50 +34,41 @@ public class MenuFrameController {
         if(type==0) {
 
             try {
-                stage.close();
-
-                FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
                 GuiController gc = new GuiController();
-                loaderG.setController(gc);
+                /**
+                 * Docelowo nie GuiController tylko Clientcontroller z 2. graczem jako z botem                 *
+                 */
+                loader.setController(gc);
+                gc.setStage(stage);
 
-                Scene sceneG = new Scene(loaderG.load());
-                Stage stageG = new Stage();
-                stageG.setTitle("Go");
-                stageG.setScene(sceneG);
-                stageG.show();
+                Scene scene = new Scene(loader.load());
+                stage.setTitle("Go");
+                stage.setScene(scene);
+                stage.setX(stage.getX()-350);
+                stage.setY(stage.getY()-100);
 
-            } catch (IOException ioe) {}
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
         else if(type==1){
             try {
-                stage.close();
-/*
-                FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("WaitingFrame.fxml"));
+
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("WaitingFrame.fxml"));
                 WaitingFrameController wfc = new WaitingFrameController();
-                loaderG.setController(wfc);
+                loader.setController(wfc);
+                wfc.setStage(stage);
 
-                Scene sceneG = new Scene(loaderG.load());
-                Stage stageG = new Stage();
-                stageG.setTitle("Waiting");
-                stageG.setScene(sceneG);
-                stageG.show();
-                wfc.setStage(stageG);
-
- */
-                FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("LobbyFrame.fxml"));
-                LobbyFrameController lfc = new LobbyFrameController();
-                loaderG.setController(lfc);
-
-                Scene sceneG = new Scene(loaderG.load());
-                Stage stageG = new Stage();
-                stageG.setTitle("Go");
-                stageG.setScene(sceneG);
-                stageG.show();
-                lfc.setStage(stageG);
+                Scene scene = new Scene(loader.load());
+                stage.setTitle("Waiting");
+                stage.setScene(scene);
+                stage.setX(stage.getX()-150);
 
 
-
-            } catch (IOException ioe) {}
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
     }
 
