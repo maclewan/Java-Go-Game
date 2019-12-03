@@ -73,6 +73,8 @@ public class Observer extends Thread{
             /*odbierz odpowiedz serwera*/
             boolean isSecond = (boolean) ois.readObject();       //tu czeka
 
+            Thread.sleep(1000);
+
             /*zacznij gre - otworz gui*/
             Platform.runLater(() ->  {
                 wfc.startGame(clientController);
@@ -89,6 +91,8 @@ public class Observer extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
