@@ -4,6 +4,8 @@ package Controllers;
 import client.Point;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -12,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -49,18 +52,19 @@ public class ClientController {
     String message;
 
     public ClientController() throws IOException, ClassNotFoundException {
-        /*Tutaj sprawdzam czy to byl pierwszy*/
-        System.out.println("Dolaczylem sb do servera");
+
+        //Tutaj sprawdzam czy to byl pierwszy*/
+ //       System.out.println("Dolaczylem sb do servera");
         //******************************//
         //---- UNDER CONSTRUCKTION------//
         //******************************//
 
-        /*Lacze z serwerrem*/
-        /*skonfiguruj polaczenie socket do servera*/
-        socket = new Socket(host.getHostName(), 6666);
+        //Lacze z serwerrem*/
+        //skonfiguruj polaczenie socket do servera*/
+ /*       socket = new Socket(host.getHostName(), 6666);
 
-        /*odbierz odpowiedz serwera*/
-        ois = new ObjectInputStream(socket.getInputStream());
+        //odbierz odpowiedz serwera*/
+  /*      ois = new ObjectInputStream(socket.getInputStream());
         isBlack= (boolean) ois.readObject();
         if(isBlack)        System.out.println("Jestem czarny");
         else  {
@@ -69,25 +73,33 @@ public class ClientController {
         }
 
 
-        /*napisz do socket uzywajac ObjectOutputStream*/
-        oos = new ObjectOutputStream(socket.getOutputStream());
+        //napisz do socket uzywajac ObjectOutputStream*/
+    /*    oos = new ObjectOutputStream(socket.getOutputStream());
         oos.writeObject("OK");
 
         //////////// MACIEJU //////////////////
         /////////////////////////////////////
         //TU TRZE WYSWIETLIC OKNO LADOWANIA//
+
+
+
         /////////////////////////////////////
         ////////////MACIEJU//////////////////
 
 
-        /*Odbierz wiadomosc nt 2 gracza*/
-        /*odbierz odpowiedz serwera*/
-        boolean isSecond = (boolean) ois.readObject();
+        //Odbierz wiadomosc nt 2 gracza*/
+        //odbierz odpowiedz serwera*/
+      /*  boolean isSecond = (boolean) ois.readObject();       //tu sie wiesza
+
+
+
+        //otwieram gui
 
 
         socket.close();
         ois.close();
         oos.close();
+        */
     }
 
     /*KONIEC DO SOCKETA*/
