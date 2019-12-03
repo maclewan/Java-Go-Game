@@ -21,17 +21,17 @@ public class LobbyFrameController {
     void btnExistingGameOnAction(ActionEvent event) throws IOException, ClassNotFoundException, InterruptedException {
         stage.close();
 
-        FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("WaitingFrame.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("WaitingFrame.fxml"));
         WaitingFrameController wfc = new WaitingFrameController();
-        loaderG.setController(wfc);
+        loader.setController(wfc);
 
-        Scene sceneG = new Scene(loaderG.load());
+        Scene sceneG = new Scene(loader.load());
         Stage stageG = new Stage();
         stageG.setTitle("Waiting");
         stageG.setScene(sceneG);
         stageG.show();
         wfc.setStage(stageG);
-       // wfc.setCreateServer(makeServer);
+
 /*
         FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
         ClientController gc = new ClientController();

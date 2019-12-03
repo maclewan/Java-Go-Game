@@ -33,6 +33,7 @@ public class ClientController {
     boolean firstTurn=true;
 
 
+
     int a, b, x, y, diffX, diffY;
     public Ellipse[][] checkers = new Ellipse[19][19];
     boolean[][] groupedArr = new boolean[19][19];
@@ -50,6 +51,7 @@ public class ClientController {
     ObjectInputStream ois = null;
     String myMessage;
     String message;
+    boolean isStarted;
 
     public ClientController() throws IOException, ClassNotFoundException {
 
