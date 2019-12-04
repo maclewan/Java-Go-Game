@@ -42,13 +42,13 @@ Tworzony przez:
 ## Maven
 ## Tworzenie nowego projektu Maven w programie InteliiJ
 
-*Tworzymy nowy projekt ConsoleAplication JavaFX
-*Następnie prawym przyciskiem wybieramy nazwe projektu i Add Freamworks Support
-*Wybieramy Maven-a
-*Ustawiamy FIle->Setting->Build,Execution,D...->JavaCompiler
-*Project bytecode version: 12
-*Target bycode version: 12
-*zmienimy plik pom.xml na:
+* Tworzymy nowy projekt ConsoleAplication JavaFX
+* Następnie prawym przyciskiem wybieramy nazwe projektu i Add Freamworks Support
+* Wybieramy Maven-a
+* Ustawiamy FIle->Setting->Build,Execution,D...->JavaCompiler
+* Project bytecode version: 12
+* Target bycode version: 12
+* zmienimy plik pom.xml na:
 ```
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
