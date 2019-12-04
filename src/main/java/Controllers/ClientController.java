@@ -43,15 +43,11 @@ public class ClientController {
     Point lastAdded = new Point(0,0,Color.WHITE);
 
     /*DO SOCKETA*/
-    Scanner scan = new Scanner(System.in);
-    //zdobadz localhost
-    InetAddress host = InetAddress.getLocalHost();
-    Socket socket = null;
-    ObjectOutputStream oos = null;
-    ObjectInputStream ois = null;
-    String myMessage;
-    String message;
-    boolean isStarted;
+    Scanner scan = new Scanner(System.in);          //scanner
+    InetAddress host = InetAddress.getLocalHost();  //host
+    Socket socket = null;                           //server
+    ObjectOutputStream oos = null;                  //wyjscie
+    ObjectInputStream ois = null;                   //wejscie
 
     public ClientController() throws UnknownHostException {
     }
