@@ -7,7 +7,7 @@
 Project is created with:
 * Java version: 12.3
 * Java version: 13.0
-* InteliiJ: 
+* InteliiJ
 * SceneBuilder
 	
 ## Java Setup
@@ -24,14 +24,18 @@ $ cd $HOME
 $ nano .bashrc file
 ```
 zmiana pliku
-Dodaj: export PATH=/home/michal/Pobrane/openjdk-13.0.1_linux-x64_bin/jdk-13.0.1/bin:$P$
+Dodaj: 
+```
+export PATH=/home/michal/Pobrane/openjdk-13.0.1_linux-x64_bin/jdk-13.0.1/bin:$P$
 source .bashrc
+```
+Jest to sciezka
 
 ## General info
 #Projekt studencki na zajęcia z Technologii programowania
 Tworzony przez:
-##Michał Kalina: 	https://github.com/KalinaMichal
-##Maciej Lewandowicz:	https://github.com/sasuke5055
+## Michał Kalina: 	https://github.com/KalinaMichal
+## Maciej Lewandowicz:	https://github.com/sasuke5055
 
 
 #Maven
