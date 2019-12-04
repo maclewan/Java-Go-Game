@@ -1,5 +1,6 @@
 package gameRulesTests;
 /**
+ *
  * Test na zabicie oka w lewym gornym rogu
  *
  * */

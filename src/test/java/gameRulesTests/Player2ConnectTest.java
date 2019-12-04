@@ -24,6 +24,7 @@ public class Player2ConnectTest {
         ObjectInputStream ois = null;
         String kolor;
         String message;
+        boolean isBlack=true;
 
         try {
             //Lacze z serwerrem*/
@@ -33,7 +34,7 @@ public class Player2ConnectTest {
             //odbierz odpowiedz serwera*/
             ois = new ObjectInputStream(socket.getInputStream());
             //Tutaj sprawdzam czy to byl pierwszy*/
-            boolean isBlack= (boolean) ois.readObject();
+            isBlack= (boolean) ois.readObject();
             assert(!isBlack);
 
             //napisz do socket uzywajac ObjectOutputStream*/
@@ -47,10 +48,6 @@ public class Player2ConnectTest {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
-
 
     }
 }

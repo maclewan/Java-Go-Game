@@ -1,14 +1,16 @@
 package gameRulesTests;
-
-
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
+/**
+ *
+ * Test na zabicie 1 pionka w rogu(lewym gornym)
+ *
+ * */
 import Controllers.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import org.junit.Test;
 
 /*Test bada lwy gorny rog planszy*/
-public class KillInCornerController extends GuiController{
+public class KillInCornerController{
 
     @Test
     public void test() {
