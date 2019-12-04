@@ -34,7 +34,9 @@ public class ClientController {
 
 
     private Stage stage;
-    int a, b, x, y, diffX, diffY;
+    int a =20;
+    int b=20;
+    int x, y, diffX, diffY;
     public Ellipse[][] checkers = new Ellipse[19][19];
     boolean[][] groupedArr = new boolean[19][19];
     boolean[][] allreadyChecked = new boolean[19][19];
@@ -104,7 +106,6 @@ public class ClientController {
         /*skonfiguruj polaczenie socket do servera*/
         socket = new Socket(host.getHostName(), 6666);
 
-
         //if(!isBlack && firstTime) {
             /*napisz do socket uzywajac ObjectOutputStream*/
             oos = new ObjectOutputStream(socket.getOutputStream());
@@ -118,14 +119,17 @@ public class ClientController {
             int b1 = (int) ois.readObject();
             if (a1 != 20 && b1 != 20) {
                 cleanAllreadyChecked();
-               /* if ((checkers[a1][b1] != null) && ((!isBlack && checkers[a1][b1].getFill().equals(Color.BLACK)) || (isBlack && checkers[a1][b1].getFill().equals(Color.WHITE) ))) {
-                    removeChecker(a1,b1);
+                /*if (checkers[a1][b1] != null) {
+                    removeChecker(a1,b1);   //tutaj usuwanie swoich wlasnych pionkow
                 }
                 else {*/
                     isBlack = !isBlack;
                     addChecker(a1, b1);
+                    groupCheckers();
+                    killer();
                     isBlack = !isBlack;
                 //}
+
             }
 
         yourTurn=true;
@@ -158,8 +162,10 @@ public class ClientController {
                 /*clicked out of any points range*/
             } else if (checkers[a][b] == null) {
                 cleanAllreadyChecked();
-                addChecker(a, b);
                 yourTurn=false;
+                addChecker(a, b);
+                groupCheckers();
+                killer();
                 //exchangeInfo(a,b);
                 //serverMenagment.sendInfo(a,b);
                 //serverMenagment.getInfo();
@@ -168,7 +174,7 @@ public class ClientController {
                 checkers[a][b] = null;
                 yourTurn=false;
             }
-            else yourTurn=true;//to je chyba nie potrzebne
+            //else yourTurn=true;//to je chyba nie potrzebne
         }else          System.out.println("To nie twoja tura, poczekaj");
 
     }
@@ -185,25 +191,26 @@ public class ClientController {
     @FXML
     void btnPassBlackOnAction(ActionEvent event) {
         groupCheckers();
+        killer();
+
 
     }
 
     @FXML
-    void btnPassWhiteOnAction(ActionEvent event) throws IOException, ClassNotFoundException {
+    void btnPassWhiteOnAction(ActionEvent event)  {
         //killer();
+
+    }
+
+
+
+    @FXML
+    void botOnAction(ActionEvent event) throws IOException, ClassNotFoundException {
+
+        groupCheckers();
+        killer();
         System.out.println("Lacze sie z servem i wysylam i odbieram");
         exchangeInfo(a,b);
-    }
-
-
-
-    @FXML
-    void botOnAction(ActionEvent event) {
-
-        isBlack=!isBlack;     //wybiera drugi kolor;
-        botMove();
-
-        isBlack=!isBlack;     //wybiera drugi kolor;
     }
 
     /*Dodaje pionek*/
@@ -231,8 +238,8 @@ public class ClientController {
 
         board.getChildren().add(checkers[a][b]);
 
-        if(isSuicide2(a,b)) removeChecker(a, b);
-        if(myContains(lastlyKilled,a,b)) removeChecker(a, b);
+        if(isSuicide2(a,b)) {removeChecker(a, b); yourTurn=true;  System.out.println("To jest zamobojstwo! Zrob inny ruch");}
+        if(myContains(lastlyKilled,a,b)) {removeChecker(a, b); System.out.println("Ten pionek byl ostatnio zbity! Zrob inny ruch"); }
 
 
 
