@@ -13,3 +13,10 @@
     -fx-background-size: 100% 100%;
 
 }
+.btnsingle{
+    -fx-background-image: url('Single.png');
+}
+.btnmulti{
+    -fx-background-image: url('Multi.png');
+
+}

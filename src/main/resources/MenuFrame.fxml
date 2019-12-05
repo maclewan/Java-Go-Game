@@ -12,12 +12,12 @@
             <Font name="Bitstream Vera Serif Bold" size="36.0" />
          </font>
       </Label>
-      <Button fx:id="btnOnePlayer" layoutX="75.0" layoutY="81.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnOnePlayerOnAction" prefHeight="100.0" prefWidth="250.0" text="Jeden gracz">
+      <Button fx:id="btnOnePlayer" layoutX="35.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnOnePlayerOnAction" prefHeight="100.0" prefWidth="152.0" styleClass="btnsingle" stylesheets="@style.css">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="btnTwoPlayers" layoutX="75.0" layoutY="222.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnTwoPlayersOnAction" prefHeight="100.0" prefWidth="250.0" text="Dwóch graczy">
+      <Button fx:id="btnTwoPlayers" layoutX="213.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnTwoPlayersOnAction" prefHeight="100.0" prefWidth="152.0" styleClass="btnmulti" stylesheets="@style.css">
          <font>
             <Font size="24.0" />
          </font>
