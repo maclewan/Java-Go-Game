@@ -35,8 +35,10 @@ Jest to sciezka
 ## General info
 #Projekt studencki na zajęcia z Technologii programowania
 Tworzony przez:
-## [Michał Kalina] 	(https://github.com/KalinaMichal)
-## [Maciej Lewandowicz]	(https://github.com/sasuke5055)
+## [Michał Kalina](https://github.com/KalinaMichal)
+## [Maciej Lewandowicz](https://github.com/sasuke5055)
+[Tresc zadania](https://cs.pwr.edu.pl/macyna/TPLab04.pdf)
+
 
 
 ## Maven
