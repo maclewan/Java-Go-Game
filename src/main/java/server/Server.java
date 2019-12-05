@@ -28,6 +28,7 @@ public class Server {
                 int b1=20;
                 int a2=20;
                 int b2=20;
+                boolean first =true;
                 System.out.println("Stworzylem server");
                 /*Tutaj daje wiadomosc klientom ktory byl pierwszy*/
 
@@ -85,7 +86,9 @@ public class Server {
                 oosP2.close();
                 socketP2.close();
 
-
+                /*Czekam na klienta 2*/
+                System.out.println("Czekam na 2 gracza");
+                Socket preSocket = server.accept();
 
 
                 while(true){
@@ -110,6 +113,14 @@ public class Server {
                         b1 = (int) checker1.readObject();
                         System.out.println("Dostalem widomosc od 1 gracza: " + b1);
 
+                        if(first) {
+                                /*Daje klientowi 2 odpowiedz*/
+                                ObjectOutputStream oos2 = new ObjectOutputStream(preSocket.getOutputStream());
+                                oos2.writeObject(a1);
+                                oos2.writeObject(b1);
+                                preSocket.close();
+                                first = false;
+                        }
 
 
                         /**

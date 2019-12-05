@@ -51,7 +51,7 @@ public class ClientController {
     ObjectOutputStream oos = null;                  //wyjscie
     ObjectInputStream ois = null;                   //wejscie
 
-    public ClientController() throws UnknownHostException {
+    public ClientController() throws IOException, ClassNotFoundException {
     }
 
 
@@ -101,7 +101,7 @@ public class ClientController {
     private Button botMove;
 
     @FXML
-    void exchangeInfo(int a, int b) throws IOException, ClassNotFoundException {
+    public void exchangeInfo(int a, int b) throws IOException, ClassNotFoundException {
         /*Lacze z serwerrem*/
         /*skonfiguruj polaczenie socket do servera*/
         socket = new Socket(host.getHostName(), 6666);
@@ -145,7 +145,7 @@ public class ClientController {
     }
 
     @FXML
-    void boardClicked(MouseEvent e) throws IOException, ClassNotFoundException {
+    synchronized void boardClicked(MouseEvent e) {
         if (yourTurn) {
             //int a, b, x, y, diffX, diffY;
             double diffR;
@@ -166,7 +166,14 @@ public class ClientController {
                 addChecker(a, b);
                 groupCheckers();
                 killer();
-                //exchangeInfo(a,b);
+                System.out.println("lalalala");
+                try{
+                    exchangeInfo(a,b);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
                 //serverMenagment.sendInfo(a,b);
                 //serverMenagment.getInfo();
             } else if ((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK))) {
@@ -175,7 +182,30 @@ public class ClientController {
                 yourTurn=false;
             }
             //else yourTurn=true;//to je chyba nie potrzebne
-        }else          System.out.println("To nie twoja tura, poczekaj");
+        }
+        else if(!isBlack && firstTurn)
+        {
+            try {
+                /*Lacze z serwerrem*/
+                /*skonfiguruj polaczenie socket do servera*/
+                socket = new Socket(host.getHostName(), 6666);
+                ois = new ObjectInputStream(socket.getInputStream());
+                int a1 = (int) ois.readObject();
+                int b1 = (int) ois.readObject();
+                yourTurn = true;
+                firstTurn = false;
+            }
+           catch (UnknownHostException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+
+        else          System.out.println("To nie twoja tura, poczekaj");
 
     }
 
@@ -214,6 +244,7 @@ public class ClientController {
     }
 
     /*Dodaje pionek*/
+
     @FXML
     void addChecker(int a, int b) {
 

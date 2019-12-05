@@ -75,13 +75,13 @@ public class Observer extends Thread{
 
             Thread.sleep(1000);
 
+
+
             /*zacznij gre - otworz gui*/
             Platform.runLater(() ->  {
                 wfc.startGame(clientController);
                 return;
             });
-
-
 
 
             socket.close();
@@ -100,16 +100,20 @@ public class Observer extends Thread{
             e.printStackTrace();
         }
 
-        try{
+      /*  try{
             Thread.sleep(3000);        /*odczekuje 3 sekundy i wraca do menu*/
-        }
+        /*}
         catch (InterruptedException ex) {
             ex.printStackTrace();
-        }
-        Platform.runLater(() ->  {
+        }*/
+        /**********************/
+        /* MACIEJU*/
+        /*musze to zakomentowac nizej i wyzej bo po 3 sek bezruchu gra sie wylacza xD*/
+        /************************/
+        /*Platform.runLater(() ->  {
             wfc.backToMenu();
             return;
-        });
+        });*/
 
 
 
