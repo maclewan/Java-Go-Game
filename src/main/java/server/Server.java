@@ -143,28 +143,6 @@ public class Server {
 
 
 
-                        /*Sprawdzam czy to juz koniec naszej zabawy*/
-                        //if(message1.equalsIgnoreCase("exit")) break;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                         /*Konce obcowanie z klientem drugim*/
                         /*zamykam wszystkie zrodla*/
@@ -175,12 +153,58 @@ public class Server {
                         oos2.close();
                         socket2.close();
                         /*Sprawdzam czy to juz koniec naszej zabawy*/
-                        if(a2==-1) break;
+                        if(a1==20 && a2==20 && b1==20 && b2==20) break;
 
 
 
                 }
-                System.out.println("Shutting down Socket server!!");
+
+                /******************************************/
+                /*Otwieram czat do rozmowy miedzy graczami*/
+                /******************************************/
+
+                /*Czekam na klienta 1*/
+                System.out.println("Czekam na 1 gracza");
+                Socket sockettP1 = server.accept();
+                System.out.println("Gracz 1 dolaczyl do serwera");
+
+                /*Czekam na klienta 2*/
+                System.out.println("Czekam na 1 gracza");
+                Socket sockettP2 = server.accept();
+                System.out.println("Gracz 2 dolaczyl do serwera");
+
+                String mes1,mes2;
+                while(true){
+
+                        /*Teraz biore wiadomosc od klienta 2*/
+                        ObjectInputStream checker2 = new ObjectInputStream(sockettP2.getInputStream());
+
+                        /*Konwertuje na String*/
+                        mes2 = (String) checker2.readObject();
+                        System.out.println("Dostalem widomosc od 2 gracza: " + mes2);
+
+
+                        /*Daje klientowi 1 odpowiedz*/
+                        ObjectOutputStream oos1 = new ObjectOutputStream(sockettP1.getOutputStream());
+                        oos1.writeObject(mes2);
+
+
+                        /*Teraz biore wiadomosc od klienta 1*/
+                        ObjectInputStream checker1 = new ObjectInputStream(sockettP2.getInputStream());
+
+                        /*Konwertuje na String*/
+                        mes1 = (String) checker1.readObject();
+                        System.out.println("Dostalem widomosc od 1 gracza: " + mes1);
+
+                        /*Daje klientowi 2 odpowiedz*/
+                        ObjectOutputStream oos2 = new ObjectOutputStream(sockettP2.getOutputStream());
+                        oos2.writeObject(mes1);
+
+                        if((mes1=="WIN" && mes2 =="LOSE") || (mes1=="LOSE" && mes2=="WIN")) break;
+
+
+                }
+                 System.out.println("Shutting down Socket server!!");
                 //zamknij ServerSocket object
                 server.close();
         }
