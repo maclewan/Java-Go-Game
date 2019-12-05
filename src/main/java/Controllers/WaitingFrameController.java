@@ -81,8 +81,6 @@ public class WaitingFrameController{
             stage.setTitle("Menu");
             stage.setScene(sceneG);
             stage.show();
-            stage.setHeight(400);
-            stage.setWidth(400);
             stage.setX(stage.getX()+100);
         }
         catch (IOException e) {
