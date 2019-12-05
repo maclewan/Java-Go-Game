@@ -182,16 +182,18 @@ public class GuiController {
 
     /*Usuwam pionek*/
     void removeChecker(int a, int b, boolean seriously) {
-        if(seriously) {
-            if (checkers[a][b].getFill() == Color.BLACK)
-                incrementWhitePoints();
-             else
-                incrementBlackPoints();
-        }
+        if(checkers[a][b]!=null) {
+            if (seriously) {
+                if (checkers[a][b].getFill() == Color.BLACK)
+                    incrementWhitePoints();
+                else
+                    incrementBlackPoints();
+            }
 
-        board.getChildren().remove(checkers[a][b]);
-        checkers[a][b] = null;
-        groupedArr[a][b] = false;
+            board.getChildren().remove(checkers[a][b]);
+            checkers[a][b] = null;
+            groupedArr[a][b] = false;
+        }
     }
 
 

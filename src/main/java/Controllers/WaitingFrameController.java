@@ -4,6 +4,7 @@ package Controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,7 +15,8 @@ public class WaitingFrameController{
 
 
 
-
+    @FXML
+    private Label textWaiting;
 
 
 
@@ -22,7 +24,6 @@ public class WaitingFrameController{
     void initialize() throws IOException, ClassNotFoundException {
 
 
-        ClientController clientController = new ClientController();
 
         Thread observer = new Observer(this);
         observer.start();
@@ -61,7 +62,32 @@ public class WaitingFrameController{
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public synchronized void absentServer(){
+        textWaiting.setText("Brak aktywnego serwera");
+        textWaiting.setLayoutX(textWaiting.getLayoutX()+40);
+    }
+
+    public synchronized void backToMenu(){
+        try {
+            FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("MenuFrame.fxml"));
+            MenuFrameController mfc = new MenuFrameController();
+            loaderG.setController(mfc);
+            mfc.setStage(stage);
+
+            Scene sceneG = new Scene(loaderG.load());
+
+            stage.setTitle("Menu");
+            stage.setScene(sceneG);
+            stage.show();
+            stage.setHeight(400);
+            stage.setWidth(400);
+            stage.setX(stage.getX()+100);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

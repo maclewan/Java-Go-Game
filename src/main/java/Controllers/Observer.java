@@ -78,6 +78,7 @@ public class Observer extends Thread{
             /*zacznij gre - otworz gui*/
             Platform.runLater(() ->  {
                 wfc.startGame(clientController);
+                return;
             });
 
 
@@ -89,12 +90,27 @@ public class Observer extends Thread{
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            Platform.runLater(() ->  {
+                wfc.absentServer();           /*wypisuje brak serwera*/
+
+            });
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        try{
+            Thread.sleep(3000);        /*odczekuje 3 sekundy i wraca do menu*/
+        }
+        catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        Platform.runLater(() ->  {
+            wfc.backToMenu();
+            return;
+        });
+
 
 
     }
