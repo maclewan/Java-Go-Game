@@ -1,7 +1,6 @@
 package client;
 
 import Controllers.ClientController;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 
 import java.io.IOException;
@@ -184,19 +183,25 @@ public class ServerMenagment extends Thread {
             Ellipse tmp = new Ellipse();
 
 
-                if(cc.isBlack)              tmp.setFill(Color.WHITE);
+            /**
+             * MACIEJU
+             * na dole zakomentowalem nie udolna probe a tam nizej jest blad.
+             * jak wlaczysz server i podlaczczysz obu graczy to kliknij guzik BLACK- aby otworzyc watek
+
+             */
+               /* if(cc.isBlack)              tmp.setFill(Color.WHITE);
                 else             tmp.setFill(Color.BLACK);
                 cc.checkers[a1][b1]=tmp;
-            cc.board.getChildren().add(cc.checkers[a1][b1]);
-            /*if(cc.checkers[a1][b1]!=null) {
+            cc.board.getChildren().add(cc.checkers[a1][b1]);*/
+            if(cc.checkers[a1][b1]!=null) {
                 cc.isBlack = !cc.isBlack;
                 System.out.println("dodaje: piona " + a1 + b1);
                 cc.addChecker(a1, b1);
                 cc.groupCheckers();
                 cc.killer();
                 cc.isBlack = !cc.isBlack;
-            }*/
-            //else         System.out.println("jestem w else");
+            }
+            else         System.out.println("jestem w else");
             }
 
         //}

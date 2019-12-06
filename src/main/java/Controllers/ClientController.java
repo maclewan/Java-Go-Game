@@ -264,7 +264,7 @@ public class ClientController {
             lastAdded = new Point(a,b,Color.WHITE);
         }
 
-        this.board.getChildren().add(checkers[a][b]);
+       board.getChildren().add(checkers[a][b]);
 
         if(isSuicide2(a,b)) {removeChecker(a, b,false); yourTurn=true;  System.out.println("To jest zamobojstwo! Zrob inny ruch");}
         if(myContains(lastlyKilled,a,b)) {removeChecker(a, b,false); System.out.println("Ten pionek byl ostatnio zbity! Zrob inny ruch"); }
