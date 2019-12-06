@@ -1,6 +1,8 @@
 package client;
 
 import Controllers.ClientController;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -179,14 +181,22 @@ public class ServerMenagment extends Thread {
                     removeChecker(a1,b1);   //tutaj usuwanie swoich wlasnych pionkow
                 }
                 else {*/
-            if(cc.checkers[a1][b1]!=null) {
+            Ellipse tmp = new Ellipse();
+
+
+                if(cc.isBlack)              tmp.setFill(Color.WHITE);
+                else             tmp.setFill(Color.BLACK);
+                cc.checkers[a1][b1]=tmp;
+            cc.board.getChildren().add(cc.checkers[a1][b1]);
+            /*if(cc.checkers[a1][b1]!=null) {
                 cc.isBlack = !cc.isBlack;
                 System.out.println("dodaje: piona " + a1 + b1);
                 cc.addChecker(a1, b1);
                 cc.groupCheckers();
                 cc.killer();
                 cc.isBlack = !cc.isBlack;
-            }
+            }*/
+            //else         System.out.println("jestem w else");
             }
 
         //}

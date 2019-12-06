@@ -30,8 +30,8 @@ public class ClientController {
 
 
     private Stage stage;
-    int a =20;
-    int b=20;
+    int a =0;
+    int b=0;
     int x, y, diffX, diffY;
     private int killedBlack=0;
     private int killedWhite=0;
@@ -87,7 +87,7 @@ public class ClientController {
 
 
     @FXML // fx:id="board"
-    private Pane board; // Value injected by FXMLLoader
+    public Pane board; // Value injected by FXMLLoader
 
     @FXML // fx:id="colour"
     private ToggleButton colour; // Value injected by FXMLLoader
@@ -264,7 +264,7 @@ public class ClientController {
             lastAdded = new Point(a,b,Color.WHITE);
         }
 
-        board.getChildren().add(checkers[a][b]);
+        this.board.getChildren().add(checkers[a][b]);
 
         if(isSuicide2(a,b)) {removeChecker(a, b,false); yourTurn=true;  System.out.println("To jest zamobojstwo! Zrob inny ruch");}
         if(myContains(lastlyKilled,a,b)) {removeChecker(a, b,false); System.out.println("Ten pionek byl ostatnio zbity! Zrob inny ruch"); }
