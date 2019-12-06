@@ -181,10 +181,6 @@ public class ClientController {
                 }
                 //serverMenagment.sendInfo(a,b);
                 //serverMenagment.getInfo();
-            } else if ((!isBlack && checkers[a][b].getFill().equals(Color.WHITE)) || (isBlack && checkers[a][b].getFill().equals(Color.BLACK))) {
-                removeChecker(a, b);
-                checkers[a][b] = null;
-                yourTurn=false;
             }
             //else yourTurn=true;//to je chyba nie potrzebne
         }
