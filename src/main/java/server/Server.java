@@ -180,7 +180,7 @@ public class Server {
                 System.out.println("Gracz 1 dolaczyl do serwera");
 
                 /*Czekam na klienta 2*/
-                System.out.println("Czekam na 1 gracza");
+                System.out.println("Czekam na 2 gracza");
                 Socket sockettP2 = server.accept();
                 System.out.println("Gracz 2 dolaczyl do serwera");
 
@@ -212,8 +212,6 @@ public class Server {
                         oos2.writeObject(mes1);
 
                         if((mes1=="WIN" && mes2 =="LOSE") || (mes1=="LOSE" && mes2=="WIN")) break;
-
-
                 }
                  System.out.println("Shutting down Socket server!!");
                 //zamknij ServerSocket object

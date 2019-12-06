@@ -1,6 +1,5 @@
 package Controllers;
 
-
 import client.Point;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,9 +27,9 @@ public class ClientController {
 
 
     public boolean isBlack;
-    boolean yourTurn=true;
+    public boolean yourTurn=true;
     boolean firstTurn=true;
-    boolean lastPass=false;
+    public boolean lastPass=false;
 
 
 
@@ -175,6 +174,7 @@ public class ClientController {
                 groupCheckers();
                 killer();
                 System.out.println("lalalala");
+                /*Wysylam i odbieram informacje*/
                 try{
                     exchangeInfo(a,b);
                 } catch (IOException ex) {
@@ -182,8 +182,6 @@ public class ClientController {
                 } catch (ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
-                //serverMenagment.sendInfo(a,b);
-                //serverMenagment.getInfo();
             }
             //else yourTurn=true;//to je chyba nie potrzebne
         }
@@ -258,7 +256,7 @@ public class ClientController {
     /*Dodaje pionek*/
 
     @FXML
-    void addChecker(int a, int b) {
+    public void addChecker(int a, int b) {
 
 
         checkers[a][b] = new Ellipse();
@@ -321,7 +319,7 @@ public class ClientController {
 
     /*Funkcja zabijająca piony bez oddechu*/
 
-    void killer() {
+    public void killer() {
         lastlyKilled=new ArrayList<>();
 
         for (int i = 0; i < 19; i++) {                                    //sprawdznie i zabijanie pojedynczych pionków
@@ -372,7 +370,7 @@ public class ClientController {
     }
 
     /*Grupuje zbite piony w grupy*/
-    void groupCheckers() {
+    public void groupCheckers() {
         groupedArr = new boolean[19][19];
         groupList.clear();
         for (int i = 0; i < 19; i++) {
@@ -639,7 +637,7 @@ public class ClientController {
     }
 
     /*czyszcze tablice*/
-    void cleanAllreadyChecked() {
+    public void cleanAllreadyChecked() {
         for (int i = 0; i <= 18; i++) {
             for (int j = 0; j <= 18; j++) {
                 allreadyChecked[i][j] = false;
