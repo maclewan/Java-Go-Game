@@ -54,24 +54,24 @@ public class ServerMenagment extends Thread {
         while(true) {
             System.out.println("jestem w while");
             try {
-                Thread.sleep(1000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
 
-            /*try {
+            try {
                 exchangeInfo(a,b);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
-            }*/
+            }
 
 
             System.out.println("zara odbiere dane");
             /*odbieranie danych od serwera*/
-            try {
+            /*try {
                 getInfoFromServer();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -82,13 +82,13 @@ public class ServerMenagment extends Thread {
             System.out.println("zara wysle dane");
             /*wysylanie danych do serwera*/
            // if (isInfoToSend) {
-                try {
+              /*  try {
                     sendInfoToServer(a, b);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
-                }
+                }*/
             //}
         }
 
@@ -128,8 +128,9 @@ public class ServerMenagment extends Thread {
         }*/
 
         cc.yourTurn=true;
-        socket.close();
         ois.close();
+        socket.close();
+
     }
     private void sendInfoToServer(int a, int b) throws IOException, ClassNotFoundException {
         System.out.println("jestem w sendinfo");
@@ -145,41 +146,51 @@ public class ServerMenagment extends Thread {
         //}
 
 
-
-        socket.close();
-        ois.close();
         oos.close();
+        socket.close();
+
 
     }
 
-    private void exchangeInfo(int a, int b) throws IOException, ClassNotFoundException {
+    public void exchangeInfo(int a, int b) throws IOException, ClassNotFoundException {
         /*Lacze z serwerrem*/
         /*skonfiguruj polaczenie socket do servera*/
         socket = new Socket(host.getHostName(), 6666);
 
+       // if(cc.madeMove) {
+            /*napisz do socket uzywajac ObjectOutputStream*/
+            oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.writeObject(a);
+            oos.writeObject(b);
+        System.out.println("wYSYLAM " + a + b);
+            cc.madeMove = false;
+       // }
 
+
+       // if(!cc.yourTurn){
         /*odbierz odpowiedz serwera*/
         ois = new ObjectInputStream(socket.getInputStream());
         int a1 = (int) ois.readObject();
         int b1 = (int) ois.readObject();
+        System.out.println("odbieram " + a1 + b1);
         if (a1 != 20 && b1 != 20) {
             cc.cleanAllreadyChecked();
                 /*if (checkers[a1][b1] != null) {
                     removeChecker(a1,b1);   //tutaj usuwanie swoich wlasnych pionkow
                 }
                 else {*/
-            cc.isBlack = !cc.isBlack;
-            cc.addChecker(a1, b1);
-            cc.groupCheckers();
-            cc.killer();
-            cc.isBlack = !cc.isBlack;
-            //}
+            if(cc.checkers[a1][b1]!=null) {
+                cc.isBlack = !cc.isBlack;
+                System.out.println("dodaje: piona " + a1 + b1);
+                cc.addChecker(a1, b1);
+                cc.groupCheckers();
+                cc.killer();
+                cc.isBlack = !cc.isBlack;
+            }
+            }
 
-        }
-        /*napisz do socket uzywajac ObjectOutputStream*/
-        oos = new ObjectOutputStream(socket.getOutputStream());
-        oos.writeObject(a);
-        oos.writeObject(b);
+        //}
+
         //  firstTime=false;
         //}
 

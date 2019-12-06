@@ -25,6 +25,7 @@ public class ClientController {
     public boolean yourTurn=true;
     boolean firstTurn=true;
     public boolean lastPass=false;
+    public boolean madeMove=false;
 
 
 
@@ -157,8 +158,7 @@ public class ClientController {
 
     @FXML
     public void boardClicked(MouseEvent e) {
-        serverMenagment.start();
-//        if (yourTurn) {
+        if (yourTurn) {
             //int a, b, x, y, diffX, diffY;
             double diffR;
 
@@ -174,6 +174,7 @@ public class ClientController {
                 /*clicked out of any points range*/
             } else if (checkers[a][b] == null) {
                 cleanAllreadyChecked();
+                madeMove=true;
                 yourTurn=false;
                 addChecker(a, b);
                 groupCheckers();
@@ -184,25 +185,31 @@ public class ClientController {
 
 
             }
-    //}
-      //  else          System.out.println("To nie twoja tura, poczekaj");
+    }
+        else          System.out.println("To nie twoja tura, poczekaj");
 
     }
 
 
     @FXML
     void colourOnAction(ActionEvent event) {
-
-        isBlack = !isBlack;
+        serverMenagment.start();
+        //isBlack = !isBlack;
 
 
     }
 
     @FXML
     void btnPassBlackOnAction(ActionEvent event) {
-        groupCheckers();
-        killer();
-
+        //groupCheckers();
+        //killer();
+        try {
+            serverMenagment.exchangeInfo(a,b);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -226,8 +233,9 @@ public class ClientController {
     @FXML
     void botOnAction(ActionEvent event) throws IOException, ClassNotFoundException {
 
-        groupCheckers();
-        killer();
+        //groupCheckers();
+        //killer();
+        serverMenagment.start();
         System.out.println("Lacze sie z servem i wysylam i odbieram");
        // exchangeInfo(a,b);
     }
