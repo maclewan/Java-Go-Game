@@ -38,6 +38,9 @@ public class ClientController {
     int a =20;
     int b=20;
     int x, y, diffX, diffY;
+    private int killedBlack=0;
+    private int killedWhite=0;
+
     public Ellipse[][] checkers = new Ellipse[19][19];
     boolean[][] groupedArr = new boolean[19][19];
     boolean[][] allreadyChecked = new boolean[19][19];
@@ -278,18 +281,38 @@ public class ClientController {
 
         board.getChildren().add(checkers[a][b]);
 
-        if(isSuicide2(a,b)) {removeChecker(a, b); yourTurn=true;  System.out.println("To jest zamobojstwo! Zrob inny ruch");}
-        if(myContains(lastlyKilled,a,b)) {removeChecker(a, b); System.out.println("Ten pionek byl ostatnio zbity! Zrob inny ruch"); }
+        if(isSuicide2(a,b)) {removeChecker(a, b,false); yourTurn=true;  System.out.println("To jest zamobojstwo! Zrob inny ruch");}
+        if(myContains(lastlyKilled,a,b)) {removeChecker(a, b,false); System.out.println("Ten pionek byl ostatnio zbity! Zrob inny ruch"); }
 
 
 
     }
 
     /*Usuwam pionek*/
-    void removeChecker(int a, int b) {
-        board.getChildren().remove(checkers[a][b]);
-        checkers[a][b] = null;
-        groupedArr[a][b] = false;
+
+    void removeChecker(int a, int b, boolean seriously) {
+        if(checkers[a][b]!=null) {
+            if (seriously) {
+                if (checkers[a][b].getFill() == Color.BLACK)
+                    incrementWhitePoints();
+                else
+                    incrementBlackPoints();
+            }
+
+            board.getChildren().remove(checkers[a][b]);
+            checkers[a][b] = null;
+            groupedArr[a][b] = false;
+        }
+    }
+
+    public void incrementWhitePoints(){
+        killedWhite++;
+        pointsWhite.setText(Integer.toString(killedWhite));
+    }
+
+    public void incrementBlackPoints(){
+        killedBlack++;
+        pointsBlack.setText(Integer.toString(killedBlack));
     }
 
 
@@ -309,14 +332,14 @@ public class ClientController {
                     continue;
                 if (countBreaths(i, j) == 0&&checkers[i][j]!=null) {
                     lastlyKilled.add(new Point(i,j,Color.GREY));
-                    removeChecker(i, j);
+                    removeChecker(i, j,true);
                 }
             }
         }
         killGroupedCheckers();                                                   //sprawdzanie i zabijanie grup
         if (!groupedArr[lastAdded.getX()][lastAdded.getY()]){                     //sprawdzanie ostatnio dodanego
             if (countBreaths(lastAdded.getX(), lastAdded.getY()) == 0) {
-                removeChecker(lastAdded.getX(), lastAdded.getY());
+                removeChecker(lastAdded.getX(), lastAdded.getY(),true);
             }
         }
 
@@ -489,7 +512,7 @@ public class ClientController {
             }
             if(counter==0){
                 for(int j=groupList.get(i).size()-1; j>=0;j--){
-                    removeChecker(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY());
+                    removeChecker(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),true);
                 }
             }
         }
@@ -652,7 +675,7 @@ public class ClientController {
                 groupCheckers();
                 killerSimulation(pointsToKill);
                 killPotential[i][j]=pointsToKill.size();
-                removeChecker(i,j);
+                removeChecker(i,j,false);
             }
         }
 

@@ -522,7 +522,5 @@ public class GuiController {
         return checkers;
     }
 
-    public void setCheckers(Ellipse[][] checkers) {
-        this.checkers = checkers;
-    }
+
 }
