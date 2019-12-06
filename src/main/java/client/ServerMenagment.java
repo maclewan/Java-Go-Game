@@ -10,18 +10,20 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-public class ServerMenagment extends Thread{
+public class ServerMenagment extends Thread {
     private ClientController cc;
+    private int a, b;
+    private boolean isInfoToSend = false; //sprawdza czy sa nowe informacje
 
-private boolean isInfo=false; //sprawdza czy sa nowe informacje
 
-    public ServerMenagment(ClientController cc){
-        this.cc=cc;
+    public ServerMenagment(ClientController cc) {
+        this.cc = cc;
     }
 
     /*DO SOCKETA*/
     Scanner scan = new Scanner(System.in);          //scanner
-        InetAddress host;  //host
+    InetAddress host;  //host
+
     {
         try {
             host = InetAddress.getLocalHost();
@@ -29,15 +31,27 @@ private boolean isInfo=false; //sprawdza czy sa nowe informacje
             e.printStackTrace();
         }
     }
+
     Socket socket = null;                           //server
     ObjectOutputStream oos = null;                  //wyjscie
     ObjectInputStream ois = null;                   //wejscie
+
+
+
+
     /*Funkcja nasluchuje odpowiedzi od serwera i wywoluje dzialanie zaczynajace gre*/
     @Override
     public synchronized void run() {
 
-        while(true)
-        {
+
+        /**
+         * Michale!
+         */
+        //łączę się z serwerem
+
+        //if(!isBlack && firstTime) {
+
+        while(true) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -45,23 +59,40 @@ private boolean isInfo=false; //sprawdza czy sa nowe informacje
             }
 
 
+            /*odbieranie danych od serwera*/
+            try {
+                getInfoFromServer();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
+            /*wysylanie danych do serwera*/
+            if (isInfoToSend) {
+                try {
+                    sendInfoToServer(a, b);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
-}
-    public void exchangeInfo(int a, int b) throws IOException, ClassNotFoundException {
 
+    }
+
+
+
+    private void getInfoFromServer() throws IOException, ClassNotFoundException {
 
         /*Lacze z serwerrem*/
         /*skonfiguruj polaczenie socket do servera*/
         socket = new Socket(host.getHostName(), 6666);
 
-        //if(!isBlack && firstTime) {
-        /*napisz do socket uzywajac ObjectOutputStream*/
-        oos = new ObjectOutputStream(socket.getOutputStream());
-        oos.writeObject(a);
-        oos.writeObject(b);
-        //  firstTime=false;
-        //}
+
         /*odbierz odpowiedz serwera*/
         ois = new ObjectInputStream(socket.getInputStream());
         int a1 = (int) ois.readObject();
@@ -96,6 +127,29 @@ private boolean isInfo=false; //sprawdza czy sa nowe informacje
         ois.close();
         oos.close();
     }
+    private void sendInfoToServer(int a, int b) throws IOException, ClassNotFoundException {
+
+        /*Lacze z serwerrem*/
+        /*skonfiguruj polaczenie socket do servera*/
+        socket = new Socket(host.getHostName(), 6666);
+
+        /*napisz do socket uzywajac ObjectOutputStream*/
+        oos = new ObjectOutputStream(socket.getOutputStream());
+        oos.writeObject(a);
+        oos.writeObject(b);
+        //  firstTime=false;
+        //}
+
+
+
+        socket.close();
+        ois.close();
+        oos.close();
+
+    }
+
+
+
 
     public ClientController getCc() {
         return cc;
@@ -105,11 +159,15 @@ private boolean isInfo=false; //sprawdza czy sa nowe informacje
         this.cc = cc;
     }
 
-    public boolean isInfo() {
-        return isInfo;
-    }
 
     public void setInfo(boolean info) {
-        isInfo = info;
+        isInfoToSend = info;
+    }
+
+    public void setAB(int a, int b){
+        this.a=a;
+        this.b=b;
+        isInfoToSend=true;
+
     }
 }

@@ -12,6 +12,13 @@ import java.net.Socket;
  *
  */
 
+/**
+ * MICHALE
+ * todo:
+ * Przeanalizuj ServerMenagment i pozwól na 2 połączenia na ruch- pozwol nam grać.
+ *
+ */
+
 
 public class Server {
         private static ServerSocket server;

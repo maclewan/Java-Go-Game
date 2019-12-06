@@ -1,6 +1,7 @@
 package Controllers;
 
 import client.Point;
+import client.ServerMenagment;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -48,11 +49,17 @@ public class ClientController {
     Point lastAdded = new Point(0,0,Color.WHITE);
 
     /*DO SOCKETA*/
+    /*
     Scanner scan = new Scanner(System.in);          //scanner
     InetAddress host = InetAddress.getLocalHost();  //host
     Socket socket = null;                           //server
     ObjectOutputStream oos = null;                  //wyjscie
     ObjectInputStream ois = null;                   //wejscie
+    */
+
+    ServerMenagment serverMenagment = new ServerMenagment(this);  //tworzenie klasy do komunkacji (adapter)
+
+
 
     public ClientController() throws IOException, ClassNotFoundException {
     }
@@ -77,6 +84,8 @@ public class ClientController {
 
             board.getChildren().add(labelList.get(labelList.size()-1));
         }
+
+       // ServerMenagment sv = new ServerMenagment(this);
 
 
     }
@@ -103,21 +112,22 @@ public class ClientController {
     @FXML
     private Button botMove;
 
-    @FXML
+/*
     public void exchangeInfo(int a, int b) throws IOException, ClassNotFoundException {
+
         /*Lacze z serwerrem*/
         /*skonfiguruj polaczenie socket do servera*/
-        socket = new Socket(host.getHostName(), 6666);
+   /*     socket = new Socket(host.getHostName(), 6666);
 
         //if(!isBlack && firstTime) {
             /*napisz do socket uzywajac ObjectOutputStream*/
-            oos = new ObjectOutputStream(socket.getOutputStream());
+     /*       oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject(a);
             oos.writeObject(b);
           //  firstTime=false;
         //}
             /*odbierz odpowiedz serwera*/
-            ois = new ObjectInputStream(socket.getInputStream());
+   /*         ois = new ObjectInputStream(socket.getInputStream());
             int a1 = (int) ois.readObject();
             int b1 = (int) ois.readObject();
             if (a1 != 20 && b1 != 20) {
@@ -126,7 +136,7 @@ public class ClientController {
                     removeChecker(a1,b1);   //tutaj usuwanie swoich wlasnych pionkow
                 }
                 else {*/
-                    isBlack = !isBlack;
+     /*               isBlack = !isBlack;
                     addChecker(a1, b1);
                     groupCheckers();
                     killer();
@@ -146,13 +156,13 @@ public class ClientController {
         addChecker(a, b);
         System.out.println("Robie se rucha");*/
 
-        socket.close();
+     /*   socket.close();
         ois.close();
         oos.close();
-    }
+    }*/
 
     @FXML
-    synchronized void boardClicked(MouseEvent e) {
+    public void boardClicked(MouseEvent e) {
         if (yourTurn) {
             //int a, b, x, y, diffX, diffY;
             double diffR;
@@ -175,38 +185,10 @@ public class ClientController {
                 killer();
                 System.out.println("lalalala");
                 /*Wysylam i odbieram informacje*/
-                try{
-                    exchangeInfo(a,b);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            //else yourTurn=true;//to je chyba nie potrzebne
-        }
-        else if(!isBlack && firstTurn)
-        {
-            try {
-                /*Lacze z serwerrem*/
-                /*skonfiguruj polaczenie socket do servera*/
-                socket = new Socket(host.getHostName(), 6666);
-                ois = new ObjectInputStream(socket.getInputStream());
-                int a1 = (int) ois.readObject();
-                int b1 = (int) ois.readObject();
-                yourTurn = true;
-                firstTurn = false;
-            }
-           catch (UnknownHostException ex) {
-                ex.printStackTrace();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-        }
 
+                serverMenagment.setAB(a,b);
 
+            } }
         else          System.out.println("To nie twoja tura, poczekaj");
 
     }
@@ -230,6 +212,7 @@ public class ClientController {
 
     @FXML
     void btnPassWhiteOnAction(ActionEvent event)  {
+        /*
         yourTurn=false;
         lastPass=true;
         try {
@@ -239,7 +222,7 @@ public class ClientController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
+*/
     }
 
 
@@ -250,7 +233,7 @@ public class ClientController {
         groupCheckers();
         killer();
         System.out.println("Lacze sie z servem i wysylam i odbieram");
-        exchangeInfo(a,b);
+       // exchangeInfo(a,b);
     }
 
     /*Dodaje pionek*/
