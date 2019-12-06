@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 public class Observer extends Thread{
     WaitingFrameController wfc;
+    boolean isServer=true;
 
 
     public Observer(WaitingFrameController wfc){
@@ -80,6 +81,7 @@ public class Observer extends Thread{
             /*zacznij gre - otworz gui*/
             Platform.runLater(() ->  {
                 wfc.startGame(clientController);
+                isServer=true;
                 return;
             });
 
@@ -91,6 +93,7 @@ public class Observer extends Thread{
             e.printStackTrace();
         } catch (IOException e) {
             Platform.runLater(() ->  {
+                isServer=false;
                 wfc.absentServer();           /*wypisuje brak serwera*/
 
             });
@@ -100,20 +103,17 @@ public class Observer extends Thread{
             e.printStackTrace();
         }
 
-      /*  try{
+        try{
             Thread.sleep(3000);        /*odczekuje 3 sekundy i wraca do menu*/
-        /*}
+        }
         catch (InterruptedException ex) {
             ex.printStackTrace();
-        }*/
-        /**********************/
-        /* MACIEJU*/
-        /*musze to zakomentowac nizej i wyzej bo po 3 sek bezruchu gra sie wylacza xD*/
-        /************************/
-        /*Platform.runLater(() ->  {
-            wfc.backToMenu();
-            return;
-        });*/
+        }
+        if(!isServer)                     /*tylko gdy nie ma serwera*/
+            Platform.runLater(() ->  {
+                wfc.backToMenu();
+                return;
+            });
 
 
 
