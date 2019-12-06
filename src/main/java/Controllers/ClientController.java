@@ -30,6 +30,7 @@ public class ClientController {
     public boolean isBlack;
     boolean yourTurn=true;
     boolean firstTurn=true;
+    boolean lastPass=false;
 
 
 
@@ -131,6 +132,10 @@ public class ClientController {
                 //}
 
             }
+            else if(lastPass)
+                {
+                startChat();
+            }
 
         yourTurn=true;
 
@@ -228,7 +233,15 @@ public class ClientController {
 
     @FXML
     void btnPassWhiteOnAction(ActionEvent event)  {
-        //killer();
+        yourTurn=false;
+        lastPass=true;
+        try {
+            exchangeInfo(20, 20);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -684,5 +697,8 @@ public class ClientController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+    public void startChat() {
+
     }
 }
