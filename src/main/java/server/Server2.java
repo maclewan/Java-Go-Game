@@ -20,7 +20,7 @@ import java.net.Socket;
  */
 
 
-public class Server {
+public class Server2 {
         private static ServerSocket server;
         /*port socket serwer-a*/
         private static int port = 6666;
@@ -102,17 +102,15 @@ public class Server {
 
                         /*Czekam na klienta 1*/
                         System.out.println("Czekam na 1 gracza");
-                        Socket socket1a = server.accept();
+                        Socket socket1 = server.accept();
                         System.out.println("Gracz 1 dolaczyl do serwera");
 
                         /*Daje klientowi 1 odpowiedz*/
-                        ObjectOutputStream oos1 = new ObjectOutputStream(socket1a.getOutputStream());
+                        ObjectOutputStream oos1 = new ObjectOutputStream(socket1.getOutputStream());
                         oos1.writeObject(a2);
                         oos1.writeObject(b2);
 
-                        /*zamykam wszystkie zrodla*/
-                        oos1.close();
-                        socket1a.close();
+
                         /**
                          *
                          * Lacze sie z kientem nr 2
@@ -122,28 +120,11 @@ public class Server {
 
                         /*Czekam na klienta 2*/
                         System.out.println("Czekam na 2 gracza po raz 2 ");
-                        Socket socket2b = server.accept();
+                        Socket socket2 = server.accept();
                         System.out.println("Gracz 2 dolaczyl do serwera po raz 2");
 
-                        /*Daje klientowi 2 odpowiedz*/
-                        ObjectOutputStream oos2 = new ObjectOutputStream(socket2b.getOutputStream());
-                        oos2.writeObject(a1);
-                        oos2.writeObject(b1);
-
-                        /*Konce obcowanie z klientem drugim*/
-                        /*zamykam wszystkie zrodla*/
-                        socket2b.close();
-                        oos2.close();
-
-
-
-                        /*Czekam na klienta 1*/
-                        System.out.println("Czekam na 1 gracza po raz 2");
-                        Socket socket1b = server.accept();
-                        System.out.println("Gracz 1 dolaczyl do serwera po raz 2");
-
                         /*Teraz biore wiadomosc od klienta 1 */
-                        ObjectInputStream checker1 = new ObjectInputStream(socket1b.getInputStream());
+                        ObjectInputStream checker1 = new ObjectInputStream(socket1.getInputStream());
 
                         /*Konwertuje na inta*/
                         a1 = (int) checker1.readObject();
@@ -152,20 +133,14 @@ public class Server {
                         b1 = (int) checker1.readObject();
                         System.out.println("Dostalem widomosc od 1 gracza: " + b1);
 
+                        /*Daje klientowi 2 odpowiedz*/
+                        ObjectOutputStream oos2 = new ObjectOutputStream(socket2.getOutputStream());
+                        oos2.writeObject(a1);
+                        oos2.writeObject(b1);
 
-
-                        /*Konce obcowanie z klientem pierwszym*/
-                        /*zamykam wszystkie zrodla*/
-                        checker1.close();
-                        socket1b.close();
-
-                        /*Czekam na klienta 2*/
-                        System.out.println("Czekam na 2 gracza");
-                        Socket socket2a = server.accept();
-                        System.out.println("Gracz 2 dolaczyl do serwera");
 
                         /*Teraz biore wiadomosc od klienta 2*/
-                        ObjectInputStream checker2 = new ObjectInputStream(socket2a.getInputStream());
+                        ObjectInputStream checker2 = new ObjectInputStream(socket2.getInputStream());
 
                         /*Konwertuje na inta*/
                         a2 = (int) checker2.readObject();
@@ -173,9 +148,14 @@ public class Server {
                         b2 = (int) checker2.readObject();
                         System.out.println("Dostalem widomosc od 2 gracza: " + b2);
 
+
                         /*zamykam wszystkie zrodla*/
+                        oos1.close();
+                        oos2.close();
+                        checker1.close();
                         checker2.close();
-                        socket2a.close();
+                        socket1.close();
+                        socket2.close();
 
 
 

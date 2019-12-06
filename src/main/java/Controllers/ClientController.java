@@ -15,14 +15,8 @@ import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class ClientController {
 
@@ -163,7 +157,8 @@ public class ClientController {
 
     @FXML
     public void boardClicked(MouseEvent e) {
-        if (yourTurn) {
+        serverMenagment.start();
+//        if (yourTurn) {
             //int a, b, x, y, diffX, diffY;
             double diffR;
 
@@ -185,11 +180,12 @@ public class ClientController {
                 killer();
                 System.out.println("lalalala");
                 /*Wysylam i odbieram informacje*/
-
                 serverMenagment.setAB(a,b);
 
-            } }
-        else          System.out.println("To nie twoja tura, poczekaj");
+
+            }
+    //}
+      //  else          System.out.println("To nie twoja tura, poczekaj");
 
     }
 
