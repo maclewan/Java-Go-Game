@@ -160,7 +160,7 @@ public class Server {
 
 
                         /*Sprawdzam czy to juz koniec naszej zabawy*/
-                        if(a1==20 && a2==2 && b1==22 && b2==20)
+                        if(a1==20 && a2==20 && b1==20 && b2==20)
                         {
                                 /*zamykam wszystkie zrodla*/
                                 oos2.close();
@@ -182,23 +182,23 @@ public class Server {
                 /******************************************/
 
                 /*Czekam na klienta 1*/
-                System.out.println("Czekam na 1 gracza");
+                /*System.out.println("Czekam na 1 gracza");
                 Socket sockettP1 = server.accept();
-                System.out.println("Gracz 1 dolaczyl do serwera");
+                System.out.println("Gracz 1 dolaczyl do serwera");*/
 
                 /*Czekam na klienta 2*/
-                System.out.println("Czekam na 2 gracza");
+                /*System.out.println("Czekam na 2 gracza");
                 Socket sockettP2 = server.accept();
-                System.out.println("Gracz 2 dolaczyl do serwera");
+                System.out.println("Gracz 2 dolaczyl do serwera");*/
 
                 String mes1,mes2;
                 while(true){
 
                         /*Teraz biore wiadomosc od klienta 2*/
-                        ObjectInputStream checker2 = new ObjectInputStream(sockettP2.getInputStream());
+                        //ObjectInputStream checker2 = new ObjectInputStream(sockett2.getInputStream());
 
                         /*Konwertuje na String*/
-                        mes2 = (String) checker2.readObject();
+                        mes2 = (String) ois2.readObject();
                         System.out.println("Dostalem widomosc od 2 gracza: " + mes2);
 
 
@@ -208,10 +208,10 @@ public class Server {
 
 
                         /*Teraz biore wiadomosc od klienta 1*/
-                        ObjectInputStream checker1 = new ObjectInputStream(sockettP2.getInputStream());
+                        //ObjectInputStream checker1 = new ObjectInputStream(sockett2.getInputStream());
 
                         /*Konwertuje na String*/
-                        mes1 = (String) checker1.readObject();
+                        mes1 = (String) ois1.readObject();
                         System.out.println("Dostalem widomosc od 1 gracza: " + mes1);
 
                         /*Daje klientowi 2 odpowiedz*/

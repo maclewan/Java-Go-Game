@@ -26,6 +26,7 @@ public class Observer extends Thread{
     ClientController cc;
     int a=0;
         int b=0;
+        boolean startTalk=false;
 
     public Observer(WaitingFrameController wfc){
         this.wfc=wfc;
@@ -41,11 +42,6 @@ public class Observer extends Thread{
 
             ClientController cc = new ClientController();
             host = InetAddress.getLocalHost();
-
-
-            //******************************//
-            //---- UNDER CONSTRUCKTION------//
-            //******************************//
 
             /*Lacze z serwerrem*/
             /*skonfiguruj polaczenie socket do servera*/
@@ -89,7 +85,7 @@ public class Observer extends Thread{
 
 
             if(isSecond) {
-                while (true) {
+                while (!startTalk) {
                     a=cc.a;
                     b=cc.b;
                     System.out.println("jestem w while");
@@ -116,7 +112,7 @@ public class Observer extends Thread{
                         int a1 = (int) ois.readObject();
                         int b1 = (int) ois.readObject();
                         System.out.println("odbieram " + a1 + b1);
-                        if (a1 != 20 && b1 != 20 && a1!=21 && b1!=21) {
+                        if (a1 != 20 && b1 != 20 && a1!=20 && b1!=20) {
                             cc.cleanAllreadyChecked();
                             Ellipse tmp = new Ellipse();
 
@@ -144,6 +140,10 @@ public class Observer extends Thread{
                             }
                             else         System.out.println("jestem w else");
                         }
+                        if (a1 == 20 && b1 == 20 && a1==20 && b1==20)
+                        {
+                            startTalk=true;
+                        }
 
                         cc.yourTurn=true;
 
@@ -156,12 +156,16 @@ public class Observer extends Thread{
 
 
                     System.out.println("zara odbiere dane");
+             }
+         }
+            if(startTalk)
+            {
+                //******************************//
+                //---- UNDER CONSTRUCKTION------//
+                //******************************//
 
-                }
-
+                /*Tutej bedzie rozmowa sie odbywac*/
             }
-
-
 
 
 
