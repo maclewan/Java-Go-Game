@@ -50,7 +50,13 @@ public class ServerMenagment extends Thread {
          */
         //łączę się z serwerem
         System.out.println("jestem w run");
-        //if(!isBlack && firstTime) {
+        /*Lacze z serwerrem*/
+        /*skonfiguruj polaczenie socket do servera*/
+        try {
+            socket = new Socket(host.getHostName(), 6666);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         while(true) {
             System.out.println("jestem w while");
@@ -96,67 +102,7 @@ public class ServerMenagment extends Thread {
 
     }
 
-
-
-    private void getInfoFromServer() throws IOException, ClassNotFoundException {
-        System.out.println("jestem w getinfo");
-        /*Lacze z serwerrem*/
-        /*skonfiguruj polaczenie socket do servera*/
-        socket = new Socket(host.getHostName(), 6666);
-
-
-        /*odbierz odpowiedz serwera*/
-        ois = new ObjectInputStream(socket.getInputStream());
-        int a1 = (int) ois.readObject();
-        int b1 = (int) ois.readObject();
-        if (a1 != 20 && b1 != 20) {
-            cc.cleanAllreadyChecked();
-                /*if (checkers[a1][b1] != null) {
-                    removeChecker(a1,b1);   //tutaj usuwanie swoich wlasnych pionkow
-                }
-                else {*/
-            cc.isBlack = !cc.isBlack;
-            cc.addChecker(a1, b1);
-            cc.groupCheckers();
-            cc.killer();
-            cc.isBlack = !cc.isBlack;
-            //}
-
-        }
-     /*   else if(cc.lastPass)
-        {
-            cc.startChat();
-        }*/
-
-        cc.yourTurn=true;
-        ois.close();
-        socket.close();
-
-    }
-    private void sendInfoToServer(int a, int b) throws IOException, ClassNotFoundException {
-        System.out.println("jestem w sendinfo");
-        /*Lacze z serwerrem*/
-        /*skonfiguruj polaczenie socket do servera*/
-        socket = new Socket(host.getHostName(), 6666);
-
-        /*napisz do socket uzywajac ObjectOutputStream*/
-        oos = new ObjectOutputStream(socket.getOutputStream());
-        oos.writeObject(a);
-        oos.writeObject(b);
-        //  firstTime=false;
-        //}
-
-
-        oos.close();
-        socket.close();
-
-
-    }
-
     public void exchangeInfo(int a, int b) throws IOException, ClassNotFoundException {
-        /*Lacze z serwerrem*/
-        /*skonfiguruj polaczenie socket do servera*/
-        socket = new Socket(host.getHostName(), 6666);
 
        // if(cc.madeMove) {
             /*napisz do socket uzywajac ObjectOutputStream*/
@@ -174,12 +120,8 @@ public class ServerMenagment extends Thread {
         int a1 = (int) ois.readObject();
         int b1 = (int) ois.readObject();
         System.out.println("odbieram " + a1 + b1);
-        if (a1 != 20 && b1 != 20) {
+        if (a1 != 20 && b1 != 20 && a1!=21 && b1!=21) {
             cc.cleanAllreadyChecked();
-                /*if (checkers[a1][b1] != null) {
-                    removeChecker(a1,b1);   //tutaj usuwanie swoich wlasnych pionkow
-                }
-                else {*/
             Ellipse tmp = new Ellipse();
 
 
@@ -193,6 +135,9 @@ public class ServerMenagment extends Thread {
                 else             tmp.setFill(Color.BLACK);
                 cc.checkers[a1][b1]=tmp;
             cc.board.getChildren().add(cc.checkers[a1][b1]);*/
+            /*cc.isBlack=!cc.isBlack;
+            cc.addChecker(a1,b1);
+            cc.isBlack=!cc.isBlack;*/
             if(cc.checkers[a1][b1]!=null) {
                 cc.isBlack = !cc.isBlack;
                 System.out.println("dodaje: piona " + a1 + b1);
@@ -211,9 +156,9 @@ public class ServerMenagment extends Thread {
 
 
 
-        socket.close();
-        ois.close();
-        oos.close();
+        //socket.close();
+      //  ois.close();
+       // oos.close();
 
 
         cc.yourTurn=true;

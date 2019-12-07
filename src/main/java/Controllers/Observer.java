@@ -86,6 +86,16 @@ public class Observer extends Thread{
             });
 
 
+
+
+
+
+
+
+
+
+
+
             socket.close();
             ois.close();
             oos.close();

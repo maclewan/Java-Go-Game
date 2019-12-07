@@ -92,18 +92,31 @@ public class Server {
                 socketP1.close();
                 oosP2.close();
                 socketP2.close();
+                /**
+                 *
+                 * Lacze sie z kientem nr 1
+                 *
+                 * */
+
+                /*Czekam na klienta 1*/
+                System.out.println("Czekam na 1 gracza");
+                Socket socket1 = server.accept();
+                System.out.println("Gracz 1 dolaczyl do serwera");
+
+                /**
+                 *
+                 * Lacze sie z kientem nr 2
+                 *
+                 * */
+
+
+                /*Czekam na klienta 2*/
+                System.out.println("Czekam na 2");
+                Socket socket2 = server.accept();
+                System.out.println("Gracz 2 dolaczyl ");
 
                 while(true){
-                        /**
-                         *
-                         * Lacze sie z kientem nr 1
-                         *
-                         * */
 
-                        /*Czekam na klienta 1*/
-                        System.out.println("Czekam na 1 gracza");
-                        Socket socket1 = server.accept();
-                        System.out.println("Gracz 1 dolaczyl do serwera");
 
                         /*Teraz biore wiadomosc od klienta 1 */
                         ObjectInputStream checker1 = new ObjectInputStream(socket1.getInputStream());
@@ -114,18 +127,6 @@ public class Server {
                         /*Konwertuje na inta*/
                         b1 = (int) checker1.readObject();
                         System.out.println("Dostalem widomosc od 1 gracza: " + b1);
-
-                        /**
-                         *
-                         * Lacze sie z kientem nr 2
-                         *
-                         * */
-
-
-                        /*Czekam na klienta 2*/
-                        System.out.println("Czekam na 2");
-                        Socket socket2 = server.accept();
-                        System.out.println("Gracz 2 dolaczyl ");
 
                         /*Teraz biore wiadomosc od klienta 2*/
                         ObjectInputStream checker2 = new ObjectInputStream(socket2.getInputStream());
@@ -149,23 +150,28 @@ public class Server {
 
 
 
-                        /*zamykam wszystkie zrodla*/
-                        checker2.close();
-                        checker1.close();
-                        oos1.close();
-                        oos2.close();
-                        socket2.close();
-                        socket1.close();
+
 
 
 
 
                         /*Sprawdzam czy to juz koniec naszej zabawy*/
-                        if(a1==20 && a2==20 && b1==22 && b2==20) break;
+                        if(a1==20 && a2==20 && b1==22 && b2==20)
+                        {
+                                /*zamykam wszystkie zrodla*/
+                                checker2.close();
+                                checker1.close();
+                                oos1.close();
+                                oos2.close();
+                                socket2.close();
+                                socket1.close();
+                                break;
+                        }
 
 
 
                 }
+
 
                 /******************************************/
                 /*Otwieram czat do rozmowy miedzy graczami*/
