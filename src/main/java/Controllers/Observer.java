@@ -1,6 +1,7 @@
 package Controllers;
 
 import javafx.application.Platform;
+import javafx.scene.shape.Ellipse;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,7 +14,18 @@ import java.util.Scanner;
 public class Observer extends Thread{
     WaitingFrameController wfc;
     boolean isServer=true;
-
+    /*DO SOCKETA*/
+    Scanner scan = new Scanner(System.in);
+    //zdobadz localhost
+    InetAddress host;
+    Socket socket = null;
+    ObjectOutputStream oos = null;
+    ObjectInputStream ois = null;
+    ObjectOutputStream oosa = null;
+    ObjectInputStream oisa = null;
+    ClientController cc;
+    int a=0;
+        int b=0;
 
     public Observer(WaitingFrameController wfc){
         this.wfc=wfc;
@@ -24,23 +36,11 @@ public class Observer extends Thread{
     public synchronized void run() {
         try {
 
-            /*DO SOCKETA*/
-            Scanner scan = new Scanner(System.in);
-            //zdobadz localhost
-            InetAddress host;
 
 
+
+            ClientController cc = new ClientController();
             host = InetAddress.getLocalHost();
-
-            Socket socket = null;
-            ObjectOutputStream oos = null;
-            ObjectInputStream ois = null;
-            String myMessage;
-            String message;
-
-
-            ClientController clientController = new ClientController();
-
 
 
             //******************************//
@@ -56,11 +56,11 @@ public class Observer extends Thread{
             System.out.println("Dolaczylem sb do servera");
 
             /*Tutaj sprawdzam czy to byl pierwszy*/
-            clientController.isBlack = (boolean) ois.readObject();
-            if (clientController.isBlack) System.out.println("Jestem czarny");
+            cc.isBlack = (boolean) ois.readObject();
+            if (cc.isBlack) System.out.println("Jestem czarny");
             else {
                 System.out.println("Jestem bialy");
-                clientController.yourTurn = false;
+                cc.yourTurn = false;
             }
 
 
@@ -76,16 +76,90 @@ public class Observer extends Thread{
 
             Thread.sleep(1000);
 
+            //oos.close();
+            //ois.close();
 
 
             /*zacznij gre - otworz gui*/
             Platform.runLater(() ->  {
-                wfc.startGame(clientController);
+                wfc.startGame(cc);
                 isServer=true;
                 return;
             });
 
 
+            if(isSecond) {
+                while (true) {
+                    a=cc.a;
+                    b=cc.b;
+                    System.out.println("jestem w while");
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    try {
+                        /*napisz do socket uzywajac ObjectOutputStream*/
+                        //oosa = new ObjectOutputStream(socket.getOutputStream());
+                        oos.writeObject(a);
+                        oos.writeObject(b);
+                        System.out.println("wYSYLAM " + a + b);
+                        cc.madeMove = false;
+                        // }
+
+
+                        // if(!cc.yourTurn){
+                        /*odbierz odpowiedz serwera*/
+                //        ois = new ObjectInputStream(socket.getInputStream());
+                        int a1 = (int) ois.readObject();
+                        int b1 = (int) ois.readObject();
+                        System.out.println("odbieram " + a1 + b1);
+                        if (a1 != 20 && b1 != 20 && a1!=21 && b1!=21) {
+                            cc.cleanAllreadyChecked();
+                            Ellipse tmp = new Ellipse();
+
+
+                            /**
+                             * MACIEJU
+                             * na dole zakomentowalem nie udolna probe a tam nizej jest blad.
+                             * jak wlaczysz server i podlaczczysz obu graczy to kliknij guzik BLACK- aby otworzyc watek
+
+                             */
+               /* if(cc.isBlack)              tmp.setFill(Color.WHITE);
+                else             tmp.setFill(Color.BLACK);
+                cc.checkers[a1][b1]=tmp;
+            cc.board.getChildren().add(cc.checkers[a1][b1]);*/
+            /*cc.isBlack=!cc.isBlack;
+            cc.addChecker(a1,b1);
+            cc.isBlack=!cc.isBlack;*/
+                            if(cc.checkers[a1][b1]!=null) {
+                                cc.isBlack = !cc.isBlack;
+                                System.out.println("dodaje: piona " + a1 + b1);
+                                cc.addChecker(a1, b1);
+                                cc.groupCheckers();
+                                cc.killer();
+                                cc.isBlack = !cc.isBlack;
+                            }
+                            else         System.out.println("jestem w else");
+                        }
+
+                        cc.yourTurn=true;
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    System.out.println("zara odbiere dane");
+
+                }
+
+            }
 
 
 
@@ -93,12 +167,9 @@ public class Observer extends Thread{
 
 
 
-
-
-
-            socket.close();
-            ois.close();
-            oos.close();
+            //socket.close();
+            //ois.close();
+            //oos.close();
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -128,4 +199,16 @@ public class Observer extends Thread{
 
 
     }
+
+    public void exchangeInfo(int a, int b) throws IOException, ClassNotFoundException {
+
+        // if(cc.madeMove) {
+
+    }
+    public void setAB(int a, int b){
+        this.a=a;
+        this.b=b;
+    }
+
+
 }

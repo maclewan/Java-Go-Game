@@ -28,10 +28,10 @@ public class ClientController {
     public boolean madeMove=false;
 
 
-
+Observer observer;
     private Stage stage;
-    int a =0;
-    int b=0;
+    int a =1;
+    int b=1;
     int x, y, diffX, diffY;
     private int killedBlack=0;
     private int killedWhite=0;
@@ -57,6 +57,7 @@ public class ClientController {
 
 
     public ClientController() throws IOException, ClassNotFoundException {
+        this.observer=observer;
     }
 
 
@@ -181,7 +182,7 @@ public class ClientController {
                 killer();
                 System.out.println("lalalala");
                 /*Wysylam i odbieram informacje*/
-                serverMenagment.setAB(a,b);
+                //observer.setAB(a,b);
 
 
             }
