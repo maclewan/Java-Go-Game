@@ -72,10 +72,6 @@ public class Observer extends Thread{
 
             Thread.sleep(1000);
 
-            //oos.close();
-            //ois.close();
-
-
             /*zacznij gre - otworz gui*/
             Platform.runLater(() ->  {
                 wfc.startGame(cc);
@@ -103,12 +99,7 @@ public class Observer extends Thread{
                         oos.writeObject(b);
                         System.out.println("wYSYLAM " + a + b);
                         cc.madeMove = false;
-                        // }
 
-
-                        // if(!cc.yourTurn){
-                        /*odbierz odpowiedz serwera*/
-                //        ois = new ObjectInputStream(socket.getInputStream());
                         int a1 = (int) ois.readObject();
                         int b1 = (int) ois.readObject();
                         System.out.println("odbieram " + a1 + b1);
@@ -123,17 +114,17 @@ public class Observer extends Thread{
                              * jak wlaczysz server i podlaczczysz obu graczy to kliknij guzik BLACK- aby otworzyc watek
 
                              */
-               /* if(cc.isBlack)              tmp.setFill(Color.WHITE);
+              /*  if(cc.isBlack)              tmp.setFill(Color.WHITE);
                 else             tmp.setFill(Color.BLACK);
                 cc.checkers[a1][b1]=tmp;
-            cc.board.getChildren().add(cc.checkers[a1][b1]);*/
+            cc.board.getChildren().add(cc.checkers[a1][b1]);
             /*cc.isBlack=!cc.isBlack;
             cc.addChecker(a1,b1);
-            cc.isBlack=!cc.isBlack;*/
+            cc.isBlack=!cc.isBlack;*//**wlasnie to tam u gory**/
                             if(cc.checkers[a1][b1]!=null) {
                                 cc.isBlack = !cc.isBlack;
                                 System.out.println("dodaje: piona " + a1 + b1);
-                                cc.addChecker(a1, b1);
+                                cc.addChecker(a1, b1);  /**O albo tutaj problem macku*/
                                 cc.groupCheckers();
                                 cc.killer();
                                 cc.isBlack = !cc.isBlack;
