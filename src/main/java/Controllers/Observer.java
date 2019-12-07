@@ -121,10 +121,10 @@ public class Observer extends Thread{
             /*cc.isBlack=!cc.isBlack;
             cc.addChecker(a1,b1);
             cc.isBlack=!cc.isBlack;*//**wlasnie to tam u gory**/
-                            if(cc.checkers[a1][b1]!=null) {
+                            if(cc.checkers[a1][b1]==null) {
                                 cc.isBlack = !cc.isBlack;
                                 System.out.println("dodaje: piona " + a1 + b1);
-                                cc.addChecker(a1, b1);  /**O albo tutaj problem macku*/
+                                //cc.addChecker(a1, b1);  /**O albo tutaj problem maćku*/
                                 cc.groupCheckers();
                                 cc.killer();
                                 cc.isBlack = !cc.isBlack;
