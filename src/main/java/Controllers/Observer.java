@@ -115,27 +115,24 @@ public class Observer extends Thread{
                         int a1 = (int) ois.readObject();
                         int b1 = (int) ois.readObject();
                         System.out.println("odbieram " + a1 + b1);
-                        if (a1 != 20 && b1 != 20 && a1!=20 && b1!=20) {
-                            cc.cleanAllreadyChecked();
-                            Ellipse tmp = new Ellipse();
-
-                            if(cc.checkers[a1][b1]==null) {
-                                cc.isBlack = !cc.isBlack;
-                                System.out.println("dodaje: piona " + a1 + b1);
-                                Platform.runLater(() -> cc.addChecker(a1, b1));
-                                cc.groupCheckers();
-                                cc.killer();
-                                cc.isBlack = !cc.isBlack;
-                            }
-                           // else         System.out.println("jestem w else");
-                        }
-                        if (a1 == 20 && b1 == 20 && a1==20 && b1==20)
-                        {
-                            startTalk=true;
-                        }
-
                         cc.yourTurn=true;
-
+                            if (a1 == 20 && b1 == 20 && a1 == 20 && b1 == 20) {
+                                System.out.println("Rozpoczynam czat");
+                                startTalk = true;
+                            }
+                            else if(a1>0 && a1<20 && b1>0 && b1 <20){//ten war. to dod. zabezpieczenie w
+                                cc.cleanAllreadyChecked();
+                                Ellipse tmp = new Ellipse();
+                                if (cc.checkers[a1][b1] == null) {
+                                    cc.isBlack = !cc.isBlack;
+                                    System.out.println("dodaje: piona " + a1 + b1);
+                                    Platform.runLater(() -> cc.addChecker(a1, b1));
+                                    cc.groupCheckers();
+                                    cc.killer();
+                                    cc.isBlack = !cc.isBlack;
+                                }
+                                // else         System.out.println("jestem w else");
+                            }
 
                     } catch (IOException e) {
                         e.printStackTrace();

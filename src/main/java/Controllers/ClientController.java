@@ -176,8 +176,8 @@ Observer observer;
             } else if (checkers[a][b] == null) {
                 cleanAllreadyChecked();
                 madeMove=true;
-                yourTurn=false;
                 addChecker(a, b);
+                yourTurn=false;
                 groupCheckers();
                 killer();
                 System.out.println("lalalala");
