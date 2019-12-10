@@ -24,8 +24,10 @@ public class Observer extends Thread{
     ObjectOutputStream oosa = null;
     ObjectInputStream oisa = null;
     ClientController cc;
-    int a=0;
-        int b=0;
+        int a=21;
+        int b=21;
+        int lastA=21;
+        int lastB=21;
         boolean startTalk=false;
 
     public Observer(WaitingFrameController wfc){
@@ -38,6 +40,11 @@ public class Observer extends Thread{
         try {
 
 
+            /**
+             *
+             * Etap laczenia sie 2 klientow
+             *
+             * */
 
 
             ClientController cc = new ClientController();
@@ -79,6 +86,11 @@ public class Observer extends Thread{
                 return;
             });
 
+            /**
+             *
+             * Etap gry miedzy 2 klientami
+             *
+             * */
 
             if(isSecond) {
                 while (!startTalk) {
@@ -107,25 +119,10 @@ public class Observer extends Thread{
                             cc.cleanAllreadyChecked();
                             Ellipse tmp = new Ellipse();
 
-
-                            /**
-                             * MACIEJU
-                             * na dole zakomentowalem nie udolna probe a tam nizej jest blad.
-                             * jak wlaczysz server i podlaczczysz obu graczy to kliknij guzik BLACK- aby otworzyc watek
-
-                             */
-                /*if(cc.isBlack)              tmp.setFill(Color.WHITE);
-                else             tmp.setFill(Color.BLACK);
-                cc.checkers[a1][b1]=tmp;
-                Platform.runLater(() -> cc.addChecker(a1, b1);
-            //cc.board.getChildren().add(cc.checkers[a1][b1]);
-           /* cc.isBlack=!cc.isBlack;
-            cc.addChecker(a1,b1);
-            cc.isBlack=!cc.isBlack;//**wlasnie to tam u gory**/
                             if(cc.checkers[a1][b1]==null) {
                                 cc.isBlack = !cc.isBlack;
                                 System.out.println("dodaje: piona " + a1 + b1);
-                                Platform.runLater(() -> cc.addChecker(a1, b1));  /**O albo tutaj problem maćku*/
+                                Platform.runLater(() -> cc.addChecker(a1, b1));
                                 cc.groupCheckers();
                                 cc.killer();
                                 cc.isBlack = !cc.isBlack;

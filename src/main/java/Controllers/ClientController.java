@@ -30,8 +30,8 @@ public class ClientController {
 
 Observer observer;
     private Stage stage;
-    int a =1;
-    int b=1;
+    int a =21;
+    int b=21;
     int x, y, diffX, diffY;
     private int killedBlack=0;
     private int killedWhite=0;
