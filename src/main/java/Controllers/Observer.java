@@ -86,7 +86,7 @@ public class Observer extends Thread{
                     b=cc.b;
                     System.out.println("jestem w while");
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -114,22 +114,23 @@ public class Observer extends Thread{
                              * jak wlaczysz server i podlaczczysz obu graczy to kliknij guzik BLACK- aby otworzyc watek
 
                              */
-              /*  if(cc.isBlack)              tmp.setFill(Color.WHITE);
+                /*if(cc.isBlack)              tmp.setFill(Color.WHITE);
                 else             tmp.setFill(Color.BLACK);
                 cc.checkers[a1][b1]=tmp;
-            cc.board.getChildren().add(cc.checkers[a1][b1]);
-            /*cc.isBlack=!cc.isBlack;
+                Platform.runLater(() -> cc.addChecker(a1, b1);
+            //cc.board.getChildren().add(cc.checkers[a1][b1]);
+           /* cc.isBlack=!cc.isBlack;
             cc.addChecker(a1,b1);
-            cc.isBlack=!cc.isBlack;*//**wlasnie to tam u gory**/
+            cc.isBlack=!cc.isBlack;//**wlasnie to tam u gory**/
                             if(cc.checkers[a1][b1]==null) {
                                 cc.isBlack = !cc.isBlack;
                                 System.out.println("dodaje: piona " + a1 + b1);
-                                //cc.addChecker(a1, b1);  /**O albo tutaj problem maćku*/
+                                Platform.runLater(() -> cc.addChecker(a1, b1));  /**O albo tutaj problem maćku*/
                                 cc.groupCheckers();
                                 cc.killer();
                                 cc.isBlack = !cc.isBlack;
                             }
-                            else         System.out.println("jestem w else");
+                           // else         System.out.println("jestem w else");
                         }
                         if (a1 == 20 && b1 == 20 && a1==20 && b1==20)
                         {
