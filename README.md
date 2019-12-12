@@ -1,8 +1,8 @@
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
-* [JavaSetup](#setup)
-* [New Maven project](#Maven)
+* [JavaSetup](#java-Setup)
+* [New Maven project](#tworzenie-nowego-projektu-Maven-w-programie-InteliiJ)
 	
 ## Technologies
 Project is created with:
@@ -18,7 +18,7 @@ src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/IntelliJ_IDEA_Log
 
 	
 ## Java Setup
-### Usuwanie starej i instalowanie najnowszej wersji Java w systemie LINUX Ubuntu
+ Usuwanie starej i instalowanie najnowszej wersji Java w systemie LINUX Ubuntu
 
 ```
 $ sudo update-alternatives --remove "java"
@@ -36,18 +36,17 @@ Dodaj:
 export PATH=/home/michal/Pobrane/openjdk-13.0.1_linux-x64_bin/jdk-13.0.1/bin:$P$
 source .bashrc
 ```
-Jest to sciezka
+Jest to sciezka do plików
 
 ## General info
-# Projekt studencki na zajęcia z Technologii programowania
+Projekt studencki na zajęcia z Technologii programowania
 Tworzony przez:
-## [Michał Kalina](https://github.com/KalinaMichal)
-## [Maciej Lewandowicz](https://github.com/sasuke5055)
+[Michał Kalina](https://github.com/KalinaMichal)
+[Maciej Lewandowicz](https://github.com/sasuke5055)
 [Tresc zadania](https://cs.pwr.edu.pl/macyna/TPLab04.pdf)
 
 
 
-## Maven
 ## Tworzenie nowego projektu Maven w programie InteliiJ
 
 * Tworzymy nowy projekt ConsoleAplication JavaFX
