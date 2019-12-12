@@ -236,8 +236,14 @@ Observer observer;
 
         //groupCheckers();
         //killer();
-        serverMenagment.start();
-        System.out.println("Lacze sie z servem i wysylam i odbieram");
+        //serverMenagment.start();
+        if(yourTurn) {
+            a = 20;
+            b = 20;
+            yourTurn = false;
+            System.out.println("Zprobiles PASS jednej rundy.");
+        }
+        else System.out.println("Nie mozesz zPASSowac nie swojej rundy");
        // exchangeInfo(a,b);
     }
 

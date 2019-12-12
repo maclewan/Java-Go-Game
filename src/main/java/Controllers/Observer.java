@@ -107,22 +107,25 @@ public class Observer extends Thread{
                     try {
                         /*napisz do socket uzywajac ObjectOutputStream*/
                         //oosa = new ObjectOutputStream(socket.getOutputStream());
-                        oos.writeObject(a);
-                        oos.writeObject(b);
+                            oos.writeObject(a);
+                            oos.writeObject(b);
                         //System.out.println("wYSYLAM " + a + b);
                         cc.madeMove = false;
 
                         int a1 = (int) ois.readObject();
                         int b1 = (int) ois.readObject();
+                        if (a1 == 20 && b1 == 20 && a == 20 && b == 20) {
+                            System.out.println("Rozpoczynam czat");
+                            startTalk = true;
+                            break;
+                        }
                         //System.out.println("odbieram " + a1 + b1);
+                        if(a1==20 && b1==20) cc.yourTurn=true;
                         if(lastA!=a1 || lastB!=b1) {
                             lastA=a1;
                             lastB=b1;
                             cc.yourTurn = true;
-                            if (a1 == 20 && b1 == 20 && a1 == 20 && b1 == 20) {
-                                System.out.println("Rozpoczynam czat");
-                                startTalk = true;
-                            } else if (a1 >= 0 && a1 < 20 && b1 >= 0 && b1 < 20) {//ten war. to dod. zabezpieczenie w
+                                if (a1 >= 0 && a1 < 20 && b1 >= 0 && b1 < 20) {//ten war. to dod. zabezpieczenie w
                                 cc.cleanAllreadyChecked();
                                 Ellipse tmp = new Ellipse();
                                 if (cc.checkers[a1][b1] == null) {

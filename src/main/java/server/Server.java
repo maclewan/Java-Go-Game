@@ -31,10 +31,10 @@ public class Server {
         public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
                 /*tworzenie socket serwer*/
                 server = new ServerSocket(port);
-                int a1=20;
-                int b1=20;
-                int a2=20;
-                int b2=20;
+                int a1=21;
+                int b1=21;
+                int a2=21;
+                int b2=21;
                 boolean first =true;
                 System.out.println("Stworzylem server");
                 /*Tutaj daje wiadomosc klientom ktory byl pierwszy*/
@@ -131,6 +131,25 @@ public class Server {
                         b1 = (int) ois1.readObject();
                         System.out.println("Dostalem widomosc od 1 gracza: " + b1);
 
+                        /*Sprawdzam czy to juz koniec naszej zabawy*/
+                        if(a1==20 && a2==20 && b1==20 && b2==20)
+                        {                        /*Teraz biore wiadomosc od klienta 2*/
+                                //ObjectInputStream checker2 = new ObjectInputStream(socket2.getInputStream());
+
+                                /*Konwertuje na inta*/
+                                a2 = (int) ois2.readObject();
+                                System.out.println("Dostalem widomosc od 2 gracza: " + a2);
+                                b2 = (int) ois2.readObject();
+                                System.out.println("Dostalem widomosc od 2 gracza: " + b2);
+
+                                System.out.println("daje odpow 1 graczowi");
+                                /*Daje klientowi 1 odpowiedz*/
+                                // ObjectOutputStream oos1a = new ObjectOutputStream(socket1.getOutputStream());
+                                oos1.writeObject(a2);
+                                oos1.writeObject(b2);
+                                break;
+                        }
+
                         /*Teraz biore wiadomosc od klienta 2*/
                         //ObjectInputStream checker2 = new ObjectInputStream(socket2.getInputStream());
 
@@ -152,28 +171,11 @@ public class Server {
                         oos2.writeObject(a1);
                         oos2.writeObject(b1);
 
-
-
-
-
-
-
-
                         /*Sprawdzam czy to juz koniec naszej zabawy*/
                         if(a1==20 && a2==20 && b1==20 && b2==20)
                         {
-                                /*zamykam wszystkie zrodla*/
-                                oos2.close();
-                                ois1.close();
-                                oos1.close();
-                                oos2.close();
-                                socket2.close();
-                                socket1.close();
                                 break;
                         }
-
-
-
                 }
 
 
@@ -220,6 +222,15 @@ public class Server {
 
                         if((mes1=="WIN" && mes2 =="LOSE") || (mes1=="LOSE" && mes2=="WIN")) break;
                 }
+
+                /*zamykam wszystkie zrodla*/
+                oos2.close();
+                ois1.close();
+                oos1.close();
+                oos2.close();
+                socket2.close();
+                socket1.close();
+
                  System.out.println("Shutting down Socket server!!");
                 //zamknij ServerSocket object
                 server.close();
