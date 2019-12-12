@@ -129,7 +129,7 @@ public class Observer extends Thread{
                                 if (cc.checkers[a1][b1] == null) {
                                     System.out.println("dodaje: piona " + a1 + b1);
                                     Platform.runLater(() -> cc.addChecker(a1, b1,!cc.isBlack));
-                                    cc.groupCheckers();
+                                    //cc.groupCheckers();
                                     Platform.runLater(() -> cc.killer());
                                 }
                                 // else         System.out.println("jestem w else");

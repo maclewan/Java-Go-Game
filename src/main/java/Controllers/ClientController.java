@@ -181,7 +181,7 @@ Observer observer;
                 cleanAllreadyChecked();
                 madeMove=true;
                 addChecker(a, b,isBlack);
-                groupCheckers();
+                //groupCheckers();
                 killer();
                 System.out.println("lalalala");
                 /*Wysylam i odbieram informacje*/
@@ -278,6 +278,7 @@ Observer observer;
         if(isSuicide2(a,b)) {removeChecker(a, b,false); yourTurn=true;  System.out.println("To jest zamobojstwo! Zrob inny ruch");}
         if(myContains(lastlyKilled,a,b)) {removeChecker(a, b,false); yourTurn=true; System.out.println("Ten pionek byl ostatnio zbity! Zrob inny ruch"); }
 
+        groupCheckers();
 
 
     }
