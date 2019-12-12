@@ -120,7 +120,7 @@ public class Observer extends Thread{
                                 System.out.println("Rozpoczynam czat");
                                 startTalk = true;
                             }
-                            else if(a1>0 && a1<20 && b1>0 && b1 <20){//ten war. to dod. zabezpieczenie w
+                            else if(a1>=0 && a1<20 && b1>=0 && b1 <20){//ten war. to dod. zabezpieczenie w
                                 cc.cleanAllreadyChecked();
                                 Ellipse tmp = new Ellipse();
                                 if (cc.checkers[a1][b1] == null) {
@@ -128,7 +128,7 @@ public class Observer extends Thread{
                                     System.out.println("dodaje: piona " + a1 + b1);
                                     Platform.runLater(() -> cc.addChecker(a1, b1));
                                     cc.groupCheckers();
-                                    cc.killer();
+                                    Platform.runLater(() -> cc.killer());
                                     cc.isBlack = !cc.isBlack;
                                 }
                                 // else         System.out.println("jestem w else");
