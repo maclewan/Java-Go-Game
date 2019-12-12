@@ -32,6 +32,7 @@ Observer observer;
     private Stage stage;
     int a =21;
     int b=21;
+    private int tmpA,tmpB; //zmienne stworzenone aby nie wysylac serverowi info jesli sie klikni np. na srodku kwadratu
     int x, y, diffX, diffY;
     private int killedBlack=0;
     private int killedWhite=0;
@@ -165,15 +166,17 @@ Observer observer;
 
             x = (int) e.getX();
             y = (int) e.getY();
-            a = (int) (e.getX()) / 40;
-            b = (int) (e.getY()) / 40;
-            diffX = Math.abs(x - (a * 40 + 20));
-            diffY = Math.abs(y - (b * 40 + 20));
+            tmpA = (int) (e.getX()) / 40;
+            tmpB = (int) (e.getY()) / 40;
+            diffX = Math.abs(x - (tmpA * 40 + 20));
+            diffY = Math.abs(y - (tmpB * 40 + 20));
             diffR = Math.sqrt(diffX * diffX + diffY * diffY);
 
             if (diffR > 15) {
                 /*clicked out of any points range*/
-            } else if (checkers[a][b] == null) {
+            } else if (checkers[tmpA][tmpB] == null) {
+                a=tmpA;
+                b=tmpB;
                 yourTurn=false;
                 cleanAllreadyChecked();
                 madeMove=true;
