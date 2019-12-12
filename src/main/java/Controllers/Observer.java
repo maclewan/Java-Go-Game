@@ -1,7 +1,6 @@
 package Controllers;
 
 import javafx.application.Platform;
-import javafx.scene.shape.Ellipse;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -60,9 +59,9 @@ public class Observer extends Thread{
 
             /*Tutaj sprawdzam czy to byl pierwszy*/
             cc.isBlack = (boolean) ois.readObject();
-            if (cc.isBlack) System.out.println("Jestem czarny");
+            if (cc.isBlack) System.out.println("Jestes czarny");
             else {
-                System.out.println("Jestem bialy");
+                System.out.println("Jestes bialy");
                 cc.yourTurn = false;
             }
 
@@ -127,14 +126,11 @@ public class Observer extends Thread{
                             cc.yourTurn = true;
                                 if (a1 >= 0 && a1 < 20 && b1 >= 0 && b1 < 20) {//ten war. to dod. zabezpieczenie w
                                 cc.cleanAllreadyChecked();
-                                Ellipse tmp = new Ellipse();
                                 if (cc.checkers[a1][b1] == null) {
-                                    cc.isBlack = !cc.isBlack;
                                     System.out.println("dodaje: piona " + a1 + b1);
-                                    Platform.runLater(() -> cc.addChecker(a1, b1));
+                                    Platform.runLater(() -> cc.addChecker(a1, b1,!cc.isBlack));
                                     cc.groupCheckers();
                                     Platform.runLater(() -> cc.killer());
-                                    cc.isBlack = !cc.isBlack;
                                 }
                                 // else         System.out.println("jestem w else");
                             }

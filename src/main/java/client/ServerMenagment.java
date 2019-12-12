@@ -141,7 +141,7 @@ public class ServerMenagment extends Thread {
             if(cc.checkers[a1][b1]!=null) {
                 cc.isBlack = !cc.isBlack;
                 System.out.println("dodaje: piona " + a1 + b1);
-                cc.addChecker(a1, b1);
+                cc.addChecker(a1, b1,!cc.isBlack);
                 cc.groupCheckers();
                 cc.killer();
                 cc.isBlack = !cc.isBlack;

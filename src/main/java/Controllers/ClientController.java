@@ -177,14 +177,12 @@ Observer observer;
                 yourTurn=false;
                 cleanAllreadyChecked();
                 madeMove=true;
-                addChecker(a, b);
+                addChecker(a, b,isBlack);
                 groupCheckers();
                 killer();
                 System.out.println("lalalala");
                 /*Wysylam i odbieram informacje*/
                 //observer.setAB(a,b);
-
-
             }
     }
         else          System.out.println("To nie twoja tura, poczekaj");
@@ -250,7 +248,7 @@ Observer observer;
     /*Dodaje pionek*/
 
     @FXML
-    public void addChecker(int a, int b) {
+    public void addChecker(int a, int b, boolean isBlack) {
 
 
         checkers[a][b] = new Ellipse();
@@ -272,9 +270,10 @@ Observer observer;
         }
 
        board.getChildren().add(checkers[a][b]);
+        System.out.println("dodaje go na serio");
 
         if(isSuicide2(a,b)) {removeChecker(a, b,false); yourTurn=true;  System.out.println("To jest zamobojstwo! Zrob inny ruch");}
-        if(myContains(lastlyKilled,a,b)) {removeChecker(a, b,false); System.out.println("Ten pionek byl ostatnio zbity! Zrob inny ruch"); }
+        if(myContains(lastlyKilled,a,b)) {removeChecker(a, b,false); yourTurn=true; System.out.println("Ten pionek byl ostatnio zbity! Zrob inny ruch"); }
 
 
 
@@ -657,7 +656,7 @@ Observer observer;
             for(int j=0;j<19;j++){
                 if(checkers[i][j]!=null)
                     continue;
-                addChecker(i,j);
+                addChecker(i,j,isBlack);
 
                 if(checkers[i][j]==null){
                     killPotential[i][j]=-1;
@@ -699,7 +698,7 @@ Observer observer;
         Random rand = new Random();                       //wybierz losowe pole do wstawienia piona z najoptymalniejszych
         int[] randomElement = maxValueIndexes.get(rand.nextInt(maxValueIndexes.size()));
 
-        addChecker(randomElement[0],randomElement[1]);
+        addChecker(randomElement[0],randomElement[1],isBlack);
 
 
 
