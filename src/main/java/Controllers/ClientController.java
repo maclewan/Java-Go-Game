@@ -174,10 +174,10 @@ Observer observer;
             if (diffR > 15) {
                 /*clicked out of any points range*/
             } else if (checkers[a][b] == null) {
+                yourTurn=false;
                 cleanAllreadyChecked();
                 madeMove=true;
                 addChecker(a, b);
-                yourTurn=false;
                 groupCheckers();
                 killer();
                 System.out.println("lalalala");

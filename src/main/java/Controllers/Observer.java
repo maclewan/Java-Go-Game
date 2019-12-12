@@ -96,7 +96,7 @@ public class Observer extends Thread{
                 while (!startTalk) {
                     a=cc.a;
                     b=cc.b;
-                    System.out.println("jestem w while");
+                    //System.out.println("jestem w while");
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
@@ -109,18 +109,20 @@ public class Observer extends Thread{
                         //oosa = new ObjectOutputStream(socket.getOutputStream());
                         oos.writeObject(a);
                         oos.writeObject(b);
-                        System.out.println("wYSYLAM " + a + b);
+                        //System.out.println("wYSYLAM " + a + b);
                         cc.madeMove = false;
 
                         int a1 = (int) ois.readObject();
                         int b1 = (int) ois.readObject();
-                        System.out.println("odbieram " + a1 + b1);
-                        cc.yourTurn=true;
+                        //System.out.println("odbieram " + a1 + b1);
+                        if(lastA!=a1 || lastB!=b1) {
+                            lastA=a1;
+                            lastB=b1;
+                            cc.yourTurn = true;
                             if (a1 == 20 && b1 == 20 && a1 == 20 && b1 == 20) {
                                 System.out.println("Rozpoczynam czat");
                                 startTalk = true;
-                            }
-                            else if(a1>=0 && a1<20 && b1>=0 && b1 <20){//ten war. to dod. zabezpieczenie w
+                            } else if (a1 >= 0 && a1 < 20 && b1 >= 0 && b1 < 20) {//ten war. to dod. zabezpieczenie w
                                 cc.cleanAllreadyChecked();
                                 Ellipse tmp = new Ellipse();
                                 if (cc.checkers[a1][b1] == null) {
@@ -133,6 +135,7 @@ public class Observer extends Thread{
                                 }
                                 // else         System.out.println("jestem w else");
                             }
+                        }
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -141,7 +144,7 @@ public class Observer extends Thread{
                     }
 
 
-                    System.out.println("zara odbiere dane");
+                    //System.out.println("zara odbiere dane");
              }
          }
             if(startTalk)
