@@ -1,7 +1,7 @@
 package Controllers;
 
 import client.Point;
-import client.ServerMenagment;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,12 +26,13 @@ public class ClientController {
     boolean firstTurn=true;
     public boolean lastPass=false;
     public boolean madeMove=false;
+    public boolean doIPass=false;
 
 
 Observer observer;
     private Stage stage;
-    int a =21;
-    int b=21;
+    Point tempPoint = new Point(21,21,isBlack);
+
     private int tmpA,tmpB; //zmienne stworzenone aby nie wysylac serverowi info jesli sie klikni np. na srodku kwadratu
     int x, y, diffX, diffY;
     private int killedBlack=0;
@@ -44,10 +45,7 @@ Observer observer;
     ArrayList<Point> lastlyKilled = new ArrayList<>();
     Point lastAdded = new Point(0,0,Color.WHITE);
 
-    /**DO SOCKETA*/
 
-
-    ServerMenagment serverMenagment = new ServerMenagment(this);  //tworzenie klasy do komunkacji (adapter)
 
 
 
@@ -114,7 +112,7 @@ Observer observer;
     @FXML
     public void boardClicked(MouseEvent e) {
         if (yourTurn) {
-            //int a, b, x, y, diffX, diffY;
+
             double diffR;
 
             x = (int) e.getX();
@@ -128,12 +126,12 @@ Observer observer;
             if (diffR > 15) {
                 /**clicked out of any points range*/
             } else if (checkers[tmpA][tmpB] == null) {
-                a=tmpA;
-                b=tmpB;
+                tempPoint = new Point(tmpA,tmpB,isBlack);
+
                 yourTurn=false;
                 cleanAllreadyChecked();
                 madeMove=true;
-                addChecker(a, b,isBlack);
+                addChecker(tempPoint);
                 //groupCheckers();
                 killer();
                 System.out.println("lalalala");
@@ -152,8 +150,7 @@ Observer observer;
     @FXML
     void btnPassOnAction(ActionEvent event)  {
         if(yourTurn) {
-            a = 20;
-            b = 20;
+            doIPass = true;
             yourTurn = false;
             System.out.println("Zprobiles PASS jednej rundy.");
         }
@@ -166,7 +163,10 @@ Observer observer;
     /**Dodawanie pionka*/
 
     @FXML
-    public void addChecker(int a, int b, boolean isBlack) {
+    public void addChecker(Point point) {
+
+        int a=point.getX();
+        int b=point.getY();
 
 
         checkers[a][b] = new Ellipse();
@@ -177,7 +177,7 @@ Observer observer;
         checkers[a][b].setStrokeWidth(2);
 
 
-        if (isBlack) {
+        if (point.isBlack()) {
             checkers[a][b].setFill(Color.BLACK);
             checkers[a][b].setStroke(Color.WHITE);
             lastAdded = new Point(a,b,Color.BLACK);
@@ -575,7 +575,8 @@ Observer observer;
             for(int j=0;j<19;j++){
                 if(checkers[i][j]!=null)
                     continue;
-                addChecker(i,j,isBlack);
+                Point botPoint = new Point(i,j,isBlack);
+                addChecker(botPoint);
 
                 if(checkers[i][j]==null){
                     killPotential[i][j]=-1;
@@ -617,7 +618,8 @@ Observer observer;
         Random rand = new Random();                       //wybierz losowe pole do wstawienia piona z najoptymalniejszych
         int[] randomElement = maxValueIndexes.get(rand.nextInt(maxValueIndexes.size()));
 
-        addChecker(randomElement[0],randomElement[1],isBlack);
+        Point botPoint = new Point(randomElement[0],randomElement[1],isBlack);
+        addChecker(botPoint);
 
 
 
@@ -642,4 +644,11 @@ Observer observer;
         }
 
     }
+    public void updateTempPoint(int x, int y, boolean isBlack){
+        tempPoint = new Point(x,y,isBlack);
+    }
+    public Point getTempPoint(){
+        return tempPoint;
+    }
+
 }

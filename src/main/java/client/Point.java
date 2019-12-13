@@ -13,9 +13,13 @@ public class Point {
         this.color=color;
     }
 
-    public Point(int x, int y) {
+    public Point(int x, int y, boolean isBlack) {
         this.x = x;
         this.y = y;
+        if(isBlack)
+            this.color=Color.BLACK;
+        else
+            this.color=Color.WHITE;
     }
 
     public int getX() {
@@ -29,6 +33,14 @@ public class Point {
     public Paint getColor(){
         return color;
     }
+
+    public boolean isBlack(){
+        if(color==Color.BLACK)
+            return true;
+
+        return false;
+    }
+
 
 
 }

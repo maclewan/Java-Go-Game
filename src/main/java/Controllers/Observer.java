@@ -1,5 +1,6 @@
 package Controllers;
 
+import client.Point;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -106,8 +107,8 @@ public class Observer extends Thread{
 
             if(isSecond) {
                 while (!startTalk) {
-                    a=cc.a;
-                    b=cc.b;
+                    a=cc.tempPoint.getX();
+                    b=cc.tempPoint.getY();
                     //System.out.println("jestem w while");
                     try {
                         Thread.sleep(100);
@@ -141,8 +142,10 @@ public class Observer extends Thread{
                                 cc.cleanAllreadyChecked();
                                 if (cc.checkers[a1][b1] == null) {
                                     System.out.println("dodaje: piona " + a1 + b1);
-                                    Platform.runLater(() -> cc.addChecker(a1, b1,!cc.isBlack));
-                                    //cc.groupCheckers();
+
+                                    Platform.runLater(() -> cc.updateTempPoint(a1, b1,!cc.isBlack));
+                                    Platform.runLater(() -> cc.addChecker(cc.getTempPoint()));
+
                                     Platform.runLater(() -> cc.killer());
                                 }
                                 // else         System.out.println("jestem w else");
