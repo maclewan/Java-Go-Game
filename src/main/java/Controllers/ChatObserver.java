@@ -8,40 +8,31 @@ import java.net.Socket;
 
 class ChatObserver extends Thread{
 
-    public ChatObserver(Socket socket, ObjectOutputStream oss, ObjectInputStream ois){
+    public ChatObserver(Socket socket, ObjectOutputStream oss, ObjectInputStream ois, Observer observer){
         this.socket=socket;
         this.oos=oss;
         this.ois=ois;
+        this.observer = observer;
     }
 
     boolean isNewMessage=false;
 
+    private Observer observer;
+    private Socket socket;
+    private ObjectOutputStream oos;
+    private ObjectInputStream ois;
 
-    Socket socket;
-    ObjectOutputStream oos;
-    ObjectInputStream ois;
 
-    String mes;
+    String mes = new String("");
 
     @Override
     public synchronized void run() {
+
+
+
+
+
         while(true) {
-
-            mes = null;
-            /**Odbiera wiadomosć*/
-            try {
-                mes = (String) ois.readObject();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Dostalem wiadomosc od serwera: " + mes);
-            if (mes != "") {
-                //todo: dopisz wiadomość do chatu
-            }
-
-
             /**Wysyłanie wiadmosci do serwera*/
             if (isNewMessage) {
                 try {
@@ -53,13 +44,34 @@ class ChatObserver extends Thread{
             }
 
 
+            mes = null;
+            /**Odbiera wiadomosć*/
+            try {
+                mes = (String) ois.readObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Dostalem widomosc od 2 gracza: " + mes);
+            if (mes != "") {
+                //todo: dopisz wiadomość do chatu
+            }
+
+
             /**Usypiam watek*/
             try {
                 sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            //todo: set endGame=true;
+            endGame();
         }
+    }
+
+    public void endGame(){
+        observer.setEndGame(true);
     }
 
 
@@ -69,5 +81,5 @@ class ChatObserver extends Thread{
 
 
 
-    
+
 }

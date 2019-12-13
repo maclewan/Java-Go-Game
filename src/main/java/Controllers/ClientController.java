@@ -633,21 +633,25 @@ Observer observer;
         this.stage = stage;
     }
     public void startChat() {
-
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Chat.fxml"));
-        ChatController ChatC=new ChatController();
-        loader.setController(ChatC);
-        stage.setTitle("Menu");
-        Scene s = null;
         try {
-            s = new Scene(loader.load());
-        } catch (IOException e) {
+            Stage stage = new Stage();
+            ChatController chatController = new ChatController();
+
+
+            FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("Chat.fxml"));
+            loaderG.setController(chatController);
+
+
+
+
+            Scene scene = new Scene(loaderG.load());
+            stage.setTitle("Chat");
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
-        stage.setScene(s);
-        stage.setResizable(false);
-        stage.show();
 
     }
 
@@ -668,5 +672,6 @@ Observer observer;
     public Point getTempPoint(){
         return tempPoint;
     }
+    
 
 }

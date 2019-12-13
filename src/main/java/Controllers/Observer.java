@@ -14,11 +14,12 @@ import java.util.Scanner;
 public class Observer extends Thread{
     WaitingFrameController wfc;
     ClientController cc;
-    boolean endGame=false;
+    private boolean endGame=false;
     /**Scanner do wymiany informacji po tym jak obaj gracze zdecyduja na zakonczenie gry*/
     Scanner scanner = new Scanner(System.in);
 
-    boolean isServer=true;
+    private boolean isServer=true;
+    private boolean isChatOpen=false;
     /**zdobadz localhost*/
     InetAddress host;
     /**DO SOCKETA*/
@@ -107,12 +108,20 @@ public class Observer extends Thread{
              * */
 
             while (true) {
-                if (isSecond) {
+                if (isSecond&&!isChatOpen) {
                     runGame();/**Otwieramy wymiane wiadomości do obslugi rozgrywki*/
                 }
                 /**Zaczynamy chat*/
                 /**odbierz od socket uzywajac ObjectInputStream*/
-                Platform.runLater(() ->  {runChat() ;});
+                if(!isChatOpen) {
+                    isChatOpen=true;
+                    Platform.runLater(() -> {
+                        runChat();
+
+
+                    });
+                }
+
                 if(endGame){
                     socket.close();
                     ois.close();
@@ -121,10 +130,6 @@ public class Observer extends Thread{
                 }
 
             }
-
-
-
-
 
 
 
@@ -154,8 +159,6 @@ public class Observer extends Thread{
                 wfc.backToMenu();
                 return;
             });
-
-
 
     }
 
@@ -222,46 +225,16 @@ public class Observer extends Thread{
     }
 
     public void runChat(){
-        boolean isNewMessage=false;
-        String mes = new String("");
 
         cc.startChat();
+        ChatObserver chatObserver = new ChatObserver(socket,oos,ois,this);
+        chatObserver.start();
+    }
 
-        while(true) {
-            /**Wysyłanie wiadmosci do serwera*/
-            if (isNewMessage) {
-                try {
-                    oos.writeObject(mes);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isNewMessage = false;
-            }
+    public void setEndGame(boolean endGame){
+        this.endGame=endGame;
+        isChatOpen=false;
 
-
-            mes = null;
-            /**Odbiera wiadomosć*/
-            try {
-                mes = (String) ois.readObject();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Dostalem widomosc od 2 gracza: " + mes);
-            if (mes != "") {
-                //todo: dopisz wiadomość do chatu
-            }
-
-
-            /**Usypiam watek*/
-            try {
-                sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            //todo: set endGame=true;
-        }
     }
 
 
