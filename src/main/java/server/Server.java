@@ -29,7 +29,7 @@ public class Server {
                 int b2=21;
                 System.out.println("Stworzylem server");
                 /*Tutaj daje wiadomosc klientom ktory byl pierwszy*/
-                Chat chat;
+
 
                 //******************************//
                 //---- UNDER CONSTRUCKTION------//
@@ -102,11 +102,11 @@ public class Server {
                                 b2 = (int) ois2.readObject();
                                 System.out.println("Dostalem widomosc od 2 gracza: " + b2);
 
-                                System.out.println("daje odpow 1 graczowi");
-                                /**Daje klientowi 1 odpowiedz*/
+                                System.out.println("daje odpow 2 graczowi");
+                                /**Daje klientowi 2 odpowiedz*/
                                 // ObjectOutputStream oos1a = new ObjectOutputStream(socket1.getOutputStream());
-                                oos1.writeObject(a2);
-                                oos1.writeObject(b2);
+                                oos2.writeObject(a1);
+                                oos2.writeObject(b1);
                                 break;
                         }
 
@@ -130,6 +130,17 @@ public class Server {
                         /**Sprawdzam czy to juz koniec naszej zabawy*/
                         if(a1==20 && a2==20 && b1==20 && b2==20)
                         {
+                                /**Konwertuje na inta*/
+                                a1 = (int) ois1.readObject();
+                                System.out.println("Dostalem widomosc od 1 gracza: " + a1);
+                                b1 = (int) ois1.readObject();
+                                System.out.println("Dostalem widomosc od 1 gracza: " + b1);
+
+                                System.out.println("daje odpow 1 graczowi");
+                                /**Daje klientowi 2 odpowiedz*/
+                                // ObjectOutputStream oos1a = new ObjectOutputStream(socket1.getOutputStream());
+                                oos1.writeObject(a2);
+                                oos1.writeObject(b2);
                                 break;
                         }
                 }
@@ -138,6 +149,7 @@ public class Server {
                 /******************************************/
                 /*Otwieram czat do rozmowy miedzy graczami*/
                 /******************************************/
+
 
                 /**Zmienne przechowujace wiadomosci 1 i 2 gracza*/
                 String mes1,mes2;
@@ -170,28 +182,6 @@ public class Server {
                  System.out.println("Shutting down Socket server!!");
                 /**zamykam ServerSocket object*/
                 server.close();
-        }
-}
-class Chat extends Thread{
-        Socket socket;
-        ObjectOutputStream oos;
-
-        String mes;
-
-        @Override
-        public synchronized void run() {
-                /**Daje klientowi 1 odpowiedz*/
-                try {
-                        oos.writeObject(mes);
-                } catch (IOException e) {
-                        e.printStackTrace();
-                }
-                /**Usypiam watek*/
-                try {
-                        sleep(1000);
-                } catch (InterruptedException e) {
-                        e.printStackTrace();
-                }
         }
 }
 

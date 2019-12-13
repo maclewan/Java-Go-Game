@@ -4,6 +4,8 @@ import client.Point;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -631,6 +633,21 @@ Observer observer;
         this.stage = stage;
     }
     public void startChat() {
+
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Chat.fxml"));
+        ChatController ChatC=new ChatController();
+        loader.setController(ChatC);
+        stage.setTitle("Menu");
+        Scene s = null;
+        try {
+            s = new Scene(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setScene(s);
+        stage.setResizable(false);
+        stage.show();
 
     }
 
