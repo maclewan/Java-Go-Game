@@ -1,16 +1,19 @@
-package gameRulesTests;
 /**
  *
- * Test na zabicie oka w lewym gornym rogu
+ * Testy dot. zasad gry
  *
  * */
+package gameRulesTests;
 import Controllers.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import org.junit.Test;
 
-
-/*Test bada lwy gorny rog planszy*/
+/**
+ *
+ * Test na zabicie oka w lewym gornym rogu
+ *
+ * */
 public class KillEyeInCornerTest{
 
 

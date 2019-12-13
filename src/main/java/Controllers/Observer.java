@@ -8,32 +8,38 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
+/**Klasa Observer odpowiedzialna za polaczenie z serverem*/
 public class Observer extends Thread{
     WaitingFrameController wfc;
     boolean isServer=true;
-    /*DO SOCKETA*/
-    Scanner scan = new Scanner(System.in);
-    //zdobadz localhost
+    /**zdobadz localhost*/
     InetAddress host;
+    /**DO SOCKETA*/
     Socket socket = null;
+    /**DO output*/
     ObjectOutputStream oos = null;
+    /**DO input*/
     ObjectInputStream ois = null;
-    ObjectOutputStream oosa = null;
-    ObjectInputStream oisa = null;
-    ClientController cc;
+    //ObjectOutputStream oosa = null;//TO1
+    //ObjectInputStream oisa = null;//TO1
+    //ClientController cc;//TO1
+    /**Pozycja pionka do dodania*/
         int a=21;
+    /**Pozycja pionka do dodania*/
         int b=21;
+    /**Pozycja ostatniego dodanego pionka*/
         int lastA=21;
+    /**Pozycja ostatniego dodanego pionka*/
         int lastB=21;
+    /**Czy ma sie zaczac rozmowa*/
         boolean startTalk=false;
 
     public Observer(WaitingFrameController wfc){
         this.wfc=wfc;
     }
 
-    /*Funkcja nasluchuje odpowiedzi od serwera i wywoluje dzialanie zaczynajace gre*/
+    /**Funkcja nasluchuje odpowiedzi od serwera i wywoluje dzialanie zaczynajace gre*/
     @Override
     public synchronized void run() {
         try {
@@ -49,15 +55,15 @@ public class Observer extends Thread{
             ClientController cc = new ClientController();
             host = InetAddress.getLocalHost();
 
-            /*Lacze z serwerrem*/
-            /*skonfiguruj polaczenie socket do servera*/
+            /**Lacze z serwerrem*/
+            /**skonfiguruj polaczenie socket do servera*/
             socket = new Socket(host.getHostName(), 6666);
 
-            /*odbierz odpowiedz serwera*/
+            /**odbierz odpowiedz serwera*/
             ois = new ObjectInputStream(socket.getInputStream());
             System.out.println("Dolaczylem sb do servera");
 
-            /*Tutaj sprawdzam czy to byl pierwszy*/
+            /**Tutaj sprawdzam czy to byl pierwszy*/
             cc.isBlack = (boolean) ois.readObject();
             if (cc.isBlack) System.out.println("Jestes czarny");
             else {
@@ -66,19 +72,19 @@ public class Observer extends Thread{
             }
 
 
-            /*napisz do socket uzywajac ObjectOutputStream*/
+            /**napisz do socket uzywajac ObjectOutputStream*/
             oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject("OK");
 
 
 
-            /*Odbierz wiadomosc nt 2 gracza*/
-            /*odbierz odpowiedz serwera*/
+            /**Odbierz wiadomosc nt 2 gracza*/
+            /**odbierz odpowiedz serwera*/
             boolean isSecond = (boolean) ois.readObject();       //tu czeka
 
             Thread.sleep(1000);
 
-            /*zacznij gre - otworz gui*/
+            /**zacznij gre - otworz gui*/
             Platform.runLater(() ->  {
                 wfc.startGame(cc);
                 isServer=true;
@@ -104,7 +110,7 @@ public class Observer extends Thread{
 
 
                     try {
-                        /*napisz do socket uzywajac ObjectOutputStream*/
+                        /**napisz do socket uzywajac ObjectOutputStream*/
                         //oosa = new ObjectOutputStream(socket.getOutputStream());
                             oos.writeObject(a);
                             oos.writeObject(b);
@@ -152,7 +158,7 @@ public class Observer extends Thread{
                 //---- UNDER CONSTRUCKTION------//
                 //******************************//
 
-                /*Tutej bedzie rozmowa sie odbywac*/
+                /**Tutej bedzie rozmowa sie odbywac*/
             }
 
 
@@ -167,7 +173,7 @@ public class Observer extends Thread{
         } catch (IOException e) {
             Platform.runLater(() ->  {
                 isServer=false;
-                wfc.absentServer();           /*wypisuje brak serwera*/
+                wfc.absentServer();           /**wypisuje brak serwera*/
 
             });
         } catch (ClassNotFoundException e) {
@@ -177,12 +183,12 @@ public class Observer extends Thread{
         }
 
         try{
-            Thread.sleep(3000);        /*odczekuje 3 sekundy i wraca do menu*/
+            Thread.sleep(3000);        /**odczekuje 3 sekundy i wraca do menu*/
         }
         catch (InterruptedException ex) {
             ex.printStackTrace();
         }
-        if(!isServer)                     /*tylko gdy nie ma serwera*/
+        if(!isServer)                     /**tylko gdy nie ma serwera*/
             Platform.runLater(() ->  {
                 wfc.backToMenu();
                 return;

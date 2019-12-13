@@ -1,15 +1,15 @@
+
 package gameRulesTests;
-/**
- *
- * Test na zabicie 1 pionka
- *
- * */
 import Controllers.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import org.junit.Test;
 
-/*Test bada samobojstwo 1 samotnego pionka*/
+/**
+ *
+ * Test na zabicie 1 pionka
+ *
+ * */
 public class KillOneCheckerTest {
 
     @Test

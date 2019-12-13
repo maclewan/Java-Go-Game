@@ -1,10 +1,5 @@
-package gameRulesTests;
-/**
- *
- * Test na polaczenie sie 1 gracza do servera
- *Przed testem nalezy wlaczyc server
- *
- * */
+package gameServerTests;
+
 import org.junit.Test;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,6 +8,12 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/**
+ *
+ * Test na polaczenie sie 1 gracza do servera
+ *Przed testem nalezy wlaczyc server
+ *
+ * */
 public class Player1ConnectTest {
 
     @Test
@@ -41,7 +42,7 @@ public class Player1ConnectTest {
         oos = new ObjectOutputStream(socket.getOutputStream());
         oos.writeObject("OK");
 
-            socket.close();
+        socket.close();
         ois.close();
         oos.close();
 

@@ -1,10 +1,5 @@
-package gameRulesTests;
-/**
- *
- * Test na polaczenie sie 2 gracza do servera
- *Przed testem nalezy wlaczyc server oraz oczywiscie podlaczyc 1 gracza
- *
- * */
+package gameServerTests;
+
 import org.junit.Test;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,6 +8,12 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/**
+ *
+ * Test na polaczenie sie 2 gracza do servera
+ *Przed testem nalezy wlaczyc server oraz oczywiscie podlaczyc 1 gracza
+ *
+ * */
 public class Player2ConnectTest {
 
     @Test

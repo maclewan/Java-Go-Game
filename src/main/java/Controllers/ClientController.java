@@ -44,7 +44,7 @@ Observer observer;
     ArrayList<Point> lastlyKilled = new ArrayList<>();
     Point lastAdded = new Point(0,0,Color.WHITE);
 
-    /*DO SOCKETA*/
+    /**DO SOCKETA*/
     /*
     Scanner scan = new Scanner(System.in);          //scanner
     InetAddress host = InetAddress.getLocalHost();  //host
@@ -173,7 +173,7 @@ Observer observer;
             diffR = Math.sqrt(diffX * diffX + diffY * diffY);
 
             if (diffR > 15) {
-                /*clicked out of any points range*/
+                /**clicked out of any points range*/
             } else if (checkers[tmpA][tmpB] == null) {
                 a=tmpA;
                 b=tmpB;
@@ -184,7 +184,7 @@ Observer observer;
                 //groupCheckers();
                 killer();
                 System.out.println("lalalala");
-                /*Wysylam i odbieram informacje*/
+                /**Wysylam i odbieram informacje*/
                 //observer.setAB(a,b);
             }
     }
@@ -248,7 +248,7 @@ Observer observer;
        // exchangeInfo(a,b);
     }
 
-    /*Dodaje pionek*/
+    /**Dodawanie pionka*/
 
     @FXML
     public void addChecker(int a, int b, boolean isBlack) {
@@ -283,7 +283,7 @@ Observer observer;
 
     }
 
-    /*Usuwam pionek*/
+    /**Usuwanie pionka*/
 
     void removeChecker(int a, int b, boolean seriously) {
         if(checkers[a][b]!=null) {
@@ -314,7 +314,7 @@ Observer observer;
     //-----------------------------------------------------------------------------TUTAJ SPRAWDZAM ZASADY
 
 
-    /*Funkcja zabijająca piony bez oddechu*/
+    /**Funkcja zabijająca piony bez oddechu*/
 
     public void killer() {
         lastlyKilled=new ArrayList<>();
@@ -366,7 +366,7 @@ Observer observer;
 
     }
 
-    /*Grupuje zbite piony w grupy*/
+    /**Grupuje zbite piony w grupy*/
     public void groupCheckers() {
         groupedArr = new boolean[19][19];
         groupList.clear();
@@ -384,7 +384,7 @@ Observer observer;
 
     }
 
-    /*Sprawdzanie i dodawanie sąsiadów do grupy*/
+    /**Sprawdzanie i dodawanie sąsiadów do grupy*/
     void getComrade(int a, int b, Paint color, ArrayList<Point> comList) {
         if (groupedArr[a][b]) {    //czy tego punktu juz nie ma w liście
             return;
@@ -392,7 +392,7 @@ Observer observer;
 
         comList.add(new Point(a, b, color));         //dodaj punkt
 
-        /*sprawdzam okoliczne punkty*/
+        /**sprawdzam okoliczne punkty*/
         try {
             if (checkers[a][b + 1].getFill() == color) {         //jeśli kolor sie zgadza
                 groupedArr[a][b] = true;                      //oznaczam pkt [a][b] jako element zgrupowany
@@ -552,7 +552,7 @@ Observer observer;
     }
 
 
-    /*Sprawdzam czy jest samobojstwo*/
+    /**Sprawdzam czy jest samobojstwo*/
     public boolean isSuicide(int a, int b) {
 
         if (isSurround(a, b) &&  !allreadyChecked[a][b])
@@ -589,7 +589,7 @@ Observer observer;
         return false;
     }
 
-    /*Sprawdzam czy pionek jest otoczony*/
+    /**Sprawdzam czy pionek jest otoczony*/
     boolean isSurround(int a, int b) {
         if ((a+1<=18 && checkers[a + 1][b] == null ) || (a-1>=0 && checkers[a - 1][b] == null ) || (b+1<=18 &&checkers[a][b + 1] == null) || (b-1>=0 && checkers[a][b - 1] == null)) {
             return false;
@@ -597,7 +597,7 @@ Observer observer;
         return true;
     }
 
-    /*licze ile mam towarzyszy obok pionka*/
+    /**licze ile mam towarzyszy obok pionka*/
     int comradesAmmount(int a, int b) {
         int towarzysz=0;
         if(!isBlack) {
@@ -633,7 +633,7 @@ Observer observer;
         return towarzysz;
     }
 
-    /*czyszcze tablice*/
+    /**czyszcze tablice*/
     public void cleanAllreadyChecked() {
         for (int i = 0; i <= 18; i++) {
             for (int j = 0; j <= 18; j++) {
@@ -653,7 +653,7 @@ Observer observer;
         return false;
     }
 
-    void botMove(){       /*przykładowy bot*/
+    void botMove(){       /**przykładowy bot*/
 
         int[][] killPotential = new int[19][19];
         for(int i=0;i<19;i++){

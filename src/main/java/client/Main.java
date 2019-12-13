@@ -1,19 +1,17 @@
 /**
  *
- * Projekt studencki tworzony przez studentów Politechniki Wrocławskiej,
+ * @author Michał Kalina & Maciej Lewandowicz
+ * @since  2019-11-28
+ * @info Projekt studencki tworzony przez studentów Politechniki Wrocławskiej,
  * wydziału Podstawowych Problemów Techniki, kierunku: Informatyka.
  * Kurs obowiązkowy: Technologie Programowania
  * Lista 4: "Gra w GO"
  * https://cs.pwr.edu.pl/macyna/TPLab04.pdf
  *
- * 2019-11-28
+ *
  *
  */
 
-/**
- * @author Michał Kalina & Maciej Lewandowicz
- *
- */
 
 package client;
 
