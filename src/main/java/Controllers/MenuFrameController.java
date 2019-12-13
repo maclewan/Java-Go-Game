@@ -47,7 +47,9 @@ public class MenuFrameController {
                 stage.setY(stage.getY()-100);
                 gc.setStage(stage);
 
-            } catch (IOException ioe) {}
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
         else if(type==1){
             try {
