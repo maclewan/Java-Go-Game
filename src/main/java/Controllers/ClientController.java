@@ -45,13 +45,7 @@ Observer observer;
     Point lastAdded = new Point(0,0,Color.WHITE);
 
     /**DO SOCKETA*/
-    /*
-    Scanner scan = new Scanner(System.in);          //scanner
-    InetAddress host = InetAddress.getLocalHost();  //host
-    Socket socket = null;                           //server
-    ObjectOutputStream oos = null;                  //wyjscie
-    ObjectInputStream ois = null;                   //wejscie
-    */
+
 
     ServerMenagment serverMenagment = new ServerMenagment(this);  //tworzenie klasy do komunkacji (adapter)
 
@@ -64,6 +58,7 @@ Observer observer;
 
     @FXML
     private void initialize() throws IOException {
+        hidePassButton();
 
         ArrayList<Label> labelList= new ArrayList<>();
         for(int i=0;i<19;i++){
@@ -94,11 +89,10 @@ Observer observer;
     @FXML // fx:id="colour"
     private ToggleButton colour; // Value injected by FXMLLoader
 
-    @FXML // fx:id="passBlack"
-    private Button btnPassBlack; // Value injected by FXMLLoader
+
 
     @FXML // fx:id="passWhite"
-    private Button btnPassWhite; // Value injected by FXMLLoader
+    private Button btnPass; // Value injected by FXMLLoader
 
     @FXML // fx:id="pointsBlack"
     private Label pointsBlack; // Value injected by FXMLLoader
@@ -107,56 +101,15 @@ Observer observer;
     private Label pointsWhite; // Value injected by FXMLLoader
 
     @FXML
+    private Label lblGraczB;
+
+    @FXML
+    private Label lblGraczC;
+
+    @FXML
     private Button botMove;
 
-/*
-    public void exchangeInfo(int a, int b) throws IOException, ClassNotFoundException {
 
-        /*Lacze z serwerrem*/
-        /*skonfiguruj polaczenie socket do servera*/
-   /*     socket = new Socket(host.getHostName(), 6666);
-
-        //if(!isBlack && firstTime) {
-            /*napisz do socket uzywajac ObjectOutputStream*/
-     /*       oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(a);
-            oos.writeObject(b);
-          //  firstTime=false;
-        //}
-            /*odbierz odpowiedz serwera*/
-   /*         ois = new ObjectInputStream(socket.getInputStream());
-            int a1 = (int) ois.readObject();
-            int b1 = (int) ois.readObject();
-            if (a1 != 20 && b1 != 20) {
-                cleanAllreadyChecked();
-                /*if (checkers[a1][b1] != null) {
-                    removeChecker(a1,b1);   //tutaj usuwanie swoich wlasnych pionkow
-                }
-                else {*/
-     /*               isBlack = !isBlack;
-                    addChecker(a1, b1);
-                    groupCheckers();
-                    killer();
-                    isBlack = !isBlack;
-                //}
-
-            }
-            else if(lastPass)
-                {
-                startChat();
-            }
-
-        yourTurn=true;
-
-        //robie ruch
-        /*cleanAllreadyChecked();
-        addChecker(a, b);
-        System.out.println("Robie se rucha");*/
-
-     /*   socket.close();
-        ois.close();
-        oos.close();
-    }*/
 
     @FXML
     public void boardClicked(MouseEvent e) {
@@ -193,51 +146,11 @@ Observer observer;
     }
 
 
-    @FXML
-    void colourOnAction(ActionEvent event) {
-        serverMenagment.start();
-        //isBlack = !isBlack;
-
-
-    }
-
-    @FXML
-    void btnPassBlackOnAction(ActionEvent event) {
-        //groupCheckers();
-        //killer();
-        try {
-            serverMenagment.exchangeInfo(a,b);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @FXML
-    void btnPassWhiteOnAction(ActionEvent event)  {
-        /*
-        yourTurn=false;
-        lastPass=true;
-        try {
-            exchangeInfo(20, 20);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-*/
-    }
 
 
 
     @FXML
-    void botOnAction(ActionEvent event) throws IOException, ClassNotFoundException {
-
-        //groupCheckers();
-        //killer();
-        //serverMenagment.start();
+    void btnPassOnAction(ActionEvent event)  {
         if(yourTurn) {
             a = 20;
             b = 20;
@@ -245,8 +158,10 @@ Observer observer;
             System.out.println("Zprobiles PASS jednej rundy.");
         }
         else System.out.println("Nie mozesz zPASSowac nie swojej rundy");
-       // exchangeInfo(a,b);
     }
+
+
+
 
     /**Dodawanie pionka*/
 
@@ -713,6 +628,18 @@ Observer observer;
         this.stage = stage;
     }
     public void startChat() {
+
+    }
+
+    public void hidePassButton(){
+        if(isBlack) {
+            lblGraczC.setText("Ja");
+            btnPass.setLayoutX(1000);
+        }
+        else {
+            lblGraczB.setText("Ja");
+
+        }
 
     }
 }

@@ -69,11 +69,14 @@ public class Observer extends Thread{
 
             /**Tutaj sprawdzam czy to byl pierwszy*/
             cc.isBlack = (boolean) ois.readObject();
-            if (cc.isBlack) System.out.println("Jestes czarny");
+            if (cc.isBlack) {
+                System.out.println("Jestes czarny");
+            }
             else {
                 System.out.println("Jestes bialy");
                 cc.yourTurn = false;
             }
+
 
 
             /**napisz do socket uzywajac ObjectOutputStream*/
