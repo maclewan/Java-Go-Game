@@ -1,6 +1,5 @@
 package Controllers;
 
-import client.Point;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -125,6 +124,7 @@ public class Observer extends Thread{
                         //System.out.println("wYSYLAM " + a + b);
                         cc.madeMove = false;
 
+                        /**odbierz od socket uzywajac ObjectInputStream*/
                         int a1 = (int) ois.readObject();
                         int b1 = (int) ois.readObject();
                         if (a1 == 20 && b1 == 20 && a == 20 && b == 20) {
@@ -162,19 +162,13 @@ public class Observer extends Thread{
                     //System.out.println("zara odbiere dane");
              }
          }
+            String message1,message2 = null;
             /**Tutej bedzie rozmowa sie odbywac*/
             if(startTalk)
             {
-                //******************************//
-                //---- UNDER CONSTRUCKTION------//
-                //******************************//
-
-
+                /**odbierz od socket uzywajac ObjectInputStream*/
+                message1 = (String) ois.readObject();
             }
-
-
-
-
 
             //socket.close();
             //ois.close();
@@ -207,6 +201,11 @@ public class Observer extends Thread{
 
 
 
+    }
+    /**napisz do servera - Potrzebne do czatu TYLKO*/
+    public void sendMessage(String mes) throws IOException, ClassNotFoundException {
+        /**napisz do socket uzywajac ObjectOutputStream*/
+        oos.writeObject(mes);
     }
 
     public void exchangeInfo(int a, int b) throws IOException, ClassNotFoundException {

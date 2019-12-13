@@ -150,7 +150,8 @@ Observer observer;
     @FXML
     void btnPassOnAction(ActionEvent event)  {
         if(yourTurn) {
-            doIPass = true;
+            //doIPass = true;
+            tempPoint= new Point(20,20,isBlack);
             yourTurn = false;
             System.out.println("Zprobiles PASS jednej rundy.");
         }
