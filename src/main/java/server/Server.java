@@ -12,14 +12,6 @@ import java.net.Socket;
  *
  */
 
-/**
- * MICHALE
- * todo:
- * Przeanalizuj ServerMenagment i pozwól na 2 połączenia na ruch- pozwol nam grać.
- *
- */
-
-
 public class Server {
         private static ServerSocket server;
         /*port socket serwer-a*/
@@ -35,7 +27,6 @@ public class Server {
                 int b1=21;
                 int a2=21;
                 int b2=21;
-                boolean first =true;
                 System.out.println("Stworzylem server");
                 /*Tutaj daje wiadomosc klientom ktory byl pierwszy*/
 
@@ -85,40 +76,6 @@ public class Server {
                 /**informuje klienta 2 ze wszyscy sa*/
                 oos1.writeObject(true);
 
-
-                //oos2.close();
-                //oos1.close();
-                //ois1.close();
-                //ois2.close();
-
-                //checkera.close();
-               // checkerb.close();
-               // oosP1.close();
-                //socket1.close();
-                //oosP2.close();
-                //socket2.close();
-                /**
-                 *
-                 * Lacze sie z kientem nr 1
-                 *
-                 * */
-
-                /*Czekam na klienta 1*/
-                //System.out.println("Czekam na 1 gracza");
-                //Socket socket1 = server.accept();
-                //System.out.println("Gracz 1 dolaczyl do serwera");
-
-                /**
-                 *
-                 * Lacze sie z kientem nr 2
-                 *
-                 * */
-
-
-                /*Czekam na klienta 2*/
-                //System.out.println("Czekam na 2");
-                //Socket socket2 = server.accept();
-                //System.out.println("Gracz 2 dolaczyl ");
 
                 while(true){
 
@@ -181,16 +138,7 @@ public class Server {
                 /*Otwieram czat do rozmowy miedzy graczami*/
                 /******************************************/
 
-                /*Czekam na klienta 1*/
-                /*System.out.println("Czekam na 1 gracza");
-                Socket sockettP1 = server.accept();
-                System.out.println("Gracz 1 dolaczyl do serwera");*/
-
-                /*Czekam na klienta 2*/
-                /*System.out.println("Czekam na 2 gracza");
-                Socket sockettP2 = server.accept();
-                System.out.println("Gracz 2 dolaczyl do serwera");*/
-
+                /**Zmienne przechowujace wiadomosci 1 i 2 gracza*/
                 String mes1,mes2;
                 while(true){
 
