@@ -130,8 +130,9 @@ public class Server {
                         /**Sprawdzam czy to juz koniec naszej zabawy*/
                         if(a1==20 && a2==20 && b1==20 && b2==20)
                         {
+                                System.out.println("A TERAZ JESTEM TU, ludzi tlum");
                                 /**Konwertuje na inta*/
-                                a1 = (int) ois1.readObject();
+                                /*a1 = (int) ois1.readObject();
                                 System.out.println("Dostalem widomosc od 1 gracza: " + a1);
                                 b1 = (int) ois1.readObject();
                                 System.out.println("Dostalem widomosc od 1 gracza: " + b1);
@@ -139,8 +140,8 @@ public class Server {
                                 System.out.println("daje odpow 1 graczowi");
                                 /**Daje klientowi 2 odpowiedz*/
                                 // ObjectOutputStream oos1a = new ObjectOutputStream(socket1.getOutputStream());
-                                oos1.writeObject(a2);
-                                oos1.writeObject(b2);
+                                /*oos1.writeObject(a2);
+                                oos1.writeObject(b2);*/
                                 break;
                         }
                 }
@@ -150,20 +151,25 @@ public class Server {
                 /*Otwieram czat do rozmowy miedzy graczami*/
                 /******************************************/
 
+                Thread client2Thread= new ClientReciveInfo();
+                ((ClientReciveInfo) client2Thread).socket=socket2;
+                ((ClientReciveInfo) client2Thread).ois=ois2;
+                client2Thread.start();
+
+                Thread client1Thread= new ClientReciveInfo();
+                ((ClientReciveInfo) client1Thread).socket=socket1;
+                ((ClientReciveInfo) client1Thread).ois=ois1;
+                client1Thread.start();
 
                 /**Zmienne przechowujace wiadomosci 1 i 2 gracza*/
-                String mes1,mes2;
+                String mes1="",mes2="";
                 while(true){
 
+                        /**Daje klientowi 2 odpowiedz*/
+                        oos1.writeObject(mes1);
 
-
-                        /** Biore i konwertuje na String wiadomosc od 2 klienta*/
-                        mes2 = (String) ois2.readObject();
-                        System.out.println("Dostalem widomosc od 2 gracza: " + mes2);
-
-                        /** Biore i konwertuje na String wiadomosc od 1 klienta*/
-                        mes1 = (String) ois1.readObject();
-                        System.out.println("Dostalem widomosc od 1 gracza: " + mes1);
+                        /**Daje klientowi 1 odpowiedz*/
+                        oos1.writeObject(mes2);
 
 
 
@@ -179,9 +185,41 @@ public class Server {
                 socket2.close();
                 socket1.close();
 
-                 System.out.println("Shutting down Socket server!!");
+                System.out.println("Shutting down Socket server!!");
                 /**zamykam ServerSocket object*/
                 server.close();
         }
 }
+class ClientReciveInfo extends Thread {
+        public Socket socket;
+        public ObjectInputStream ois;
+        boolean run = true;
+        /**
+         * Biore i konwertuje na String wiadomosc od 1 klienta
+         */
+        String mes;
 
+        @Override
+        public synchronized void run() {
+                System.out.println("Jestem w watku");
+                while(true){
+                        try {
+                                mes = (String) ois.readObject();
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                        }
+
+                        try {
+                                sleep(100);
+                        } catch (InterruptedException e) {
+                                e.printStackTrace();
+                        }
+                        System.out.println("Dostalem widomosc od 1 gracza: " + mes);
+                }
+
+
+                // System.out.println("Dostalem widomosc od 1 gracza: " + mes);
+        }
+}
