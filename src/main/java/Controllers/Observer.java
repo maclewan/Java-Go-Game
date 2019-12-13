@@ -8,10 +8,14 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 /**Klasa Observer odpowiedzialna za polaczenie z serverem*/
 public class Observer extends Thread{
     WaitingFrameController wfc;
+    /**Scanner do wymiany informacji po tym jak obaj gracze zdecyduja na zakonczenie gry*/
+    Scanner scanner = new Scanner(System.in);
+
     boolean isServer=true;
     /**zdobadz localhost*/
     InetAddress host;
@@ -152,13 +156,14 @@ public class Observer extends Thread{
                     //System.out.println("zara odbiere dane");
              }
          }
+            /**Tutej bedzie rozmowa sie odbywac*/
             if(startTalk)
             {
                 //******************************//
                 //---- UNDER CONSTRUCKTION------//
                 //******************************//
 
-                /**Tutej bedzie rozmowa sie odbywac*/
+
             }
 
 
