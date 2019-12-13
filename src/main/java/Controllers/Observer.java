@@ -109,20 +109,19 @@ public class Observer extends Thread{
 
             while (true) {
                 if (isSecond&&!isChatOpen) {
-                    runGame();/**Otwieramy wymiane wiadomości do obslugi rozgrywki*/
+                    /**Otwieramy wymiane wiadomości do obslugi rozgrywki*/
+                    runGame();
                 }
                 /**Zaczynamy chat*/
                 if(!isChatOpen) {
                     isChatOpen=true;
                     Platform.runLater(() -> {
                         runChat();
-
-
                     });
                 }
 
                 if(endGame){
-                    //todo: wyslij do serwera informacje o checi zakonczenia gry
+                    //todo: wyslij do serwera informacje o checi zakonczenia gry przez
                 }
 
             }

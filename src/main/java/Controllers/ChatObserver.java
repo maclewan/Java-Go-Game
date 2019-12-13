@@ -31,6 +31,8 @@ class ChatObserver extends Thread{
     private String mesIn = new String("");
     private String mesOut = new String("");
 
+    private ChatController chatController;
+
     @Override
     public synchronized void run() {
 
@@ -64,13 +66,13 @@ class ChatObserver extends Thread{
             }
             System.out.println("Dostalem widomosc od 2 gracza: " + mesIn);
             if (mesIn != "") {
-                //todo: maciej dopisz wiadomość do chatu
+                chatController.addLabelChatText(mesIn);
             }
 
 
             /**Usypiam watek*/
             try {
-                sleep(500);
+                sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -86,8 +88,9 @@ class ChatObserver extends Thread{
     public void startChat() {
         try {
             Stage stage = new Stage();
-            ChatController chatController = new ChatController();
+            chatController = new ChatController();
             chatController.setCo(this);
+            chatController.setStage(stage);
 
 
             FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("Chat.fxml"));
@@ -106,6 +109,7 @@ class ChatObserver extends Thread{
 
     public void continueGame(){
         observer.continueGame();
+        this.interrupt();  /**Zabijam ten wątek chatu*/
 
 
     }
