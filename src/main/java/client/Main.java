@@ -1,4 +1,4 @@
-/**
+/** Gra w GO
  *
  * @author Michał Kalina & Maciej Lewandowicz
  * @since  2019-11-28
