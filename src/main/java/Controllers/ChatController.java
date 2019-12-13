@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 
 public class ChatController {
 
+    ChatObserver co;
+
     @FXML
     private TextArea labelChatText;
 
@@ -25,17 +27,23 @@ public class ChatController {
 
     @FXML
     void continueOnAction(ActionEvent event) {
-
+        //todo: maciej zmykanie okna
+        co.continueGame();
     }
 
     @FXML
     void endGameOnAction(ActionEvent event) {
+        co.endGame();
 
     }
 
     @FXML
     void sendOnAction(ActionEvent event) {
-
+        co.setMesOut(textFldType.getText());
     }
 
+    public void setCo(ChatObserver co) {
+        this.co = co;
+    }
 }
+

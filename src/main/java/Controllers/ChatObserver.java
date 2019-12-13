@@ -1,6 +1,11 @@
 package Controllers;
 
 
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -23,11 +28,15 @@ class ChatObserver extends Thread{
     private ObjectInputStream ois;
 
 
-    String mes = new String("");
+    private String mesIn = new String("");
+    private String mesOut = new String("");
 
     @Override
     public synchronized void run() {
 
+        Platform.runLater(() ->  {
+            startChat();
+        });
 
 
 
@@ -36,7 +45,7 @@ class ChatObserver extends Thread{
             /**Wysyłanie wiadmosci do serwera*/
             if (isNewMessage) {
                 try {
-                    oos.writeObject(mes);
+                    oos.writeObject(mesOut);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -44,18 +53,18 @@ class ChatObserver extends Thread{
             }
 
 
-            mes = null;
+            mesIn ="";
             /**Odbiera wiadomosć*/
             try {
-                mes = (String) ois.readObject();
+                mesIn = (String) ois.readObject();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            System.out.println("Dostalem widomosc od 2 gracza: " + mes);
-            if (mes != "") {
-                //todo: dopisz wiadomość do chatu
+            System.out.println("Dostalem widomosc od 2 gracza: " + mesIn);
+            if (mesIn != "") {
+                //todo: maciej dopisz wiadomość do chatu
             }
 
 
@@ -65,7 +74,7 @@ class ChatObserver extends Thread{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            //todo: set endGame=true;
+
             endGame();
         }
     }
@@ -74,12 +83,35 @@ class ChatObserver extends Thread{
         observer.setEndGame(true);
     }
 
+    public void startChat() {
+        try {
+            Stage stage = new Stage();
+            ChatController chatController = new ChatController();
+            chatController.setCo(this);
 
 
+            FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("Chat.fxml"));
+            loaderG.setController(chatController);
+
+            Scene scene = new Scene(loaderG.load());
+            stage.setTitle("Chat");
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void continueGame(){
+        observer.continueGame();
 
 
+    }
 
-
-
-
+    public void setMesOut(String mesOut) {
+        this.mesOut = mesOut;
+        isNewMessage=true;
+    }
 }

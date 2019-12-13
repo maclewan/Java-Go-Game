@@ -632,28 +632,8 @@ Observer observer;
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    public void startChat() {
-        try {
-            Stage stage = new Stage();
-            ChatController chatController = new ChatController();
 
 
-            FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("Chat.fxml"));
-            loaderG.setController(chatController);
-
-
-
-
-            Scene scene = new Scene(loaderG.load());
-            stage.setTitle("Chat");
-            stage.setScene(scene);
-            stage.show();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public void hidePassButton(){
         if(isBlack) {

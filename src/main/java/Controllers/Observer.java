@@ -112,7 +112,6 @@ public class Observer extends Thread{
                     runGame();/**Otwieramy wymiane wiadomości do obslugi rozgrywki*/
                 }
                 /**Zaczynamy chat*/
-                /**odbierz od socket uzywajac ObjectInputStream*/
                 if(!isChatOpen) {
                     isChatOpen=true;
                     Platform.runLater(() -> {
@@ -123,10 +122,7 @@ public class Observer extends Thread{
                 }
 
                 if(endGame){
-                    socket.close();
-                    ois.close();
-                    oos.close();
-                    return;
+                    //todo: wyslij do serwera informacje o checi zakonczenia gry
                 }
 
             }
@@ -226,7 +222,6 @@ public class Observer extends Thread{
 
     public void runChat(){
 
-        cc.startChat();
         ChatObserver chatObserver = new ChatObserver(socket,oos,ois,this);
         chatObserver.start();
     }
@@ -235,6 +230,11 @@ public class Observer extends Thread{
         this.endGame=endGame;
         isChatOpen=false;
 
+    }
+
+    public void continueGame(){
+        isChatOpen=false;
+        //todo: wyslij info do serwera że pora wrocic do gry
     }
 
 
