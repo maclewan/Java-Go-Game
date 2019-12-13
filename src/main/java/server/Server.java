@@ -29,6 +29,7 @@ public class Server {
                 int b2=21;
                 System.out.println("Stworzylem server");
                 /*Tutaj daje wiadomosc klientom ktory byl pierwszy*/
+                Chat chat;
 
                 //******************************//
                 //---- UNDER CONSTRUCKTION------//
@@ -142,29 +143,17 @@ public class Server {
                 String mes1,mes2;
                 while(true){
 
-                        /**Teraz biore wiadomosc od klienta 2*/
-                        //ObjectInputStream checker2 = new ObjectInputStream(sockett2.getInputStream());
 
-                        /**Konwertuje na String*/
+
+                        /** Biore i konwertuje na String wiadomosc od 2 klienta*/
                         mes2 = (String) ois2.readObject();
                         System.out.println("Dostalem widomosc od 2 gracza: " + mes2);
 
-
-                        /**Daje klientowi 1 odpowiedz*/
-                        //ObjectOutputStream oos1 = new ObjectOutputStream(sockettP1.getOutputStream());
-                        oos1.writeObject(mes2);
-
-
-                        /**Teraz biore wiadomosc od klienta 1*/
-                        //ObjectInputStream checker1 = new ObjectInputStream(sockett2.getInputStream());
-
-                        /**Konwertuje na String*/
+                        /** Biore i konwertuje na String wiadomosc od 1 klienta*/
                         mes1 = (String) ois1.readObject();
                         System.out.println("Dostalem widomosc od 1 gracza: " + mes1);
 
-                        /**Daje klientowi 2 odpowiedz*/
-                       // ObjectOutputStream oos2 = new ObjectOutputStream(sockettP2.getOutputStream());
-                        oos2.writeObject(mes1);
+
 
                         /**Sprawdzam czy doszlo do porozumienia miedzy graczami*/
                         if((mes1=="WIN" && mes2 =="LOSE") || (mes1=="LOSE" && mes2=="WIN")) break;
@@ -182,6 +171,27 @@ public class Server {
                 /**zamykam ServerSocket object*/
                 server.close();
         }
+}
+class Chat extends Thread{
+        Socket socket;
+        ObjectOutputStream oos;
 
+        String mes;
+
+        @Override
+        public synchronized void run() {
+                /**Daje klientowi 1 odpowiedz*/
+                try {
+                        oos.writeObject(mes);
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
+                /**Usypiam watek*/
+                try {
+                        sleep(1000);
+                } catch (InterruptedException e) {
+                        e.printStackTrace();
+                }
+        }
 }
 
