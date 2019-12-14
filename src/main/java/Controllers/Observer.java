@@ -183,7 +183,14 @@ public class Observer extends Thread{
                     if(lastA==20 && lastB==20) {
                         int tmp; int k;
                         if(cc.isBlack)k=20; else k=22;
-                        for(int i=0;i<k;i++)  tmp = (int) ois.readObject();
+                       /*for(int i=0;i<k;i++) {
+                            System.out.println(i);
+                            try {
+                                tmp = (int) ois.readObject();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }*/
                     }
                     oos.writeObject(a);
                     oos.writeObject(b);
@@ -216,11 +223,11 @@ public class Observer extends Thread{
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            try {
+            /*try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
 
 
             //System.out.println("zara odbiere dane");
