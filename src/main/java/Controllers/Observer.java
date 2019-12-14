@@ -179,30 +179,37 @@ public class Observer extends Thread{
                 int a1 = (int) ois.readObject();
                 int b1 = (int) ois.readObject();
                 if (a1 == 20 && b1 == 20 && a == 20 && b == 20) {
-                    if(!cc.isBlack) {
+                    if(lastA==20 && lastB==20) {
 
-                        int tmp1 = (int) ois.readObject();
-                        int tmp2 = (int) ois.readObject();
-                         tmp1 = (int) ois.readObject();
-                         tmp2 = (int) ois.readObject();
-                        tmp1 = (int) ois.readObject();
-                        tmp2 = (int) ois.readObject();
-                        tmp1 = (int) ois.readObject();
-                        tmp2 = (int) ois.readObject();
-                        tmp1 = (int) ois.readObject();
-                        tmp2 = (int) ois.readObject();
-                        tmp1 = (int) ois.readObject();
-                        tmp2 = (int) ois.readObject();
-                        tmp1 = (int) ois.readObject();
-                        tmp2 = (int) ois.readObject();
-                        tmp1 = (int) ois.readObject();
-                        tmp2 = (int) ois.readObject();
-                        tmp1 = (int) ois.readObject();
-                        tmp2 = (int) ois.readObject();
-                        tmp1 = (int) ois.readObject();
-                        tmp2 = (int) ois.readObject();
-                        tmp1 = (int) ois.readObject();
-                        tmp2 = (int) ois.readObject();
+                        int tmp;
+                        int k;
+                        if(cc.isBlack)k=20; else k=22;
+                        for(int i=0;i<k;i++) {
+                            tmp = (int) ois.readObject();
+                            System.out.println(i);
+                        }
+                       /* tmp = (int) ois.readObject();
+                         tmp = (int) ois.readObject();
+                         tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();
+                        tmp = (int) ois.readObject();*/
+                       // if(cc.isBlack) {
+
+                        //}
 
                         String mesIn = (String) ois.readObject();
                     }
@@ -211,7 +218,7 @@ public class Observer extends Thread{
                     break;
                 }
                 //System.out.println("odbieram " + a1 + b1);
-                if(a1==20 && b1==20) cc.yourTurn=true;
+                if(a1==20 && b1==20) { cc.yourTurn=true; lastA=20; lastB=20;}
                 if(lastA!=a1 || lastB!=b1) {
                     lastA=a1;
                     lastB=b1;
