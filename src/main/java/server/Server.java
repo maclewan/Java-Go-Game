@@ -30,6 +30,8 @@ public class Server {
         public static int b1=21;
         public static int a2=21;
         public static int b2=21;
+        public static boolean doWeStillPlay=true;
+        public static boolean endChat=false;
 
 
         public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
@@ -85,18 +87,19 @@ public class Server {
                 /**informuje klienta 2 ze wszyscy sa*/
                 oos1.writeObject(true);
 
-                /******************************************/
-                /*Otwieram strumien do gry miedzy graczami*/
-                /******************************************/
-                ServerGame(socket1,socket2, ois1,ois2,oos1,oos2);
+                while(doWeStillPlay) {
+                        /******************************************/
+                        /*Otwieram strumien do gry miedzy graczami*/
+                        /******************************************/
+                        ServerGame(socket1, socket2, ois1, ois2, oos1, oos2);
 
-                /******************************************/
-                /*Otwieram czat do rozmowy miedzy graczami*/
-                /******************************************/
+                        /******************************************/
+                        /*Otwieram czat do rozmowy miedzy graczami*/
+                        /******************************************/
 
-                ServerChat(socket1,socket2, ois1,ois2,oos1,oos2);
+                        ServerChat(socket1, socket2, ois1, ois2, oos1, oos2);
 
-
+                }
 
 
                 /**zamykam wszystkie zrodla*/
@@ -162,13 +165,32 @@ public class Server {
                 client1Thread.start();
 
                 /**Zmienne przechowujace wiadomosci 1 i 2 gracza*/
-
+                endChat=false;
                 while(true){
 
+                        /**Sprawdzam czy doszlo do porozumienia miedzy graczami*/
+                        if(endChat)
+                        {
+                              /*  try {
+                                       // oos2.writeObject("Wznawiam gre!");
+                                        //oos1.writeObject("Wznawiam gre!");
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                }*/
+                                System.out.println("Jeszcze nie idziemy spac, bedziemy..");
+                                client2Thread.interrupt();
+                                client1Thread.interrupt();
+                                try {
+                                        ServerGame(socket1,socket2, ois1,ois2,oos1,oos2);
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                }
+                                break;
+                        }
+                        sleep(1000);
                         /**Daje klientowi 2 odpowiedz*/
                         try {
                                 oos2.writeObject(mes1);
-                                mes1 = "";
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }
@@ -178,15 +200,10 @@ public class Server {
                         /**Daje klientowi 1 odpowiedz*/
                         try {
                                 oos1.writeObject(mes2);
-                                mes2 = "";
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }
 
-                        sleep(1000);
-
-                        /**Sprawdzam czy doszlo do porozumienia miedzy graczami*/
-                        if(mes1=="zacznij gre" ||  mes2=="zacznij gre") break;
                 }
         }
 }
@@ -204,18 +221,23 @@ class ClientReciveChatInfo extends Thread {
 
         @Override
         public synchronized void run() {
-                System.out.println("Jestem w watku");
+                System.out.println("Jestem w watkuCHAT");
                 while(true){
                         try {
                                 mes = (String) ois.readObject();
                                 if(isBlack)server.mes1=mes;
                                 else server.mes2=mes;
                         } catch (IOException e) {
-                                e.printStackTrace();
-                        } catch (ClassNotFoundException e) {
-                                e.printStackTrace();
-                        }
 
+                        } catch (ClassNotFoundException e) {
+
+                        }
+                        if(mes.equals("Wznawiam gre!")){
+                                server.endChat=true;
+                                System.out.println("Pora kuncyc");
+                        }
+                        System.out.print("\033[H\033[2J");
+                        System.out.flush();
                         System.out.println("Dostalem widomosc od 1 gracza: " + mes);
                 }
 
@@ -239,7 +261,7 @@ class ClientReciveGameInfo extends Thread {
 
         @Override
         public synchronized void run() {
-                System.out.println("Jestem w watku");
+                System.out.println("Jestem w watkuGAME");
                 while(true){
                         try {
                                 /**BIore wiadomosc od klij. 1 i konwertuje na inta*/
@@ -257,9 +279,9 @@ class ClientReciveGameInfo extends Thread {
                                         server.b2=b;
                                 }
                         } catch (IOException e) {
-                                e.printStackTrace();
+
                         } catch (ClassNotFoundException e) {
-                                e.printStackTrace();
+
                         }
                 }
 

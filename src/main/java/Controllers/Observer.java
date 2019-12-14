@@ -1,5 +1,6 @@
 package Controllers;
 
+import client.Point;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ public class Observer extends Thread{
     private boolean endGame=false;
     /**Scanner do wymiany informacji po tym jak obaj gracze zdecyduja na zakonczenie gry*/
     Scanner scanner = new Scanner(System.in);
+    private boolean continueGames=true;
 
     private boolean isServer=true;
     private boolean isChatOpen=false;
@@ -107,20 +109,27 @@ public class Observer extends Thread{
              *
              * */
 
-            while (true) {
-                if (isSecond&&!isChatOpen) {
+            while (endGame==false) {
+                if (isSecond&&continueGames) {
+                    System.out.println("wszedlem do gry");
                     /**Otwieramy wymiane wiadomości do obslugi rozgrywki*/
                     runGame();
+                    isChatOpen=false;
+                    continueGames=false;
                 }
+                cc.tempPoint= new Point(21,21,cc.isBlack);
+
                 /**Zaczynamy chat*/
                 if(!isChatOpen) {
+                     System.out.println("wszedlem do czatu");
                     isChatOpen=true;
-                    Platform.runLater(() -> {
-                        runChat();
-                    });
+                    runChat();
                 }
+                sleep(100);
+
 
                 if(endGame){
+                    break;
                     //todo: wyslij do serwera informacje o checi zakonczenia gry przez
                 }
 
@@ -160,6 +169,7 @@ public class Observer extends Thread{
 
 
     public void runGame(){
+        startTalk=!true;
         while (!startTalk) {
             a=cc.tempPoint.getX();
             b=cc.tempPoint.getY();
@@ -183,6 +193,7 @@ public class Observer extends Thread{
                     if(lastA==20 && lastB==20) {
                         int tmp; int k;
                         if(cc.isBlack)k=20; else k=22;
+
                        /*for(int i=0;i<k;i++) {
                             System.out.println(i);
                             try {
@@ -192,8 +203,6 @@ public class Observer extends Thread{
                             }
                         }*/
                     }
-                    oos.writeObject(a);
-                    oos.writeObject(b);
                     System.out.println("Rozpoczynam czat");
                     startTalk = true;
                     break;
@@ -223,11 +232,6 @@ public class Observer extends Thread{
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            /*try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
 
 
             //System.out.println("zara odbiere dane");
@@ -242,13 +246,13 @@ public class Observer extends Thread{
     }
 
     public void setEndGame(boolean endGame){
-        this.endGame=endGame;
+        //this.endGame=endGame;
         isChatOpen=false;
 
     }
 
     public void continueGame(){
-        isChatOpen=false;
+        continueGames=true;
         //todo: wyslij info do serwera że pora wrocic do gry
     }
 

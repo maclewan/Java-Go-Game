@@ -83,15 +83,11 @@ public class ChatController {
     }
 
     public void addLabelChatText(String text) {
-        if(text.equals("Zacznij gre")){
-            backToGame();
-        }
         labelChatText.setText(labelChatText.getText()+"\n"+"Oponent:\t"+text);
 
     }
 
     public void backToGame(){
-
         co.continueGame();
         stage.close();
 

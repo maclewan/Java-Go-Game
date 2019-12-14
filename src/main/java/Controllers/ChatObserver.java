@@ -19,7 +19,7 @@ class ChatObserver extends Thread{
         this.ois=ois;
         this.observer = observer;
     }
-
+    boolean doWePlay=true;
     boolean isNewMessage=false;
 
     private Observer observer;
@@ -30,20 +30,24 @@ class ChatObserver extends Thread{
 
     private String mesIn = new String("");
     private String mesOut = new String("");
+    private String lastMes = new String("");
 
     private ChatController chatController;
 
     @Override
     public synchronized void run() {
+        try {
+            oos.writeObject("");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("nowy watek powstal");
+        Platform.runLater(() ->  { startChat(); });
 
-        Platform.runLater(() ->  {
-            startChat();
-        });
 
 
 
-
-        while(true) {
+        while(doWePlay) {
             /**Wysyłanie wiadmosci do serwera*/
             if (isNewMessage) {
                 System.out.println("wysylam wiadomosc" + mesOut);
@@ -67,9 +71,16 @@ class ChatObserver extends Thread{
                 e.printStackTrace();
             }
             //System.out.println("Dostalem widomosc od 2 gracza: " + mesIn);
-            if (!(mesIn.equals(""))) {
+            if (!(mesIn.equals(lastMes))) {
                 Platform.runLater(() -> chatController.addLabelChatText(mesIn));
+                lastMes=mesIn;
                 //System.out.println("jestem w if "+mesIn);
+            }
+            if ((mesIn.equals("Wznawiam gre!")) ||(mesOut.equals("Wznawiam gre!")) ) {
+                observer.continueGame();
+                doWePlay=false;
+                this.interrupt();
+                break;
             }
             System.out.println(mesIn);
 
@@ -80,8 +91,9 @@ class ChatObserver extends Thread{
                 e.printStackTrace();
             }
 
-            endGame();
+            //endGame();
         }
+        observer.continueGame();
     }
 
     public void endGame(){
@@ -111,8 +123,13 @@ class ChatObserver extends Thread{
     }
 
     public void continueGame(){
+        mesIn="Wznawiam gre!";
+        isNewMessage=true;
+        //doWePlay=false;
         observer.continueGame();
-        this.interrupt();  /**Zabijam ten wątek chatu*/
+        //this.interrupt();  /**Zabijam ten wątek chatu*/
+
+
 
 
     }
