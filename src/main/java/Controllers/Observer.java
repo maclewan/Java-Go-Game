@@ -165,24 +165,47 @@ public class Observer extends Thread{
             b=cc.tempPoint.getY();
             //System.out.println("jestem w while");
             try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-            try {
                 /**napisz do socket uzywajac ObjectOutputStream*/
-                //oosa = new ObjectOutputStream(socket.getOutputStream());
-                oos.writeObject(a);
-                oos.writeObject(b);
-                //System.out.println("wYSYLAM " + a + b);
-                cc.madeMove = false;
+                if(cc.madeMove) {
+                    a=cc.tempPoint.getX();
+                    b=cc.tempPoint.getY();
+                    oos.writeObject(a);
+                    oos.writeObject(b);
+                    cc.madeMove = false;
+                    System.out.println("wYSYLAM " + a + b);
+                }
 
                 /**odbierz od socket uzywajac ObjectInputStream*/
                 int a1 = (int) ois.readObject();
                 int b1 = (int) ois.readObject();
                 if (a1 == 20 && b1 == 20 && a == 20 && b == 20) {
+                    if(!cc.isBlack) {
+
+                        int tmp1 = (int) ois.readObject();
+                        int tmp2 = (int) ois.readObject();
+                         tmp1 = (int) ois.readObject();
+                         tmp2 = (int) ois.readObject();
+                        tmp1 = (int) ois.readObject();
+                        tmp2 = (int) ois.readObject();
+                        tmp1 = (int) ois.readObject();
+                        tmp2 = (int) ois.readObject();
+                        tmp1 = (int) ois.readObject();
+                        tmp2 = (int) ois.readObject();
+                        tmp1 = (int) ois.readObject();
+                        tmp2 = (int) ois.readObject();
+                        tmp1 = (int) ois.readObject();
+                        tmp2 = (int) ois.readObject();
+                        tmp1 = (int) ois.readObject();
+                        tmp2 = (int) ois.readObject();
+                        tmp1 = (int) ois.readObject();
+                        tmp2 = (int) ois.readObject();
+                        tmp1 = (int) ois.readObject();
+                        tmp2 = (int) ois.readObject();
+                        tmp1 = (int) ois.readObject();
+                        tmp2 = (int) ois.readObject();
+
+                        String mesIn = (String) ois.readObject();
+                    }
                     System.out.println("Rozpoczynam czat");
                     startTalk = true;
                     break;
@@ -210,6 +233,11 @@ public class Observer extends Thread{
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 

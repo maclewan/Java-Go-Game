@@ -21,17 +21,20 @@ public class Server {
         private static int port = 6666;
 
         public static String mes1="",mes2="";
-        public static Thread client2Thread= new ClientReciveInfo();
-        public static Thread client1Thread= new ClientReciveInfo();
+        public static Thread client2Thread= new ClientReciveChatInfo();
+        public static Thread client1Thread= new ClientReciveChatInfo();
+
+        public static Thread client2GameThread= new ClientReciveGameInfo();
+        public static Thread client1GameThread= new ClientReciveGameInfo();
+        public static int a1=21;
+        public static int b1=21;
+        public static int a2=21;
+        public static int b2=21;
 
 
         public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
                 /**tworzenie socket serwer*/
                 server = new ServerSocket(port);
-                int a1=21;
-                int b1=21;
-                int a2=21;
-                int b2=21;
                 System.out.println("Stworzylem server");
                 /*Tutaj daje wiadomosc klientom ktory byl pierwszy*/
 
@@ -82,27 +85,30 @@ public class Server {
                 /**informuje klienta 2 ze wszyscy sa*/
                 oos1.writeObject(true);
 
-
-                while(true){
+                /******************************************/
+                /*Otwieram strumien do gry miedzy graczami*/
+                /******************************************/
+                ServerGame(socket1,socket2, ois1,ois2,oos1,oos2);
+         /*       while(true){
 
 
                         /*Teraz biore wiadomosc od klienta 1 */
                         //ObjectInputStream checker1 = new ObjectInputStream(socket1.getInputStream());
 
                         /**BIore wiadomosc od klij. 1 i konwertuje na inta*/
-                        a1 = (int) ois1.readObject();
+         /*               a1 = (int) ois1.readObject();
                         System.out.println("Dostalem widomosc od 1 gracza: " + a1);
                         /**BIore wiadomosc od klij. 1 i konwertuje na inta*/
-                        b1 = (int) ois1.readObject();
+         /*               b1 = (int) ois1.readObject();
                         System.out.println("Dostalem widomosc od 1 gracza: " + b1);
 
                         /**Sprawdzam czy to juz koniec naszej zabawy*/
-                        if(a1==20 && a2==20 && b1==20 && b2==20)
+        /*                if(a1==20 && a2==20 && b1==20 && b2==20)
                         {                        /*Teraz biore wiadomosc od klienta 2*/
                                 //ObjectInputStream checker2 = new ObjectInputStream(socket2.getInputStream());
 
                                 /**Konwertuje na inta*/
-                                a2 = (int) ois2.readObject();
+        /*                        a2 = (int) ois2.readObject();
                                 System.out.println("Dostalem widomosc od 2 gracza: " + a2);
                                 b2 = (int) ois2.readObject();
                                 System.out.println("Dostalem widomosc od 2 gracza: " + b2);
@@ -110,30 +116,30 @@ public class Server {
                                 System.out.println("daje odpow 2 graczowi");
                                 /**Daje klientowi 2 odpowiedz*/
                                 // ObjectOutputStream oos1a = new ObjectOutputStream(socket1.getOutputStream());
-                                oos2.writeObject(a1);
+        /*                        oos2.writeObject(a1);
                                 oos2.writeObject(b1);
                                 break;
                         }
 
                         /**Teraz biore wiadomosc od klienta 2 i konwertuje na inta*/
-                        a2 = (int) ois2.readObject();
+         /*               a2 = (int) ois2.readObject();
                         System.out.println("Dostalem widomosc od 2 gracza: " + a2);
                         /**Teraz biore wiadomosc od klienta 2 i konwertuje na inta*/
-                        b2 = (int) ois2.readObject();
+         /*               b2 = (int) ois2.readObject();
                         System.out.println("Dostalem widomosc od 2 gracza: " + b2);
 
                         System.out.println("daje odpow 1 graczowi");
                         /**Daje klientowi 1 odpowiedz*/
-                        oos1.writeObject(a2);
+         /*               oos1.writeObject(a2);
                         oos1.writeObject(b2);
 
                         System.out.println("daje odpow 2 graczowi");
                         /**Daje klientowi 2 odpowiedz*/
-                        oos2.writeObject(a1);
+         /*               oos2.writeObject(a1);
                         oos2.writeObject(b1);
 
                         /**Sprawdzam czy to juz koniec naszej zabawy*/
-                        if(a1==20 && a2==20 && b1==20 && b2==20)
+         /*               if(a1==20 && a2==20 && b1==20 && b2==20)
                         {
                                 System.out.println("A TERAZ JESTEM TU, ludzi tlum");
                                 /**Konwertuje na inta*/
@@ -146,11 +152,11 @@ public class Server {
                                 // ObjectOutputStream oos1a = new ObjectOutputStream(socket1.getOutputStream());
                                 /*oos1.writeObject(a2);
                                 oos1.writeObject(b2);*/
-                                break;
+        /*                        break;
                         }
                 }
 
-
+        */
                 /******************************************/
                 /*Otwieram czat do rozmowy miedzy graczami*/
                 /******************************************/
@@ -172,16 +178,54 @@ public class Server {
                 /**zamykam ServerSocket object*/
                 server.close();
         }
+        public static void ServerGame(Socket socket1, Socket socket2, ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException, IOException {
+                ((ClientReciveGameInfo) client2GameThread).socket = socket2;
+                ((ClientReciveGameInfo) client2GameThread).ois = ois2;
+                ((ClientReciveGameInfo) client2GameThread).isBlack = false;
+                client2GameThread.start();
+
+                ((ClientReciveGameInfo) client1GameThread).socket = socket1;
+                ((ClientReciveGameInfo) client1GameThread).ois = ois1;
+                ((ClientReciveGameInfo) client1GameThread).isBlack = true;
+                client1GameThread.start();
+
+                while(true) {
+
+
+                        System.out.println("Wysylam1 : " + a2+ b2);
+                        /**Daje klientowi 1 odpowiedz*/
+                        oos1.writeObject(a2);
+                        oos1.writeObject(b2);
+
+                        System.out.println("Wysylam2 : " + a1 + b1);
+                        /**Daje klientowi 2 odpowiedz*/
+                        oos2.writeObject(a1);
+                        oos2.writeObject(b1);
+
+                        if (a1 == 20 && a2 == 20 && b1 == 20 && b2 == 20) {
+                                client2GameThread.interrupt();
+                                client1GameThread.interrupt();
+                                //ServerChat(socket1, socket2, ois1, ois2, oos1, oos2);
+                                a1 = 21;
+                                a2 = 21;
+                                b1 = 21;
+                                b2 = 21;
+                                break;
+                        }
+
+                        sleep(100);
+                }
+        }
         public static void ServerChat(Socket socket1, Socket socket2, ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException {
-                ((ClientReciveInfo) client2Thread).socket=socket2;
-                ((ClientReciveInfo) client2Thread).ois=ois2;
-                ((ClientReciveInfo) client2Thread).isBlack=false;
+                ((ClientReciveChatInfo) client2Thread).socket=socket2;
+                ((ClientReciveChatInfo) client2Thread).ois=ois2;
+                ((ClientReciveChatInfo) client2Thread).isBlack=false;
                 client2Thread.start();
 
 
-                ((ClientReciveInfo) client1Thread).socket=socket1;
-                ((ClientReciveInfo) client1Thread).ois=ois1;
-                ((ClientReciveInfo) client1Thread).isBlack=true;
+                ((ClientReciveChatInfo) client1Thread).socket=socket1;
+                ((ClientReciveChatInfo) client1Thread).ois=ois1;
+                ((ClientReciveChatInfo) client1Thread).isBlack=true;
                 client1Thread.start();
 
                 /**Zmienne przechowujace wiadomosci 1 i 2 gracza*/
@@ -213,7 +257,7 @@ public class Server {
                 }
         }
 }
-class ClientReciveInfo extends Thread {
+class ClientReciveChatInfo extends Thread {
         public Socket socket;
         public ObjectInputStream ois;
         public ObjectOutputStream oos;
@@ -244,5 +288,47 @@ class ClientReciveInfo extends Thread {
 
 
                 // System.out.println("Dostalem widomosc od 1 gracza: " + mes);
+        }
+}
+
+class ClientReciveGameInfo extends Thread {
+        public Socket socket;
+        public ObjectInputStream ois;
+        public ObjectOutputStream oos;
+        boolean isBlack = true;
+        public Server server;
+
+        /**
+         * Biore i konwertuje na int wiadomosc od klienta
+         */
+        int a;
+        int b;
+
+        @Override
+        public synchronized void run() {
+                System.out.println("Jestem w watku");
+                while(true){
+                        try {
+                                /**BIore wiadomosc od klij. 1 i konwertuje na inta*/
+                                a = (int) ois.readObject();
+                                /**BIore wiadomosc od klij. 1 i konwertuje na inta*/
+                                b = (int) ois.readObject();
+                                System.out.println("Dostalem widomosc od  gracza: " + a + b);
+                                if(isBlack){
+                                        server.a1=a;
+                                        server.b1=b;
+                                }
+                                else
+                                {
+                                        server.a2=a;
+                                        server.b2=b;
+                                }
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                        }
+                }
+
         }
 }

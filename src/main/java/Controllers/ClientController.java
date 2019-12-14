@@ -1,11 +1,8 @@
 package Controllers;
 
 import client.Point;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -132,10 +129,10 @@ Observer observer;
 
                 yourTurn=false;
                 cleanAllreadyChecked();
-                madeMove=true;
                 addChecker(tempPoint);
                 //groupCheckers();
                 killer();
+                madeMove=true;
                 System.out.println("lalalala");
                 /**Wysylam i odbieram informacje*/
                 //observer.setAB(a,b);
@@ -155,6 +152,7 @@ Observer observer;
             //doIPass = true;
             tempPoint= new Point(20,20,isBlack);
             yourTurn = false;
+            madeMove = true;
             System.out.println("Zprobiles PASS jednej rundy.");
         }
         else System.out.println("Nie mozesz zPASSowac nie swojej rundy");
