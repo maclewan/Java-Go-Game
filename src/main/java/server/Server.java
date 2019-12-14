@@ -1,3 +1,4 @@
+
 package server;
 
 import java.io.IOException;
@@ -20,6 +21,8 @@ public class Server {
         private static int port = 6666;
 
         public static String mes1="",mes2="";
+        public static Thread client2Thread= new ClientReciveInfo();
+        public static Thread client1Thread= new ClientReciveInfo();
 
 
         public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
@@ -138,7 +141,6 @@ public class Server {
                                 System.out.println("Dostalem widomosc od 1 gracza: " + a1);
                                 b1 = (int) ois1.readObject();
                                 System.out.println("Dostalem widomosc od 1 gracza: " + b1);
-
                                 System.out.println("daje odpow 1 graczowi");
                                 /**Daje klientowi 2 odpowiedz*/
                                 // ObjectOutputStream oos1a = new ObjectOutputStream(socket1.getOutputStream());
@@ -153,42 +155,10 @@ public class Server {
                 /*Otwieram czat do rozmowy miedzy graczami*/
                 /******************************************/
 
-                Thread client2Thread= new ClientReciveInfo();
-                ((ClientReciveInfo) client2Thread).socket=socket2;
-                ((ClientReciveInfo) client2Thread).ois=ois2;
-                ((ClientReciveInfo) client2Thread).isBlack=false;
-                client2Thread.start();
-
-                Thread client1Thread= new ClientReciveInfo();
-                ((ClientReciveInfo) client1Thread).socket=socket1;
-                ((ClientReciveInfo) client1Thread).ois=ois1;
-                ((ClientReciveInfo) client1Thread).isBlack=true;
-                client1Thread.start();
-
-                /**Zmienne przechowujace wiadomosci 1 i 2 gracza*/
-
-                while(true){
-
-                        /**Daje klientowi 2 odpowiedz*/
-                        try {
-                                oos2.writeObject(mes1);
-                        } catch (IOException e) {
-                                e.printStackTrace();
-                        }
+                ServerChat(socket1,socket2, ois1,ois2,oos1,oos2);
 
 
-                        /**Daje klientowi 1 odpowiedz*/
-                        try {
-                                oos1.writeObject(mes2);
-                        } catch (IOException e) {
-                                e.printStackTrace();
-                        }
 
-                        sleep(1000);
-
-                        /**Sprawdzam czy doszlo do porozumienia miedzy graczami*/
-                        if(mes1=="zacznij gre" ||  mes2=="zacznij gre") break;
-                }
 
                 /**zamykam wszystkie zrodla*/
                 oos2.close();
@@ -201,6 +171,46 @@ public class Server {
                 System.out.println("Shutting down Socket server!!");
                 /**zamykam ServerSocket object*/
                 server.close();
+        }
+        public static void ServerChat(Socket socket1, Socket socket2, ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException {
+                ((ClientReciveInfo) client2Thread).socket=socket2;
+                ((ClientReciveInfo) client2Thread).ois=ois2;
+                ((ClientReciveInfo) client2Thread).isBlack=false;
+                client2Thread.start();
+
+
+                ((ClientReciveInfo) client1Thread).socket=socket1;
+                ((ClientReciveInfo) client1Thread).ois=ois1;
+                ((ClientReciveInfo) client1Thread).isBlack=true;
+                client1Thread.start();
+
+                /**Zmienne przechowujace wiadomosci 1 i 2 gracza*/
+
+                while(true){
+
+                        /**Daje klientowi 2 odpowiedz*/
+                        try {
+                                oos2.writeObject(mes1);
+                                mes1 = "";
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+
+
+
+                        /**Daje klientowi 1 odpowiedz*/
+                        try {
+                                oos1.writeObject(mes2);
+                                mes2 = "";
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+
+                        sleep(1000);
+
+                        /**Sprawdzam czy doszlo do porozumienia miedzy graczami*/
+                        if(mes1=="zacznij gre" ||  mes2=="zacznij gre") break;
+                }
         }
 }
 class ClientReciveInfo extends Thread {
@@ -229,11 +239,6 @@ class ClientReciveInfo extends Thread {
                                 e.printStackTrace();
                         }
 
-                        try {
-                                sleep(100);
-                        } catch (InterruptedException e) {
-                                e.printStackTrace();
-                        }
                         System.out.println("Dostalem widomosc od 1 gracza: " + mes);
                 }
 
