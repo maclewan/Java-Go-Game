@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import static java.lang.Thread.sleep;
+
 /**
  *
  * Ta klasa implementuje Socket server
@@ -17,7 +19,7 @@ public class Server {
         /*port socket serwer-a*/
         private static int port = 6666;
 
-
+        public static String mes1="",mes2="";
 
 
         public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
@@ -154,27 +156,38 @@ public class Server {
                 Thread client2Thread= new ClientReciveInfo();
                 ((ClientReciveInfo) client2Thread).socket=socket2;
                 ((ClientReciveInfo) client2Thread).ois=ois2;
+                ((ClientReciveInfo) client2Thread).isBlack=false;
                 client2Thread.start();
 
                 Thread client1Thread= new ClientReciveInfo();
                 ((ClientReciveInfo) client1Thread).socket=socket1;
                 ((ClientReciveInfo) client1Thread).ois=ois1;
+                ((ClientReciveInfo) client1Thread).isBlack=true;
                 client1Thread.start();
 
                 /**Zmienne przechowujace wiadomosci 1 i 2 gracza*/
-                String mes1="",mes2="";
+
                 while(true){
 
                         /**Daje klientowi 2 odpowiedz*/
-                        oos1.writeObject(mes1);
+                        try {
+                                oos2.writeObject(mes1);
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+
 
                         /**Daje klientowi 1 odpowiedz*/
-                        oos1.writeObject(mes2);
+                        try {
+                                oos1.writeObject(mes2);
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
 
-
+                        sleep(1000);
 
                         /**Sprawdzam czy doszlo do porozumienia miedzy graczami*/
-                        if((mes1=="WIN" && mes2 =="LOSE") || (mes1=="LOSE" && mes2=="WIN")) break;
+                        if(mes1=="zacznij gre" ||  mes2=="zacznij gre") break;
                 }
 
                 /**zamykam wszystkie zrodla*/
@@ -193,7 +206,10 @@ public class Server {
 class ClientReciveInfo extends Thread {
         public Socket socket;
         public ObjectInputStream ois;
-        boolean run = true;
+        public ObjectOutputStream oos;
+        boolean isBlack = true;
+        public Server server;
+
         /**
          * Biore i konwertuje na String wiadomosc od 1 klienta
          */
@@ -205,6 +221,8 @@ class ClientReciveInfo extends Thread {
                 while(true){
                         try {
                                 mes = (String) ois.readObject();
+                                if(isBlack)server.mes1=mes;
+                                else server.mes2=mes;
                         } catch (IOException e) {
                                 e.printStackTrace();
                         } catch (ClassNotFoundException e) {

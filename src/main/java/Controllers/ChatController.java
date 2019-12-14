@@ -66,10 +66,12 @@ public class ChatController {
         co.endGame();
     }
 
+
     @FXML
     void sendOnAction(ActionEvent event) {
         labelChatText.setText(labelChatText.getText()+"\n"+"Ja:\t"+textFldType.getText());
         co.setMesOut(textFldType.getText());
+        System.out.println("klikles to");
     }
 
     public void setCo(ChatObserver co) {

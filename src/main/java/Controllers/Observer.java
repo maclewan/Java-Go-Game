@@ -220,7 +220,7 @@ public class Observer extends Thread{
     }
 
     public void runChat(){
-
+        System.out.println("Rozpoczynam czat na serio");
         ChatObserver chatObserver = new ChatObserver(socket,oos,ois,this);
         chatObserver.start();
     }

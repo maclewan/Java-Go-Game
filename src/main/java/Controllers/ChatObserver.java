@@ -46,6 +46,7 @@ class ChatObserver extends Thread{
         while(true) {
             /**Wysyłanie wiadmosci do serwera*/
             if (isNewMessage) {
+                System.out.println("wysylam wiadomosc");
                 try {
                     oos.writeObject(mesOut);
                 } catch (IOException e) {
@@ -58,6 +59,7 @@ class ChatObserver extends Thread{
             mesIn ="";
             /**Odbiera wiadomosć*/
             try {
+                System.out.println("odbieram wiadomosc");
                 mesIn = (String) ois.readObject();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -66,9 +68,10 @@ class ChatObserver extends Thread{
             }
             System.out.println("Dostalem widomosc od 2 gracza: " + mesIn);
             if (mesIn != "") {
-                chatController.addLabelChatText(mesIn);
+                Platform.runLater(() -> chatController.addLabelChatText(mesIn));
+                //System.out.println("jestem w if "+mesIn);
             }
-
+            System.out.println(mesIn);
 
             /**Usypiam watek*/
             try {
