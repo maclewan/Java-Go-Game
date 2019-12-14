@@ -89,74 +89,7 @@ public class Server {
                 /*Otwieram strumien do gry miedzy graczami*/
                 /******************************************/
                 ServerGame(socket1,socket2, ois1,ois2,oos1,oos2);
-         /*       while(true){
 
-
-                        /*Teraz biore wiadomosc od klienta 1 */
-                        //ObjectInputStream checker1 = new ObjectInputStream(socket1.getInputStream());
-
-                        /**BIore wiadomosc od klij. 1 i konwertuje na inta*/
-         /*               a1 = (int) ois1.readObject();
-                        System.out.println("Dostalem widomosc od 1 gracza: " + a1);
-                        /**BIore wiadomosc od klij. 1 i konwertuje na inta*/
-         /*               b1 = (int) ois1.readObject();
-                        System.out.println("Dostalem widomosc od 1 gracza: " + b1);
-
-                        /**Sprawdzam czy to juz koniec naszej zabawy*/
-        /*                if(a1==20 && a2==20 && b1==20 && b2==20)
-                        {                        /*Teraz biore wiadomosc od klienta 2*/
-                                //ObjectInputStream checker2 = new ObjectInputStream(socket2.getInputStream());
-
-                                /**Konwertuje na inta*/
-        /*                        a2 = (int) ois2.readObject();
-                                System.out.println("Dostalem widomosc od 2 gracza: " + a2);
-                                b2 = (int) ois2.readObject();
-                                System.out.println("Dostalem widomosc od 2 gracza: " + b2);
-
-                                System.out.println("daje odpow 2 graczowi");
-                                /**Daje klientowi 2 odpowiedz*/
-                                // ObjectOutputStream oos1a = new ObjectOutputStream(socket1.getOutputStream());
-        /*                        oos2.writeObject(a1);
-                                oos2.writeObject(b1);
-                                break;
-                        }
-
-                        /**Teraz biore wiadomosc od klienta 2 i konwertuje na inta*/
-         /*               a2 = (int) ois2.readObject();
-                        System.out.println("Dostalem widomosc od 2 gracza: " + a2);
-                        /**Teraz biore wiadomosc od klienta 2 i konwertuje na inta*/
-         /*               b2 = (int) ois2.readObject();
-                        System.out.println("Dostalem widomosc od 2 gracza: " + b2);
-
-                        System.out.println("daje odpow 1 graczowi");
-                        /**Daje klientowi 1 odpowiedz*/
-         /*               oos1.writeObject(a2);
-                        oos1.writeObject(b2);
-
-                        System.out.println("daje odpow 2 graczowi");
-                        /**Daje klientowi 2 odpowiedz*/
-         /*               oos2.writeObject(a1);
-                        oos2.writeObject(b1);
-
-                        /**Sprawdzam czy to juz koniec naszej zabawy*/
-         /*               if(a1==20 && a2==20 && b1==20 && b2==20)
-                        {
-                                System.out.println("A TERAZ JESTEM TU, ludzi tlum");
-                                /**Konwertuje na inta*/
-                                /*a1 = (int) ois1.readObject();
-                                System.out.println("Dostalem widomosc od 1 gracza: " + a1);
-                                b1 = (int) ois1.readObject();
-                                System.out.println("Dostalem widomosc od 1 gracza: " + b1);
-                                System.out.println("daje odpow 1 graczowi");
-                                /**Daje klientowi 2 odpowiedz*/
-                                // ObjectOutputStream oos1a = new ObjectOutputStream(socket1.getOutputStream());
-                                /*oos1.writeObject(a2);
-                                oos1.writeObject(b2);*/
-        /*                        break;
-                        }
-                }
-
-        */
                 /******************************************/
                 /*Otwieram czat do rozmowy miedzy graczami*/
                 /******************************************/
