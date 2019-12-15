@@ -22,13 +22,11 @@ public class ClientController {
 
     public boolean isBlack;
     public boolean yourTurn=true;
-    boolean firstTurn=true;
-    public boolean lastPass=false;
     public boolean madeMove=false;
-    public boolean doIPass=false;
 
 
-Observer observer;
+
+    Observer observer;           //todo: po co to? tak jak linia 50
     private Stage stage;
     Point tempPoint = new Point(21,21,isBlack);
 
@@ -37,19 +35,19 @@ Observer observer;
     private int killedBlack=0;
     private int killedWhite=0;
 
-    public Ellipse[][] checkers = new Ellipse[19][19];
-    boolean[][] groupedArr = new boolean[19][19];
-    boolean[][] allreadyChecked = new boolean[19][19];
-    ArrayList<ArrayList<Point>> groupList = new ArrayList();
-    ArrayList<Point> lastlyKilled = new ArrayList<>();
-    Point lastAdded = new Point(0,0,Color.WHITE);
+    public Ellipse[][] checkers = new Ellipse[19][19];     //todo: do clienta
+    boolean[][] groupedArr = new boolean[19][19];         //todo: do serwera
+    boolean[][] allreadyChecked = new boolean[19][19];     //todo: do serwera
+    ArrayList<ArrayList<Point>> groupList = new ArrayList();     //todo: do serwera
+    ArrayList<Point> lastlyKilled = new ArrayList<>();     //todo: do serwera
+    Point lastAdded = new Point(0,0,Color.WHITE);     //todo: gdzieś
 
 
 
 
 
     public ClientController() throws IOException, ClassNotFoundException {
-        this.observer=observer;
+        this.observer=observer;      //todo: po co to?
     }
 
 

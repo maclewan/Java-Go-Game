@@ -20,6 +20,7 @@ public class Server {
         /*port socket serwer-a*/
         private static int port = 6666;
 
+        //todo: Pola nie moga byc statyczne!
         public static String mes1="",mes2="";
         public static int a1=21;
         public static int b1=21;
@@ -28,6 +29,8 @@ public class Server {
         public static boolean doWeStillPlay=true;
         public static boolean endChat=false;
 
+
+        //todo: main nie moze rzucać wyjątków, już o tym rozmawialiśmy
 
         public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
                 /**tworzenie socket serwer*/
@@ -109,10 +112,14 @@ public class Server {
                 /**zamykam ServerSocket object*/
                 server.close();
         }
+        //todo: Czemu te funkcje są statyczne?!
         public static void ServerGame(Socket socket1, Socket socket2, ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException, IOException {
+                //todo: nie tworz instancji klasy Thread tylko twórz instancje klasy ClientReciveGameInfo
                 Thread client2GameThread= new ClientReciveGameInfo();
                 Thread client1GameThread= new ClientReciveGameInfo();
 
+                //todo: nie odwołuj się do pola przez operator ., tylko stworz gettera w owej klasie
+                //todo: a najlepiej zrób tak, że te pola przekazujesz konstruktorze
                 ((ClientReciveGameInfo) client2GameThread).socket = socket2;
                 ((ClientReciveGameInfo) client2GameThread).ois = ois2;
                 ((ClientReciveGameInfo) client2GameThread).isBlack = false;
@@ -151,6 +158,7 @@ public class Server {
                 }
         }
         public static void ServerChat(Socket socket1, Socket socket2, ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException {
+                //todo: uwagi dokladnie takie same jak do klasy wyzej
                 Thread client2Thread= new ClientReciveChatInfo();
                 Thread client1Thread= new ClientReciveChatInfo();
 
@@ -173,20 +181,11 @@ public class Server {
                         /**Sprawdzam czy doszlo do porozumienia miedzy graczami*/
                         if(endChat)
                         {
-                              /*  try {
-                                       // oos2.writeObject("Wznawiam gre!");
-                                        //oos1.writeObject("Wznawiam gre!");
-                                } catch (IOException e) {
-                                        e.printStackTrace();
-                                }*/
-                                System.out.println("Jeszcze nie idziemy spac, bedziemy..");
+
+                                System.out.println("Wznawiam grę");
                                 client2Thread.interrupt();
                                 client1Thread.interrupt();
-                                /*try {
-                                        ServerGame(socket1,socket2, ois1,ois2,oos1,oos2);
-                                } catch (IOException e) {
-                                        e.printStackTrace();
-                                }*/
+
                                 break;
                         }
                         sleep(1000);
@@ -209,7 +208,10 @@ public class Server {
                 }
         }
 }
+
 class ClientReciveChatInfo extends Thread {
+        //todo: pola prywatne! wszystkie, boole też
+
         public Socket socket;
         public ObjectInputStream ois;
         public ObjectOutputStream oos;
@@ -223,7 +225,7 @@ class ClientReciveChatInfo extends Thread {
 
         @Override
         public synchronized void run() {
-                System.out.println("Jestem w watkuCHAT");
+                System.out.println("Jestem w watku CHAT");
                 while(true){
                         try {
                                 mes = (String) ois.readObject();
@@ -238,9 +240,8 @@ class ClientReciveChatInfo extends Thread {
                         } catch (ClassNotFoundException e) {
 
                         }
-                        System.out.print("\033[H\033[2J");
-                        System.out.flush();
                         System.out.println("Dostalem widomosc od 1 gracza: " + mes);
+
                 }
 
 
@@ -249,6 +250,8 @@ class ClientReciveChatInfo extends Thread {
 }
 
 class ClientReciveGameInfo extends Thread {
+        //todo: Pola prywante jak wyżej
+
         public Socket socket;
         public ObjectInputStream ois;
         boolean isBlack = true;
@@ -262,7 +265,7 @@ class ClientReciveGameInfo extends Thread {
 
         @Override
         public synchronized void run() {
-                System.out.println("Jestem w watkuGAME");
+                System.out.println("Jestem w watku GAME");
                 while(true){
                         try {
                                 /**BIore wiadomosc od klij. 1 i konwertuje na inta*/

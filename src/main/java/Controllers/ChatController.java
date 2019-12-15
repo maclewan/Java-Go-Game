@@ -12,8 +12,8 @@ import javafx.stage.Stage;
 
 public class ChatController {
 
-    ChatObserver co;
-    Stage stage;
+    private ChatObserver co;
+    private Stage stage;
 
 
     @FXML
@@ -91,6 +91,10 @@ public class ChatController {
         co.continueGame();
         stage.close();
 
+    }
+
+    public void closeChat(){
+        stage.close();
     }
 
 
