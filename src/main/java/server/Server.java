@@ -210,7 +210,7 @@ public class Server {
 
                                 break;
                         }
-                        sleep(1000);
+                        sleep(100);
                         /**Daje klientowi 2 odpowiedz*/
                         try {
                                 oos2.writeObject(mes1);
@@ -233,14 +233,14 @@ public class Server {
         /**2 metody o tej samej nazwie ale roznymi param.*/
         public void setParams(String mes,boolean isBlack1)
         {
-                if(mes.equals("Wznawiam gre!"))endChat=true;
-                else {
+                {
                         if (isBlack1) {
                                 this.mes1 = mes;
                         } else {
                                 this.mes2 = mes;
                         }
                 }
+                if(mes.equals("Wznawiam gre!"))endChat=true;
 
         }
         /**2 metody o tej samej nazwie ale roznymi param.*/
@@ -267,11 +267,11 @@ class ClientReciveChatInfo extends Thread {
         private  ObjectInputStream ois;
         private boolean isBlack;
         private Server server;
-
+        private String mes;
         /**
          * Biore i konwertuje na String wiadomosc od 1 klienta
          */
-        String mes;
+
 
         @Override
         public synchronized void run() {
@@ -300,13 +300,11 @@ class ClientReciveGameInfo extends Thread {
         private ObjectInputStream ois;
         private boolean isBlack;
         private Server server;
-
+        private int a;
+        private int b;
         /**
          * Biore i konwertuje na int wiadomosc od klienta
          */
-        int a;
-        int b;
-
         @Override
         public synchronized void run() {
                 System.out.println("Jestem w watku GAME");
@@ -318,15 +316,6 @@ class ClientReciveGameInfo extends Thread {
                                 b = (int) ois.readObject();
                                 System.out.println("Dostalem widomosc od  gracza: " + a + b);
                                 server.setParams(a,b,isBlack);
-                               /* if(isBlack){
-                                        server.a1=1;
-                                        server.b1=b;
-                                }
-                                else
-                                {
-                                        server.a2=a;
-                                        server.b2=b;
-                                }*/
                         } catch (IOException e) {
 
                         } catch (ClassNotFoundException e) {
