@@ -89,7 +89,8 @@ class ChatObserver extends Thread{
                     e.printStackTrace();
                 }
                 System.out.println("a tera tu");
-                //TODO: MACIEUJU tutej trzeba zamknac okno ChatController
+
+                chatController.closeChat();
                 observer.continueGame();
                 doWePlay=false;
                 this.interrupt();
@@ -109,6 +110,7 @@ class ChatObserver extends Thread{
             }
 
             if (!(mesIn.equals(lastMes))) {
+                System.out.println("Dopisuje1!!!!!!");
                 Platform.runLater(() -> chatController.addLabelChatText(mesIn));
                 lastMes=mesIn;
 
@@ -118,7 +120,7 @@ class ChatObserver extends Thread{
             }
             /**temp*/
             try {
-                Thread.sleep(1000);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
