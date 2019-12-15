@@ -182,7 +182,7 @@ public class Server {
                         if (a1 == 20 && a2 == 20 && b1 == 20 && b2 == 20) {
                                 client2GameThread.interrupt();
                                 client1GameThread.interrupt();
-                                sleep(2000);
+                                //sleep(2000);
                                 //ServerChat(socket1, socket2, ois1, ois2, oos1, oos2);
                                 a1 = 21;
                                 a2 = 21;
@@ -209,7 +209,22 @@ public class Server {
                         /**Sprawdzam czy doszlo do porozumienia miedzy graczami*/
                         if(endChat)
                         {
+                                /**Daje klientowi 2 odpowiedz*/
+                                try {
+                                        oos2.writeObject(mes1);
+                                        System.out.println("Napisalem mes1: "+mes1);
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                }
 
+
+                                /**Daje klientowi 1 odpowiedz*/
+                                try {
+                                        oos1.writeObject(mes2);
+                                        System.out.println("Napisalem mes2: "+mes2);
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                }
                                 System.out.println("Wznawiam grę");
                                 client2Thread.interrupt();
                                 client1Thread.interrupt();

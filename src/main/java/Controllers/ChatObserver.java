@@ -50,7 +50,7 @@ class ChatObserver extends Thread{
         while(doWePlay) {
 
             if (isNewMessage) {
-                System.out.println("wysylam wiadomosc " + mesOut);
+                System.out.println("wysylam wiadomosc: " + mesOut);
                 try {
                     oos.writeObject(mesOut);
                 } catch (IOException e) {
@@ -61,7 +61,7 @@ class ChatObserver extends Thread{
             if(mesOut.equals("Wznawiam gre!"))
             {
 
-    /*            try {
+               try {
                     System.out.println("odbieram wiadomosc");
                     mesIn = (String) ois.readObject();
                 } catch (IOException e) {
@@ -75,18 +75,28 @@ class ChatObserver extends Thread{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                System.out.println("JESTEM TUTaJ");*/
-/*
+                System.out.println("JESTEM TUTaJ");
+
                 observer.continueGame();
                 doWePlay=false;
                 this.interrupt();
                 break;
-*/
-                wznowGre();
-                break;
+
+                //wznowGre();
+               // break;
             }
             if (mesIn.equals("Wznawiam gre!") ) {
-                wznowGre();
+                int tmp=21;
+                try {
+                    oos.writeObject(tmp);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("a tera tu");
+                //TODO: MACIEUJU tutej trzeba zamknac okno ChatController
+                observer.continueGame();
+                doWePlay=false;
+                this.interrupt();
                 break;
             }
             /**Odbiera wiadomosć*/
@@ -116,7 +126,7 @@ class ChatObserver extends Thread{
             }
             /**temp*/
             try {
-                Thread.sleep(10);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -151,9 +161,9 @@ class ChatObserver extends Thread{
     }
 
     public void continueGame(){
-        mesIn="Wznawiam gre!";
-        mesOut="Wznawiam gre!";
-        isNewMessage=true;
+        //mesIn="Wznawiam gre!";
+        this.mesOut="Wznawiam gre!";
+        this.isNewMessage=true;
         //doWePlay=false;
         //observer.continueGame();
         //this.interrupt();  /**Zabijam ten wątek chatu*/
