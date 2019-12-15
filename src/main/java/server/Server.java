@@ -16,118 +16,149 @@ import static java.lang.Thread.sleep;
  */
 
 public class Server {
-        private static ServerSocket server;
-        /*port socket serwer-a*/
-        private static int port = 6666;
-
-        //todo: Pola nie moga byc statyczne!
-        public static String mes1="",mes2="";
-        public static int a1=21;
-        public static int b1=21;
-        public static int a2=21;
-        public static int b2=21;
-        public static boolean doWeStillPlay=true;
-        public static boolean endChat=false;
-
+        private String mes1="",mes2="";
+        private int a1=21;
+        private  int b1=21;
+        private int a2=21;
+        private int b2=21;
+        private boolean endChat=false;
 
         //todo: main nie moze rzucać wyjątków, już o tym rozmawialiśmy
 
-        public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+        public static void main(String[] args){
+                ServerSocket server = null;
+                /*port socket serwer-a*/
+                int port = 6666;
+
+                //todo: Pola nie moga byc statyczne!
+
+                boolean doWeStillPlay=true;
+                Server s=new Server();
                 /**tworzenie socket serwer*/
-                server = new ServerSocket(port);
+                try {
+                        server = new ServerSocket(port);
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
                 System.out.println("Stworzylem server");
                 /*Tutaj daje wiadomosc klientom ktory byl pierwszy*/
 
 
                 //******************************//
-                //---- UNDER CONSTRUCKTION------//
+                //---- PODLACZANIE DO SERVERA---//
                 //******************************//
 
                 /*Czekam na klienta 1*/
                 System.out.println("Czekam na 1 gracza");
                 /**Czekam na klienta 1*/
-                Socket socket1 = server.accept();
-                System.out.println("Gracz 1 dolaczyl do serwera");
-                /**Daje klientowi 1 odpowiedz*/
-                ObjectOutputStream oos1 = new ObjectOutputStream(socket1.getOutputStream());
-                oos1.writeObject(true);
+                Socket socket1 = null;
+                Socket socket2 = null;
+                ObjectOutputStream oos1=null;
+                ObjectOutputStream oos2=null;
+                ObjectInputStream ois1=null;
+                ObjectInputStream ois2=null;
+                try {
+                        socket1 = server.accept();
+                        System.out.println("Gracz 1 dolaczyl do serwera");
+                        /**Daje klientowi 1 odpowiedz*/
+                        oos1 = new ObjectOutputStream(socket1.getOutputStream());
+                        oos1.writeObject(true);
 
-                /**Teraz biore wiadomosc od klienta 1 */
-                ObjectInputStream ois1 = new ObjectInputStream(socket1.getInputStream());
-
-
-                /*Czekam na klienta 2*/
-                System.out.println("Czekam na 2 gracza");
-                /**Czekam na klienta 2*/
-                Socket socket2 = server.accept();
-                System.out.println("Gracz 2 dolaczyl do serwera");
-
-                /**Konwertuje na inta*/
-                String a = (String) ois1.readObject();
-                System.out.println("Dostalem waidomosc od 1 gracza: " + a);
-
-                /**Daje klientowi 2 odpowiedz*/
-                ObjectOutputStream oos2 = new ObjectOutputStream(socket2.getOutputStream());
-                oos2.writeObject(false);
-
-                /**Teraz biore wiadomosc od klienta 2 */
-                ObjectInputStream ois2 = new ObjectInputStream(socket2.getInputStream());
-
-                /**Konwertuje na inta*/
-                String b = (String) ois2.readObject();
-                System.out.println("Dostalem widomosc od 2 gracza: " + b);
+                        /**Teraz biore wiadomosc od klienta 1 */
+                        ois1 = new ObjectInputStream(socket1.getInputStream());
 
 
+                        /*Czekam na klienta 2*/
+                        System.out.println("Czekam na 2 gracza");
+                        /**Czekam na klienta 2*/
+                        socket2 = server.accept();
+                        System.out.println("Gracz 2 dolaczyl do serwera");
 
-                /**informuje klienta 1 ze wszyscy sa*/
-                oos2.writeObject(true);
+                        /**Konwertuje na inta*/
+                        String a = (String) ois1.readObject();
+                        System.out.println("Dostalem waidomosc od 1 gracza: " + a);
 
-                /**informuje klienta 2 ze wszyscy sa*/
-                oos1.writeObject(true);
+                        /**Daje klientowi 2 odpowiedz*/
+                        oos2 = new ObjectOutputStream(socket2.getOutputStream());
+                        oos2.writeObject(false);
+
+                        /**Teraz biore wiadomosc od klienta 2 */
+                        ois2 = new ObjectInputStream(socket2.getInputStream());
+
+                        /**Konwertuje na inta*/
+                        String b = (String) ois2.readObject();
+                        System.out.println("Dostalem widomosc od 2 gracza: " + b);
+
+
+
+                        /**informuje klienta 1 ze wszyscy sa*/
+                        oos2.writeObject(true);
+
+                        /**informuje klienta 2 ze wszyscy sa*/
+                        oos1.writeObject(true);
+
+                } catch (IOException e) {
+                        e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                }
 
                 while(doWeStillPlay) {
                         /******************************************/
                         /*Otwieram strumien do gry miedzy graczami*/
                         /******************************************/
-                        ServerGame(socket1, socket2, ois1, ois2, oos1, oos2);
+                        try {
+                                s.ServerGame(ois1, ois2, oos1, oos2);
+                        } catch (InterruptedException e) {
+                                e.printStackTrace();
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
 
                         /******************************************/
                         /*Otwieram czat do rozmowy miedzy graczami*/
                         /******************************************/
 
-                        ServerChat(socket1, socket2, ois1, ois2, oos1, oos2);
+                        try {
+                                s.ServerChat(ois1, ois2, oos1, oos2);
+                        } catch (InterruptedException e) {
+                                e.printStackTrace();
+                        }
 
                 }
 
 
                 /**zamykam wszystkie zrodla*/
-                oos2.close();
+                try { 
+                        oos2.close();
                 ois1.close();
                 oos1.close();
                 oos2.close();
                 socket2.close();
                 socket1.close();
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
 
                 System.out.println("Shutting down Socket server!!");
                 /**zamykam ServerSocket object*/
-                server.close();
+                try {
+                        server.close();
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
         }
         //todo: Czemu te funkcje są statyczne?!
-        public static void ServerGame(Socket socket1, Socket socket2, ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException, IOException {
-                //todo: nie tworz instancji klasy Thread tylko twórz instancje klasy ClientReciveGameInfo
-                Thread client2GameThread= new ClientReciveGameInfo();
-                Thread client1GameThread= new ClientReciveGameInfo();
+        public void ServerGame(ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException, IOException {
+               //GOTOWE //todo: nie tworz instancji klasy Thread tylko twórz instancje klasy ClientReciveGameInfo
+                ClientReciveGameInfo client2GameThread= new ClientReciveGameInfo(ois2, false ,this);
+                ClientReciveGameInfo client1GameThread= new ClientReciveGameInfo(ois1, true ,this);
 
-                //todo: nie odwołuj się do pola przez operator ., tylko stworz gettera w owej klasie
-                //todo: a najlepiej zrób tak, że te pola przekazujesz konstruktorze
-                ((ClientReciveGameInfo) client2GameThread).socket = socket2;
-                ((ClientReciveGameInfo) client2GameThread).ois = ois2;
-                ((ClientReciveGameInfo) client2GameThread).isBlack = false;
+                //GOTOWE//todo: nie odwołuj się do pola przez operator ., tylko stworz gettera w owej klasie
+                //no nwm, jak starczy czasu//todo: a najlepiej zrób tak, że te pola przekazujesz konstruktorze
+
                 client2GameThread.start();
 
-                ((ClientReciveGameInfo) client1GameThread).socket = socket1;
-                ((ClientReciveGameInfo) client1GameThread).ois = ois1;
-                ((ClientReciveGameInfo) client1GameThread).isBlack = true;
                 client1GameThread.start();
 
                 while(true) {
@@ -157,21 +188,12 @@ public class Server {
                         sleep(100);
                 }
         }
-        public static void ServerChat(Socket socket1, Socket socket2, ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException {
-                //todo: uwagi dokladnie takie same jak do klasy wyzej
-                Thread client2Thread= new ClientReciveChatInfo();
-                Thread client1Thread= new ClientReciveChatInfo();
+        public void ServerChat( ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException {
+               //GOTOWE //todo: uwagi dokladnie takie same jak do klasy wyzej
+                ClientReciveChatInfo client2Thread= new ClientReciveChatInfo(ois2, false,this );
+                ClientReciveChatInfo client1Thread= new ClientReciveChatInfo( ois1, true ,this);
 
-
-                ((ClientReciveChatInfo) client2Thread).socket=socket2;
-                ((ClientReciveChatInfo) client2Thread).ois=ois2;
-                ((ClientReciveChatInfo) client2Thread).isBlack=false;
                 client2Thread.start();
-
-
-                ((ClientReciveChatInfo) client1Thread).socket=socket1;
-                ((ClientReciveChatInfo) client1Thread).ois=ois1;
-                ((ClientReciveChatInfo) client1Thread).isBlack=true;
                 client1Thread.start();
 
                 /**Zmienne przechowujace wiadomosci 1 i 2 gracza*/
@@ -207,16 +229,44 @@ public class Server {
 
                 }
         }
+
+        /**2 metody o tej samej nazwie ale roznymi param.*/
+        public void setParams(String mes,boolean isBlack1)
+        {
+                if(mes.equals("Wznawiam gre!"))endChat=true;
+                else {
+                        if (isBlack1) {
+                                this.mes1 = mes;
+                        } else {
+                                this.mes2 = mes;
+                        }
+                }
+
+        }
+        /**2 metody o tej samej nazwie ale roznymi param.*/
+        public void setParams(int a, int b, boolean isBlack1) {
+                if(isBlack1){
+                        this.a1=a;
+                        this.b1=b;
+                }
+                else{
+                        this.a2=a;
+                        this.b2=b;
+                }
+        }
 }
 
 class ClientReciveChatInfo extends Thread {
-        //todo: pola prywatne! wszystkie, boole też
+        public  ClientReciveChatInfo(ObjectInputStream ois1, boolean isBlack1,Server server1){
+                this.ois=ois1;
+                this.server = server1;
+                this.isBlack=isBlack1;
+        }
+        //GOTOWE//todo: pola prywatne! wszystkie, boole też
 
-        public Socket socket;
-        public ObjectInputStream ois;
-        public ObjectOutputStream oos;
-        boolean isBlack = true;
-        public Server server;
+        private  ObjectInputStream ois;
+        private boolean isBlack;
+        private Server server;
 
         /**
          * Biore i konwertuje na String wiadomosc od 1 klienta
@@ -229,33 +279,27 @@ class ClientReciveChatInfo extends Thread {
                 while(true){
                         try {
                                 mes = (String) ois.readObject();
-                                if(isBlack)server.mes1=mes;
-                                else server.mes2=mes;
-                                if(mes.equals("Wznawiam gre!")){
-                                        server.endChat=true;
-                                        System.out.println("Pora kuncyc");
-                                }
+                                server.setParams(mes,isBlack);
                         } catch (IOException e) {
 
                         } catch (ClassNotFoundException e) {
 
                         }
                         System.out.println("Dostalem widomosc od 1 gracza: " + mes);
-
                 }
-
-
-                // System.out.println("Dostalem widomosc od 1 gracza: " + mes);
         }
 }
 
 class ClientReciveGameInfo extends Thread {
+        public  ClientReciveGameInfo( ObjectInputStream ois1, boolean isBlack1,Server server1){
+                this.ois=ois1;
+                this.server = server1;
+                this.isBlack=isBlack1;
+        }
         //todo: Pola prywante jak wyżej
-
-        public Socket socket;
-        public ObjectInputStream ois;
-        boolean isBlack = true;
-        public Server server;
+        private ObjectInputStream ois;
+        private boolean isBlack;
+        private Server server;
 
         /**
          * Biore i konwertuje na int wiadomosc od klienta
@@ -273,15 +317,16 @@ class ClientReciveGameInfo extends Thread {
                                 /**BIore wiadomosc od klij. 1 i konwertuje na inta*/
                                 b = (int) ois.readObject();
                                 System.out.println("Dostalem widomosc od  gracza: " + a + b);
-                                if(isBlack){
-                                        server.a1=a;
+                                server.setParams(a,b,isBlack);
+                               /* if(isBlack){
+                                        server.a1=1;
                                         server.b1=b;
                                 }
                                 else
                                 {
                                         server.a2=a;
                                         server.b2=b;
-                                }
+                                }*/
                         } catch (IOException e) {
 
                         } catch (ClassNotFoundException e) {
@@ -290,4 +335,5 @@ class ClientReciveGameInfo extends Thread {
                 }
 
         }
+
 }
