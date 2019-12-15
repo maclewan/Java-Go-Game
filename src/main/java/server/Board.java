@@ -24,12 +24,17 @@ public class Board {
 
     private ArrayList<ArrayList<Point>> groupList = new ArrayList();
     private ArrayList<Point> lastlyKilled = new ArrayList<>();
-    private Point lastAdded = new Point(0,0, Color.WHITE);
-
+    private Point lastAddedWhite = new Point(23,23, Color.WHITE);
+    private Point lastAddedBlack = new Point(23,23, Color.BLACK);
 
 
 
     public void btnPassOnAction()  {
+        if(tempPoint.isBlack()){
+            lastAddedBlack=new Point(23,23, Color.BLACK);
+        }
+        else
+            lastAddedWhite=new Point(23,23, Color.WHITE);
         //todo: info do serwera - pass - punkt 20;20
     }
 
@@ -65,7 +70,13 @@ public class Board {
             //todo: info do serwera - zły ruch
         }
 
-        lastAdded=tempPoint;
+        if(tempPoint.isBlack()){
+            lastAddedBlack=tempPoint;
+        }
+        else
+            lastAddedWhite=tempPoint;
+
+
         killer();                 //podaje w sobie info do serwera
         //groupCheckers();   //czy tu potrzebne?
 
@@ -75,18 +86,10 @@ public class Board {
     /**Usuwanie pionka*/
 
     void removeChecker(int x, int y, boolean seriously) {
-        if(pointsArr[x][y]!= 2) {
-            if (seriously) {
-                if (pointsArr[x][y] == 1)
-                    killedWhite++;
-                else
-                    killedBlack++;
-            }
 
+        pointsArr[x][y] = 2;
+        groupedArr[x][y] = false;
 
-            pointsArr[x][y] = 2;
-            groupedArr[x][y] = false;
-        }
     }
 
 

@@ -26,9 +26,7 @@ public class ClientController {
 
 
 
-    Observer observer;           //todo: po co to? tak jak linia 50
     private Stage stage;
-    Point tempPoint = new Point(21,21,isBlack);
 
     private int tmpA,tmpB; //zmienne stworzenone aby nie wysylac serverowi info jesli sie klikni np. na srodku kwadratu
     int x, y, diffX, diffY;
