@@ -23,14 +23,14 @@ public class Server {
         private int b2=21;
         private boolean endChat=false;
 
-        //todo: main nie moze rzucać wyjątków, już o tym rozmawialiśmy
+       //gotowe //todo: main nie moze rzucać wyjątków, już o tym rozmawialiśmy
 
         public static void main(String[] args){
                 ServerSocket server = null;
                 /*port socket serwer-a*/
                 int port = 6666;
 
-                //todo: Pola nie moga byc statyczne!
+                //gotowe //todo: Pola nie moga byc statyczne!
 
                 boolean doWeStillPlay=true;
                 Server s=new Server();
@@ -148,14 +148,14 @@ public class Server {
                         e.printStackTrace();
                 }
         }
-        //todo: Czemu te funkcje są statyczne?!
+        //GOTOWE//todo: Czemu te funkcje są statyczne?!
         public void ServerGame(ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException, IOException {
                //GOTOWE //todo: nie tworz instancji klasy Thread tylko twórz instancje klasy ClientReciveGameInfo
                 ClientReciveGameInfo client2GameThread= new ClientReciveGameInfo(ois2, false ,this);
                 ClientReciveGameInfo client1GameThread= new ClientReciveGameInfo(ois1, true ,this);
 
                 //GOTOWE//todo: nie odwołuj się do pola przez operator ., tylko stworz gettera w owej klasie
-                //no nwm, jak starczy czasu//todo: a najlepiej zrób tak, że te pola przekazujesz konstruktorze
+                //GOTOWE//todo: a najlepiej zrób tak, że te pola przekazujesz konstruktorze
 
                 client2GameThread.start();
 
@@ -168,11 +168,13 @@ public class Server {
                         /**Daje klientowi 1 odpowiedz*/
                         oos1.writeObject(a2);
                         oos1.writeObject(b2);
+                        client2GameThread.SetLastOponnentMove(a1,b1);
 
                         System.out.println("Wysylam2 : " + a1 + b1);
                         /**Daje klientowi 2 odpowiedz*/
                         oos2.writeObject(a1);
                         oos2.writeObject(b1);
+                        client2GameThread.SetLastOponnentMove(a2,b2);
 
                         if (a1 == 20 && a2 == 20 && b1 == 20 && b2 == 20) {
                                 client2GameThread.interrupt();
@@ -281,9 +283,7 @@ class ClientReciveChatInfo extends Thread {
                                 mes = (String) ois.readObject();
                                 server.setParams(mes,isBlack);
                         } catch (IOException e) {
-
                         } catch (ClassNotFoundException e) {
-
                         }
                         System.out.println("Dostalem widomosc od 1 gracza: " + mes);
                 }
@@ -296,12 +296,14 @@ class ClientReciveGameInfo extends Thread {
                 this.server = server1;
                 this.isBlack=isBlack1;
         }
-        //todo: Pola prywante jak wyżej
+        //GOTOWE//todo: Pola prywante jak wyżej
         private ObjectInputStream ois;
         private boolean isBlack;
         private Server server;
         private int a;
         private int b;
+        private int lastA=21;
+        private int lastB=21;
         /**
          * Biore i konwertuje na int wiadomosc od klienta
          */
@@ -309,6 +311,7 @@ class ClientReciveGameInfo extends Thread {
         public synchronized void run() {
                 System.out.println("Jestem w watku GAME");
                 while(true){
+                        if(lastA==20 && lastB==20 && a==20 && b==20) this.interrupt();
                         try {
                                 /**BIore wiadomosc od klij. 1 i konwertuje na inta*/
                                 a = (int) ois.readObject();
@@ -316,13 +319,17 @@ class ClientReciveGameInfo extends Thread {
                                 b = (int) ois.readObject();
                                 System.out.println("Dostalem widomosc od  gracza: " + a + b);
                                 server.setParams(a,b,isBlack);
+
                         } catch (IOException e) {
-
                         } catch (ClassNotFoundException e) {
-
                         }
                 }
 
+        }
+        public void SetLastOponnentMove(int a, int b)
+        {
+                this.lastA=a;
+                this.lastB=b;
         }
 
 }
