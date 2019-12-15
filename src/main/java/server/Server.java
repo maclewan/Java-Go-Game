@@ -333,11 +333,11 @@ class ClientReciveGameInfo extends Thread {
                                 break;
                         }
                         try {
-                                /**BIore wiadomosc od klij. 1 i konwertuje na inta*/
+                                /**BIore wiadomosc od klij. 1 i parsuje na inta*/
                                 a = (int) ois.readObject();
-                                /**BIore wiadomosc od klij. 1 i konwertuje na inta*/
+                                /**BIore wiadomosc od klij. 1 i parsuje na inta*/
                                 b = (int) ois.readObject();
-                                System.out.println("Dostalem widomosc od  gracza: " + a + b);
+                                System.out.println("Dostalem widomosc od  gracza: " + a +";"+ b);
                                 server.setParams(a,b,isBlack);
 
 
