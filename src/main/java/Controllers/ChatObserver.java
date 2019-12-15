@@ -75,7 +75,7 @@ class ChatObserver extends Thread{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                System.out.println("JESTEM TUTEJ");
+                System.out.println("JESTEM TUTaJ");
                 observer.continueGame();
                 doWePlay=false;
                 this.interrupt();
@@ -112,15 +112,6 @@ class ChatObserver extends Thread{
                 //System.out.println("jestem w if "+mesIn);
             }
             System.out.println("mesIN: "+mesIn);
-
-            /**Usypiam watek*/
-            /*try {
-                sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
-
-            //endGame();
         }
         observer.continueGame();
     }
