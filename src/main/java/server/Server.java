@@ -21,10 +21,6 @@ public class Server {
         private static int port = 6666;
 
         public static String mes1="",mes2="";
-        public static Thread client2Thread= new ClientReciveChatInfo();
-        public static Thread client1Thread= new ClientReciveChatInfo();
-
-
         public static int a1=21;
         public static int b1=21;
         public static int a2=21;
@@ -155,6 +151,10 @@ public class Server {
                 }
         }
         public static void ServerChat(Socket socket1, Socket socket2, ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException {
+                Thread client2Thread= new ClientReciveChatInfo();
+                Thread client1Thread= new ClientReciveChatInfo();
+
+
                 ((ClientReciveChatInfo) client2Thread).socket=socket2;
                 ((ClientReciveChatInfo) client2Thread).ois=ois2;
                 ((ClientReciveChatInfo) client2Thread).isBlack=false;
@@ -182,11 +182,11 @@ public class Server {
                                 System.out.println("Jeszcze nie idziemy spac, bedziemy..");
                                 client2Thread.interrupt();
                                 client1Thread.interrupt();
-                                try {
+                                /*try {
                                         ServerGame(socket1,socket2, ois1,ois2,oos1,oos2);
                                 } catch (IOException e) {
                                         e.printStackTrace();
-                                }
+                                }*/
                                 break;
                         }
                         sleep(1000);

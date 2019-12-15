@@ -110,7 +110,7 @@ class ChatObserver extends Thread{
                 lastMes=mesIn;
                 //System.out.println("jestem w if "+mesIn);
             }
-            System.out.println(mesIn);
+            System.out.println("mesIN: "+mesIn);
 
             /**Usypiam watek*/
             /*try {
@@ -166,5 +166,9 @@ class ChatObserver extends Thread{
     public void setMesOut(String mesOut) {
         this.mesOut = mesOut;
         isNewMessage=true;
+    }
+    public void setMesIn(String mesIn) {
+        this.mesIn = mesIn;
+        //isNewMessage=true;
     }
 }

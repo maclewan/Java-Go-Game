@@ -119,7 +119,6 @@ public class Observer extends Thread{
                     continueGames=false;
                 }
                 cc.tempPoint= new Point(21,21,cc.isBlack);
-
                 /**Zaczynamy chat*/
                 if(!isChatOpen) {
                      System.out.println("wszedlem do czatu");
@@ -244,6 +243,8 @@ public class Observer extends Thread{
     public void runChat(){
         System.out.println("Rozpoczynam czat na serio");
         ChatObserver chatObserver = new ChatObserver(socket,oos,ois,this);
+        chatObserver.setMesOut("");
+        chatObserver.setMesIn("");
         chatObserver.start();
     }
 
