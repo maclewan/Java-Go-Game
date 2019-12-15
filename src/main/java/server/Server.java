@@ -273,6 +273,7 @@ class ClientReciveChatInfo extends Thread {
          */
 
 
+
         @Override
         public synchronized void run() {
                 System.out.println("Jestem w watku CHAT");
