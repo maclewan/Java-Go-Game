@@ -23,14 +23,13 @@ public class Server {
         private int b2=21;
         private boolean endChat=false;
 
-       //gotowe //todo: main nie moze rzucać wyjątków, już o tym rozmawialiśmy
+
 
         public static void main(String[] args){
                 ServerSocket server = null;
-                /*port socket serwer-a*/
+                /**port socket serwer-a*/
                 int port = 6666;
 
-                //gotowe //todo: Pola nie moga byc statyczne!
 
                 boolean doWeStillPlay=true;
                 Server s=new Server();
@@ -41,7 +40,7 @@ public class Server {
                         e.printStackTrace();
                 }
                 System.out.println("Stworzylem server");
-                /*Tutaj daje wiadomosc klientom ktory byl pierwszy*/
+                /**Tutaj daje wiadomosc klientom ktory byl pierwszy*/
 
 
                 //******************************//
@@ -148,14 +147,11 @@ public class Server {
                         e.printStackTrace();
                 }
         }
-        //GOTOWE//todo: Czemu te funkcje są statyczne?!
+
         public void ServerGame(ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException, IOException {
-               //GOTOWE //todo: nie tworz instancji klasy Thread tylko twórz instancje klasy ClientReciveGameInfo
                 ClientReciveGameInfo client2GameThread= new ClientReciveGameInfo(ois2, false ,this);
                 ClientReciveGameInfo client1GameThread= new ClientReciveGameInfo(ois1, true ,this);
 
-                //GOTOWE//todo: nie odwołuj się do pola przez operator ., tylko stworz gettera w owej klasie
-                //GOTOWE//todo: a najlepiej zrób tak, że te pola przekazujesz konstruktorze
 
                 client2GameThread.start();
 
@@ -168,15 +164,18 @@ public class Server {
                         /**Daje klientowi 1 odpowiedz*/
                         oos1.writeObject(a2);
                         oos1.writeObject(b2);
+                        client2GameThread.SetLastOponnentMove(a1,b1);
 
                         System.out.println("Wysylam2 : " + a1 + b1);
                         /**Daje klientowi 2 odpowiedz*/
                         oos2.writeObject(a1);
                         oos2.writeObject(b1);
+                        client2GameThread.SetLastOponnentMove(a2,b2);
 
                         if (a1 == 20 && a2 == 20 && b1 == 20 && b2 == 20) {
                                 client2GameThread.interrupt();
                                 client1GameThread.interrupt();
+                                sleep(2000);
                                 //ServerChat(socket1, socket2, ois1, ois2, oos1, oos2);
                                 a1 = 21;
                                 a2 = 21;
@@ -189,7 +188,7 @@ public class Server {
                 }
         }
         public void ServerChat( ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException {
-               //GOTOWE //todo: uwagi dokladnie takie same jak do klasy wyzej
+
                 ClientReciveChatInfo client2Thread= new ClientReciveChatInfo(ois2, false,this );
                 ClientReciveChatInfo client1Thread= new ClientReciveChatInfo( ois1, true ,this);
 
@@ -214,18 +213,20 @@ public class Server {
                         /**Daje klientowi 2 odpowiedz*/
                         try {
                                 oos2.writeObject(mes1);
+                                System.out.println("mes1: "+mes1);
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }
-
 
 
                         /**Daje klientowi 1 odpowiedz*/
                         try {
                                 oos1.writeObject(mes2);
+                                System.out.println("mes2: "+mes2);
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }
+                        sleep(500);
 
                 }
         }
@@ -262,7 +263,7 @@ class ClientReciveChatInfo extends Thread {
                 this.server = server1;
                 this.isBlack=isBlack1;
         }
-        //GOTOWE//todo: pola prywatne! wszystkie, boole też
+
 
         private  ObjectInputStream ois;
         private boolean isBlack;
@@ -271,7 +272,6 @@ class ClientReciveChatInfo extends Thread {
         /**
          * Biore i konwertuje na String wiadomosc od 1 klienta
          */
-
 
 
         @Override
@@ -284,7 +284,13 @@ class ClientReciveChatInfo extends Thread {
                         } catch (IOException e) {
                         } catch (ClassNotFoundException e) {
                         }
+                        if(!(mes==null||mes==""))
                         System.out.println("Dostalem widomosc od 1 gracza: " + mes);
+                        try {
+                                sleep(100);
+                        } catch (InterruptedException e) {
+                                e.printStackTrace();
+                        }
                 }
         }
 }
@@ -294,36 +300,55 @@ class ClientReciveGameInfo extends Thread {
                 this.ois=ois1;
                 this.server = server1;
                 this.isBlack=isBlack1;
-                if(isBlack) myturn =true;
-                else myturn = false;
         }
-        //GOTOWE//todo: Pola prywante jak wyżej
+
         private ObjectInputStream ois;
         private boolean isBlack;
         private Server server;
         private int a;
         private int b;
-        boolean myturn;
+        private int lastA=21;
+        private int lastB=21;
         /**
          * Biore i konwertuje na int wiadomosc od klienta
          */
         @Override
         public synchronized void run() {
                 System.out.println("Jestem w watku GAME");
-                while(true) {
+                while(true){
+                        //if(lastA==20 && lastB==20 && a==20 && b==20) {
+                        if(a==20 && b==20) {
+                                System.out.println("przerywam");
+                                break;
+                        }
                         try {
                                 /**BIore wiadomosc od klij. 1 i konwertuje na inta*/
                                 a = (int) ois.readObject();
                                 /**BIore wiadomosc od klij. 1 i konwertuje na inta*/
                                 b = (int) ois.readObject();
                                 System.out.println("Dostalem widomosc od  gracza: " + a + b);
-                                server.setParams(a, b, isBlack);
+                                server.setParams(a,b,isBlack);
+                                System.out.println(lastA+";"+lastB+";"+a+";"+b+ "przerywam");
+                                if(lastA==20 && lastB==20 && a==20 && b==20) {
+                                        System.out.println("przerywam2");
+                                        break;
+                                }
+
                         } catch (IOException e) {
                         } catch (ClassNotFoundException e) {
                         }
+
                 }
+                stopThread();
+
         }
-
-
+        public void SetLastOponnentMove(int a, int b)
+        {
+                this.lastA=a;
+                this.lastB=b;
+        }
+        public void stopThread(){
+                this.interrupt();
+        }
 
 }

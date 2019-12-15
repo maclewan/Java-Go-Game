@@ -50,7 +50,7 @@ class ChatObserver extends Thread{
         while(doWePlay) {
             /**Wysyłanie wiadmosci do serwera*/
             if (isNewMessage) {
-                System.out.println("wysylam wiadomosc" + mesOut);
+                System.out.println("wysylam wiadomosc " + mesOut);
                 try {
                     oos.writeObject(mesOut);
                 } catch (IOException e) {
@@ -95,23 +95,33 @@ class ChatObserver extends Thread{
                 this.interrupt();
                 break;
             }
-            //mesIn ="";
             /**Odbiera wiadomosć*/
             try {
-                System.out.println("odbieram wiadomosc");
                 mesIn = (String) ois.readObject();
+                if(!(mesIn==null||mesIn.equals(""))){
+                    System.out.println("odbieram wiadomosc");
+
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            //System.out.println("Dostalem widomosc od 2 gracza: " + mesIn);
+
             if (!(mesIn.equals(lastMes))) {
                 Platform.runLater(() -> chatController.addLabelChatText(mesIn));
                 lastMes=mesIn;
-                //System.out.println("jestem w if "+mesIn);
+
             }
-            System.out.println("mesIN: "+mesIn);
+            if(!(mesIn==null||mesIn.equals(""))) {
+                System.out.println("mesIN: =" + mesIn+"=");
+            }
+            /**temp*/
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         observer.continueGame();
     }
