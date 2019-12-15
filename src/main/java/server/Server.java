@@ -251,7 +251,6 @@ class ClientReciveChatInfo extends Thread {
 class ClientReciveGameInfo extends Thread {
         public Socket socket;
         public ObjectInputStream ois;
-        public ObjectOutputStream oos;
         boolean isBlack = true;
         public Server server;
 
