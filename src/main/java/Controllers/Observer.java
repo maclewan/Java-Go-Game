@@ -113,7 +113,7 @@ public class Observer extends Thread{
                 if (isSecond&&continueGames) {
                     System.out.println("wszedlem do gry");
                     /**Otwieramy wymiane wiadomości do obslugi rozgrywki*/
-                    //sleep(1500); //czekam az sie watki rozpoczna
+                    sleep(2000); //czekam az sie watki rozpoczna
                     runGame();
                     isChatOpen=false;
                     continueGames=false;
@@ -249,14 +249,14 @@ public class Observer extends Thread{
     }
 
     public void setEndGame(boolean endGame){
-        //this.endGame=endGame;
+
         isChatOpen=false;
 
     }
 
     public void continueGame(){
         continueGames=true;
-        //todo: wyslij info do serwera że pora wrocic do gry
+
     }
 
 
