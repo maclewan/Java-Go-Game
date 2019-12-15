@@ -22,6 +22,7 @@ public class Server {
         private int a2=21;
         private int b2=21;
         private boolean endChat=false;
+        private boolean isBlackTurn=true;
 
 
 
@@ -211,20 +212,19 @@ public class Server {
                         {
                                 /**Daje klientowi 2 odpowiedz*/
                                 try {
-                                        oos2.writeObject(mes1);
-                                        System.out.println("Napisalem mes1: "+mes1);
+                                        //if (!isBlackTurn) {
+                                                oos2.writeObject(mes1);
+                                                System.out.println("Napisalem mes1: " + mes1);
+                                        //}
+                                       // else {
+                                                oos1.writeObject(mes2);
+                                                System.out.println("Napisalem mes2: " + mes2);
+                                       // }
                                 } catch (IOException e) {
                                         e.printStackTrace();
                                 }
 
 
-                                /**Daje klientowi 1 odpowiedz*/
-                                try {
-                                        oos1.writeObject(mes2);
-                                        System.out.println("Napisalem mes2: "+mes2);
-                                } catch (IOException e) {
-                                        e.printStackTrace();
-                                }
                                 System.out.println("Wznawiam grę");
                                 client2Thread.interrupt();
                                 client1Thread.interrupt();
@@ -277,6 +277,12 @@ public class Server {
                         this.b2=b;
                 }
         }
+        /**Daje info ze dostalem info*/
+        public void gotInfo(boolean isBlack)
+        {
+                if(isBlack)this.isBlackTurn=false;
+                else this.isBlackTurn=true;
+        }
 }
 
 class ClientReciveChatInfo extends Thread {
@@ -312,6 +318,7 @@ class ClientReciveChatInfo extends Thread {
                         }
                         if(!(mes==null||mes==""))
                         System.out.println("Dostalem widomosc od 1 gracza: " + mes);
+                        server.gotInfo(isBlack);
                         try {
                                 sleep(100);
                         } catch (InterruptedException e) {
