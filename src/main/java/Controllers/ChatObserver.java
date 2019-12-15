@@ -104,7 +104,6 @@ class ChatObserver extends Thread{
             }
 
             if (!(mesIn.equals(lastMes))) {
-                System.out.println("Dopisuje1!!!!!!");
                 Platform.runLater(() -> chatController.addLabelChatText(mesIn));
                 lastMes=mesIn;
 

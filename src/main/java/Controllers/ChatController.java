@@ -27,7 +27,7 @@ public class ChatController {
             Platform.runLater(() ->  {
                 labelChatText.selectEnd();
                 labelChatText.deselect();
-                lastMessage="";
+       //         lastMessage="";
             });
 
         }
@@ -89,7 +89,7 @@ public class ChatController {
 
     public void addLabelChatText(String text) {
         labelChatText.setText(labelChatText.getText()+"\n"+"Oponent:\t\t"+text);
-        lastMessage="";
+
 
     }
 
