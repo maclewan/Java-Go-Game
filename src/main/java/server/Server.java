@@ -212,14 +212,14 @@ public class Server {
                         {
                                 /**Daje klientowi 2 odpowiedz*/
                                 try {
-                                        //if (!isBlackTurn) {
+                                       // if (!isBlackTurn) {
                                                 oos2.writeObject(mes1);
                                                 System.out.println("Napisalem mes1: " + mes1);
-                                        //}
+                                       // }
                                        // else {
                                                 oos1.writeObject(mes2);
                                                 System.out.println("Napisalem mes2: " + mes2);
-                                       // }
+                                        //}
                                 } catch (IOException e) {
                                         e.printStackTrace();
                                 }
