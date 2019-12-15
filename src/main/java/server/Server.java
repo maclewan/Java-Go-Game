@@ -24,8 +24,7 @@ public class Server {
         public static Thread client2Thread= new ClientReciveChatInfo();
         public static Thread client1Thread= new ClientReciveChatInfo();
 
-        public static Thread client2GameThread= new ClientReciveGameInfo();
-        public static Thread client1GameThread= new ClientReciveGameInfo();
+
         public static int a1=21;
         public static int b1=21;
         public static int a2=21;
@@ -115,6 +114,9 @@ public class Server {
                 server.close();
         }
         public static void ServerGame(Socket socket1, Socket socket2, ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException, IOException {
+                Thread client2GameThread= new ClientReciveGameInfo();
+                Thread client1GameThread= new ClientReciveGameInfo();
+
                 ((ClientReciveGameInfo) client2GameThread).socket = socket2;
                 ((ClientReciveGameInfo) client2GameThread).ois = ois2;
                 ((ClientReciveGameInfo) client2GameThread).isBlack = false;
@@ -227,14 +229,14 @@ class ClientReciveChatInfo extends Thread {
                                 mes = (String) ois.readObject();
                                 if(isBlack)server.mes1=mes;
                                 else server.mes2=mes;
+                                if(mes.equals("Wznawiam gre!")){
+                                        server.endChat=true;
+                                        System.out.println("Pora kuncyc");
+                                }
                         } catch (IOException e) {
 
                         } catch (ClassNotFoundException e) {
 
-                        }
-                        if(mes.equals("Wznawiam gre!")){
-                                server.endChat=true;
-                                System.out.println("Pora kuncyc");
                         }
                         System.out.print("\033[H\033[2J");
                         System.out.flush();

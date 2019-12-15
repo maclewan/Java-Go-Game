@@ -58,9 +58,43 @@ class ChatObserver extends Thread{
                 }
                 isNewMessage = false;
             }
-
-
-            mesIn ="";
+            if(mesOut.equals("Wznawiam gre!"))
+            {
+                /**Odbiera wiadomosć*/
+                try {
+                    System.out.println("odbieram wiadomosc");
+                    mesIn = (String) ois.readObject();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                int tmp=21;
+                try {
+                    oos.writeObject(tmp);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("JESTEM TUTEJ");
+                observer.continueGame();
+                doWePlay=false;
+                this.interrupt();
+                break;
+            }
+            if (mesIn.equals("Wznawiam gre!") ) {
+                int tmp=21;
+                try {
+                    oos.writeObject(tmp);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("a tera tu");
+                observer.continueGame();
+                doWePlay=false;
+                this.interrupt();
+                break;
+            }
+            //mesIn ="";
             /**Odbiera wiadomosć*/
             try {
                 System.out.println("odbieram wiadomosc");
@@ -76,20 +110,14 @@ class ChatObserver extends Thread{
                 lastMes=mesIn;
                 //System.out.println("jestem w if "+mesIn);
             }
-            if ((mesIn.equals("Wznawiam gre!")) ||(mesOut.equals("Wznawiam gre!")) ) {
-                observer.continueGame();
-                doWePlay=false;
-                this.interrupt();
-                break;
-            }
             System.out.println(mesIn);
 
             /**Usypiam watek*/
-            try {
+            /*try {
                 sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
 
             //endGame();
         }
@@ -124,9 +152,10 @@ class ChatObserver extends Thread{
 
     public void continueGame(){
         mesIn="Wznawiam gre!";
+        mesOut="Wznawiam gre!";
         isNewMessage=true;
         //doWePlay=false;
-        observer.continueGame();
+        //observer.continueGame();
         //this.interrupt();  /**Zabijam ten wątek chatu*/
 
 

@@ -113,6 +113,7 @@ public class Observer extends Thread{
                 if (isSecond&&continueGames) {
                     System.out.println("wszedlem do gry");
                     /**Otwieramy wymiane wiadomości do obslugi rozgrywki*/
+                    //sleep(1500); //czekam az sie watki rozpoczna
                     runGame();
                     isChatOpen=false;
                     continueGames=false;
@@ -188,6 +189,7 @@ public class Observer extends Thread{
                 /**odbierz od socket uzywajac ObjectInputStream*/
                 int a1 = (int) ois.readObject();
                 int b1 = (int) ois.readObject();
+
                 if (a1 == 20 && b1 == 20 && a == 20 && b == 20) {
                     /**Czyszczenie czatu*/
                     if(lastA==20 && lastB==20) {
