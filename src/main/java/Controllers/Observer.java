@@ -173,7 +173,7 @@ public class Observer extends Thread{
         while (!startTalk) {
             a=cc.tempPoint.getX();
             b=cc.tempPoint.getY();
-            //System.out.println("jestem w while");
+
             try {
                 /**napisz do socket uzywajac ObjectOutputStream*/
                 if(cc.madeMove) {
@@ -190,20 +190,6 @@ public class Observer extends Thread{
                 int b1 = (int) ois.readObject();
 
                 if (a1 == 20 && b1 == 20 && a == 20 && b == 20) {
-                    /**Czyszczenie czatu*/
-                    if(lastA==20 && lastB==20) {
-                        int tmp; int k;
-                        if(cc.isBlack)k=20; else k=22;
-
-                       /*for(int i=0;i<k;i++) {
-                            System.out.println(i);
-                            try {
-                                tmp = (int) ois.readObject();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }*/
-                    }
                     System.out.println("Rozpoczynam czat");
                     startTalk = true;
                     break;
@@ -217,7 +203,7 @@ public class Observer extends Thread{
                     if (a1 >= 0 && a1 < 20 && b1 >= 0 && b1 < 20) {//ten war. to dod. zabezpieczenie w
                         cc.cleanAllreadyChecked();
                         if (cc.checkers[a1][b1] == null) {
-                            System.out.println("dodaje: piona " + a1 +";"+ b1);
+                            System.out.println("otrzymuje: piona " + a1 +";"+ b1);
 
                             Platform.runLater(() -> cc.updateTempPoint(a1, b1,!cc.isBlack));
                             Platform.runLater(() -> cc.addChecker(cc.getTempPoint()));
