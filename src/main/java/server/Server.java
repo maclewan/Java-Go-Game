@@ -159,16 +159,21 @@ public class Server {
 
                 client1GameThread.start();
 
+                a1 =21;
+                a2 =21;
+                b1 =21;
+                b2 =21;
+
                 while(true) {
 
 
-                        System.out.println("Wysylam1 : " + a2+ b2);
+                        System.out.println("Wysylam1 : " + a2+ ";"+b2);
                         /**Daje klientowi 1 odpowiedz*/
                         oos1.writeObject(a2);
                         oos1.writeObject(b2);
                         client2GameThread.SetLastOponnentMove(a1,b1);
 
-                        System.out.println("Wysylam2 : " + a1 + b1);
+                        System.out.println("Wysylam2 : " + a1+ ";"+b1);
                         /**Daje klientowi 2 odpowiedz*/
                         oos2.writeObject(a1);
                         oos2.writeObject(b1);
@@ -286,6 +291,9 @@ class ClientReciveChatInfo extends Thread {
                                 server.setParams(mes,isBlack);
                         } catch (IOException e) {
                         } catch (ClassNotFoundException e) {
+                        } catch (ClassCastException e){
+                                interrupt();
+                                break;
                         }
                         if(!(mes==null||mes==""))
                         System.out.println("Dostalem widomosc od 1 gracza: " + mes);
@@ -319,7 +327,7 @@ class ClientReciveGameInfo extends Thread {
         public synchronized void run() {
                 System.out.println("Jestem w watku GAME");
                 while(true){
-                        //if(lastA==20 && lastB==20 && a==20 && b==20) {
+
                         if(a==20 && b==20) {
                                 System.out.println("przerywam");
                                 break;
@@ -331,11 +339,7 @@ class ClientReciveGameInfo extends Thread {
                                 b = (int) ois.readObject();
                                 System.out.println("Dostalem widomosc od  gracza: " + a + b);
                                 server.setParams(a,b,isBlack);
-                                System.out.println(lastA+";"+lastB+";"+a+";"+b+ "przerywam");
-                                if(lastA==20 && lastB==20 && a==20 && b==20) {
-                                        System.out.println("przerywam2");
-                                        break;
-                                }
+
 
                         } catch (IOException e) {
                         } catch (ClassNotFoundException e) {

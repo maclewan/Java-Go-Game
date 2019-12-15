@@ -182,7 +182,7 @@ public class Observer extends Thread{
                     oos.writeObject(a);
                     oos.writeObject(b);
                     cc.madeMove = false;
-                    System.out.println("wYSYLAM " + a + b);
+                    System.out.println("Wysylam " + a +";"+ b);
                 }
 
                 /**odbierz od socket uzywajac ObjectInputStream*/
@@ -217,7 +217,7 @@ public class Observer extends Thread{
                     if (a1 >= 0 && a1 < 20 && b1 >= 0 && b1 < 20) {//ten war. to dod. zabezpieczenie w
                         cc.cleanAllreadyChecked();
                         if (cc.checkers[a1][b1] == null) {
-                            System.out.println("dodaje: piona " + a1 + b1);
+                            System.out.println("dodaje: piona " + a1 +";"+ b1);
 
                             Platform.runLater(() -> cc.updateTempPoint(a1, b1,!cc.isBlack));
                             Platform.runLater(() -> cc.addChecker(cc.getTempPoint()));

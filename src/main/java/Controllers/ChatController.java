@@ -73,11 +73,11 @@ public class ChatController {
     void sendOnAction(ActionEvent event) {
         if(textFldType.getText().equals(lastMessage))
             return;
-        labelChatText.setText(labelChatText.getText()+"\n"+"Ja:\t\t"+textFldType.getText());
+        labelChatText.setText(labelChatText.getText()+"\n"+"Ja:\t\t\t"+textFldType.getText());
         co.setMesOut(textFldType.getText());
         System.out.println("klikles to");
         lastMessage=textFldType.getText();
-        labelChatText.setText("");
+        textFldType.setText("");
     }
 
     public void setCo(ChatObserver co) {

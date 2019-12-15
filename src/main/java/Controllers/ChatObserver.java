@@ -76,10 +76,13 @@ class ChatObserver extends Thread{
                     e.printStackTrace();
                 }
                 System.out.println("JESTEM TUTaJ");*/
-
+/*
                 observer.continueGame();
                 doWePlay=false;
                 this.interrupt();
+                break;
+*/
+                wznowGre();
                 break;
             }
             if (mesIn.equals("Wznawiam gre!") ) {
@@ -156,8 +159,6 @@ class ChatObserver extends Thread{
         //this.interrupt();  /**Zabijam ten wątek chatu*/
 
 
-
-
     }
 
     public void setMesOut(String mesOut) {
@@ -177,6 +178,7 @@ class ChatObserver extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         chatController.closeChat();
         observer.continueGame();
