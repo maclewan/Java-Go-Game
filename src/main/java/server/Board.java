@@ -26,17 +26,10 @@ public class Board {
     private ArrayList<Point> lastlyKilled = new ArrayList<>();
     private Point lastAddedWhite = new Point(23,23, Color.WHITE);
     private Point lastAddedBlack = new Point(23,23, Color.BLACK);
+    private Point lastAdded = new Point(23,23,Color.GREY);
 
 
 
-    public void btnPassOnAction()  {
-        if(tempPoint.isBlack()){
-            lastAddedBlack=new Point(23,23, Color.BLACK);
-        }
-        else
-            lastAddedWhite=new Point(23,23, Color.WHITE);
-        //todo: info do serwera - pass - punkt 20;20
-    }
 
 
 
@@ -46,12 +39,12 @@ public class Board {
     public void addChecker(int x, int y, boolean isBlack) {
 
         if(pointsArr[x][y]!= 2)                     /**gdy punkt już istnieje*/
-            //todo: info do serwera - zły ruch
+            //todo: info do clienta - zły ruch
             return;
 
         else {
             tempPoint = new Point(x, y, isBlack);
-            if(isBlack) {
+            if(isBlack) {                              //tworze pionka
                 pointsArr[x][y] =1;
             }
             else
@@ -62,12 +55,12 @@ public class Board {
         if (isSuicide2(x, y)) {
             removeChecker(x, y, false);
             System.out.println("To jest zamobojstwo! Zrob inny ruch");
-            //todo: info do serwera - zły ruch
+            //todo: info do clienta - zły ruch
         }
         if (myContains(lastlyKilled, x, y)) {
             removeChecker(x, y, false);
             System.out.println("Ten pionek byl ostatnio zbity! Zrob inny ruch");
-            //todo: info do serwera - zły ruch
+            //todo: info do clienta - zły ruch
         }
 
         if(tempPoint.isBlack()){
@@ -80,7 +73,7 @@ public class Board {
         killer();                 //podaje w sobie info do serwera
         //groupCheckers();   //czy tu potrzebne?
 
-        //todo: info do serwera - dobry ruch, podaj x, y, kolor
+        //todo: info do clientow - dobry ruch, zwróć x, y, kolor
     }
 
     /**Usuwanie pionka*/
@@ -121,7 +114,7 @@ public class Board {
             }
         }
 
-        //todo: info do serwera - usuń piony które są w lastlyKilled
+        //todo: info do clientow - usuń piony które są w lastlyKilled
 
 
     }
@@ -275,6 +268,14 @@ public class Board {
 
 
     void killGroupedCheckers() {
+
+        if(tempPoint.isBlack())
+            lastAdded=lastAddedBlack;
+
+        else
+            lastAdded=lastAddedWhite;
+
+
         for(int i=0; i<groupList.size();i++){
             int counter=0;
             if(myContains(groupList.get(i),lastAdded.getX(),lastAdded.getY())){                //gdy ostatni - wyrzuć na koniec
@@ -292,13 +293,20 @@ public class Board {
                     removeChecker(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),true);
                     pointsToKill.add(new Point(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY()));
                 }
-                //todo: info do serwera - usunac piony z pointsToKill
+                //todo: info do clientow - usunac piony z pointsToKill
             }
         }
 
     }
 
     void killGroupedCheckersSim(ArrayList<Point> pointsToKill) {
+        if(tempPoint.isBlack())
+            lastAdded=lastAddedBlack;
+
+        else
+            lastAdded=lastAddedWhite;
+
+
         for(int i=0; i<groupList.size();i++){
             int counter=0;
             if(myContains(groupList.get(i),lastAdded.getX(),lastAdded.getY())){
