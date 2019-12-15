@@ -77,6 +77,7 @@ public class ChatController {
         co.setMesOut(textFldType.getText());
         System.out.println("klikles to");
         lastMessage=textFldType.getText();
+        labelChatText.setText("");
     }
 
     public void setCo(ChatObserver co) {
@@ -89,6 +90,7 @@ public class ChatController {
 
     public void addLabelChatText(String text) {
         labelChatText.setText(labelChatText.getText()+"\n"+"Oponent:\t\t"+text);
+
 
 
     }
