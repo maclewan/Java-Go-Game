@@ -93,7 +93,8 @@ class ChatObserver extends Thread{
                     e.printStackTrace();
                 }
                 System.out.println("a tera tu");
-                //TODO: MACIEUJU tutej trzeba zamknac okno ChatController
+                chatController.closeChat();
+
                 observer.continueGame();
                 doWePlay=false;
                 this.interrupt();
