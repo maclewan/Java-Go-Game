@@ -26,6 +26,7 @@ public class Server {
 
 
         public static void main(String[] args){
+
                 ServerSocket server = null;
                 /**port socket serwer-a*/
                 int port = 6666;
@@ -101,6 +102,7 @@ public class Server {
                 } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                 }
+
 
                 while(doWeStillPlay) {
                         /******************************************/
@@ -187,7 +189,7 @@ public class Server {
                         sleep(100);
                 }
         }
-        public void ServerChat( ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException {
+        public synchronized void ServerChat( ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException {
 
                 ClientReciveChatInfo client2Thread= new ClientReciveChatInfo(ois2, false,this );
                 ClientReciveChatInfo client1Thread= new ClientReciveChatInfo( ois1, true ,this);
@@ -209,11 +211,11 @@ public class Server {
 
                                 break;
                         }
-                        sleep(100);
+
                         /**Daje klientowi 2 odpowiedz*/
                         try {
                                 oos2.writeObject(mes1);
-                                System.out.println("mes1: "+mes1);
+                                System.out.println("Napisalem mes1: "+mes1);
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }
@@ -222,7 +224,7 @@ public class Server {
                         /**Daje klientowi 1 odpowiedz*/
                         try {
                                 oos1.writeObject(mes2);
-                                System.out.println("mes2: "+mes2);
+                                System.out.println("Napisalem mes2: "+mes2);
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }
@@ -269,8 +271,9 @@ class ClientReciveChatInfo extends Thread {
         private boolean isBlack;
         private Server server;
         private String mes;
+
         /**
-         * Biore i konwertuje na String wiadomosc od 1 klienta
+         * Biore i parsuje na String wiadomosc od 1 klienta
          */
 
 

@@ -48,7 +48,7 @@ class ChatObserver extends Thread{
 
 
         while(doWePlay) {
-            /**Wysyłanie wiadmosci do serwera*/
+
             if (isNewMessage) {
                 System.out.println("wysylam wiadomosc " + mesOut);
                 try {
@@ -60,8 +60,8 @@ class ChatObserver extends Thread{
             }
             if(mesOut.equals("Wznawiam gre!"))
             {
-                /**Odbiera wiadomosć*/
-                try {
+
+    /*            try {
                     System.out.println("odbieram wiadomosc");
                     mesIn = (String) ois.readObject();
                 } catch (IOException e) {
@@ -75,24 +75,15 @@ class ChatObserver extends Thread{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                System.out.println("JESTEM TUTaJ");
+                System.out.println("JESTEM TUTaJ");*/
+
                 observer.continueGame();
                 doWePlay=false;
                 this.interrupt();
                 break;
             }
             if (mesIn.equals("Wznawiam gre!") ) {
-                int tmp=21;
-                try {
-                    oos.writeObject(tmp);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("a tera tu");
-                //TODO: MACIEUJU tutej trzeba zamknac okno ChatController
-                observer.continueGame();
-                doWePlay=false;
-                this.interrupt();
+                wznowGre();
                 break;
             }
             /**Odbiera wiadomosć*/
@@ -102,13 +93,18 @@ class ChatObserver extends Thread{
                     System.out.println("odbieram wiadomosc");
 
                 }
-            } catch (IOException e) {
+            } catch (IOException e)  {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
+
                 e.printStackTrace();
+            } catch ( ClassCastException e){
+                wznowGre();
+                break;
             }
 
             if (!(mesIn.equals(lastMes))) {
+                System.out.println("Dopisuje1!!!!!!");
                 Platform.runLater(() -> chatController.addLabelChatText(mesIn));
                 lastMes=mesIn;
 
@@ -118,7 +114,7 @@ class ChatObserver extends Thread{
             }
             /**temp*/
             try {
-                Thread.sleep(1000);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -171,6 +167,23 @@ class ChatObserver extends Thread{
     }
     public void setMesIn(String mesIn) {
         this.mesIn = mesIn;
-        //isNewMessage=true;
+    }
+
+    public void wznowGre(){
+
+
+        int tmp=21;
+        try {
+            oos.writeObject(tmp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        chatController.closeChat();
+        observer.continueGame();
+        doWePlay=false;
+        this.interrupt();
+
+
     }
 }
