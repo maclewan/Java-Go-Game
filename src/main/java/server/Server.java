@@ -16,6 +16,7 @@ import static java.lang.Thread.sleep;
  */
 
 public class Server {
+
         private static ServerSocket server;
         /*port socket serwer-a*/
         private static int port = 6666;
