@@ -29,12 +29,9 @@ public class Board {
     private boolean[][] groupedArr = new boolean[19][19];
 
     private ArrayList<ArrayList<Point>> groupList = new ArrayList();
-    private ArrayList<Point> lastlyKilled = new ArrayList<>();
     private Point lastAdded = new Point(23,23,5);
     private ArrayList<Point> checkersToKill;
-
-
-
+    private Point lastKilled = new Point(23,23,5);
     public Board(Server server) {
         this.server = server;
     }
@@ -61,7 +58,7 @@ public class Board {
             System.out.println("To jest zamobojstwo! Zrob inny ruch");
             return;
         }
-        if (myContains(lastlyKilled, x, y)) {
+        if (lastKilled.getX()==x&&lastKilled.getY()==y){
             removeChecker(x, y, false);
             System.out.println("Ten pionek byl ostatnio zbity! Zrob inny ruch");
             return;
@@ -70,7 +67,7 @@ public class Board {
 
 
         killer();                 //podaje w sobie info do serwera
-        lastlyKilled=checkersToKill;
+
 
         checkersToKill.add(tempPoint);
 
@@ -95,6 +92,8 @@ public class Board {
     /**Funkcja zabijająca piony bez oddechu*/
 
     public void killer() {
+        lastKilled=new Point(23,23);
+        groupCheckers();
         checkersToKill=new ArrayList<>();
 
         for (int i = 0; i < 19; i++) {                                    //sprawdznie i zabijanie pojedynczych pionków
@@ -103,14 +102,16 @@ public class Board {
                     continue;
                 if (groupedArr[i][j])
                     continue;
+                System.out.println("i;j = "+i+";"+j+" breaths: "+ countBreaths(i,j));
                 if (pointsArr[i][j]!=2&&countBreaths(i, j) == 0) {
                     checkersToKill.add(new Point(-i-1,-j-1,5,true));
                     removeChecker(i, j,true);
+                    lastKilled=new Point(i,j);
 
                 }
             }
         }
-        killGroupedCheckers(lastlyKilled);                                                   //sprawdzanie i zabijanie grup
+        killGroupedCheckers(checkersToKill);                                                   //sprawdzanie i zabijanie grup
         if (!groupedArr[lastAdded.getX()][lastAdded.getY()]){                                 //sprawdzanie ostatnio dodanego
             if (countBreaths(lastAdded.getX(), lastAdded.getY()) == 0) {
                 checkersToKill.add(new Point(-lastAdded.getX()-1, -lastAdded.getY()-1,5,true));
@@ -118,7 +119,7 @@ public class Board {
             }
         }
 
-        lastlyKilled=checkersToKill;  //przypisz poprzednio zabite
+
 
 
 
@@ -167,6 +168,7 @@ public class Board {
                 }
             }
         }
+
 
     }
 
@@ -289,11 +291,15 @@ public class Board {
 
             for(int j=0; j<groupList.get(i).size();j++){
                 counter+=countBreaths(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY());
+                System.out.println("i;j = "+ groupList.get(i).get(j).getX()+";"+groupList.get(i).get(j).getY()+" breaths = "+counter);
             }
             if(counter==0){
                 for(int j=groupList.get(i).size()-1; j>=0;j--){
-                    removeChecker(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),true);
+
                     checkersToKill.add(new Point(-groupList.get(i).get(j).getX()-1,-groupList.get(i).get(j).getY()-1,5,true));
+                    removeChecker(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),true);
+
+
                 }
             }
         }
@@ -412,10 +418,7 @@ public class Board {
 
 
 
-    public ArrayList<Point> getLastlyKilled() {
-        lastlyKilled.clear();
-        return lastlyKilled;
-    }
+
 
     private void setPointsList(ArrayList<Point> listToKill) {
         server.setPointList(listToKill);

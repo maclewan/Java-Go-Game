@@ -3,6 +3,7 @@ package server;
 
 import client.Point;
 
+import javax.annotation.processing.SupportedSourceVersion;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -21,10 +22,12 @@ import static java.lang.Thread.sleep;
 public class Server {
         private String mes1="",mes2="";
         private Point newPoint = new Point(21,21);
+        private Point oldPoint = new Point(21,21);
 
         private ArrayList<Point> pointList = new ArrayList<>();
         private Board board;
         private boolean isGameActive=true;
+        private boolean isGameOn=true;
         private boolean isBlack=true;
 
 
@@ -148,7 +151,7 @@ public class Server {
                 pointList = new ArrayList<>();
                 board.startArrayOfCheckers();
 
-                while(isGameActive) {
+                while(isGameOn) {
 
                         /**wysylam nowy punkt o ile taki jest*/
                         if(newPoint.getY()<20&&newPoint.getX()<20) {
@@ -158,10 +161,18 @@ public class Server {
                         }
                         /**pasowanie tury*/
                         if(newPoint.getY()==20&&newPoint.getX()==20){
+                                System.out.println("czy czarny? " +isBlack);
                                 changePlayer();
+                                System.out.println("czy czarny? " +isBlack);
+                                newPoint=new Point(69,69);                   //oba sygnały 69 oznacząc będą zawiesznie gry
                         }
+                        /**zawieszanie gry*/
+                        if(oldPoint.getX()==newPoint.getX()&&oldPoint.getX()==69){
+                                isGameActive=false;
+                        }
+                        //todo: sratatata otwórz chat itepe itede
 
-                        ArrayList<Point> tempList = new ArrayList<>();
+                        ArrayList<Point> tempList;
                         tempList=pointList;
 
                         if(tempList.size()>0)
@@ -178,8 +189,8 @@ public class Server {
 
 
 
-                        //todo: sprawdzam czy nie ma kontynuacji -> endChatMode(int czyja tura teraz)
-                        //todo: sprawdzam czy nie ma końca gry -> endGame()
+                        //todo: sprawdzam czy nie ma kontynuacji -> endChatMode(int <czyja tura teraz>) ->isGameActive = true
+                        //todo: sprawdzam czy nie ma końca gry -> endGame() ->isGameOn = false
 
                         sleep(100);
                 }
@@ -187,9 +198,12 @@ public class Server {
 
 
         public void setParams(Point point, boolean isBlack) {
-                if(this.isBlack==isBlack){
-                        newPoint=point;
-                        System.out.println("Wiadomosc przeszla");
+                if(isGameActive) {
+                        if (this.isBlack == isBlack) {
+                                oldPoint=newPoint;
+                                newPoint = point;
+                                System.out.println("Wiadomosc przeszla");
+                        }
                 }
                 else
                         System.out.println("Wiadomosc nieprzeszla");
@@ -216,6 +230,10 @@ public class Server {
         }
         public void changePlayer(){
                 isBlack=!isBlack;
+        }
+
+        public void setGameActive(boolean gameActive) {
+                isGameActive = gameActive;
         }
 }
 
@@ -253,5 +271,9 @@ class ClientReciveGameInfo extends Thread {
                         }
                 }
         }
+
+
+
+
 
 }
