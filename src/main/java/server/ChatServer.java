@@ -22,7 +22,7 @@ public class ChatServer {
         this.oos2=oos21;
     }
 
-    public void ChatServer() throws InterruptedException {
+    public void ServerChat() throws InterruptedException {
         ClientReciveChatInfo client2Thread= new ClientReciveChatInfo(ois2, false,this );
         ClientReciveChatInfo client1Thread= new ClientReciveChatInfo( ois1, true ,this);
 

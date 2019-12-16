@@ -170,6 +170,7 @@ public class Server {
                                 isGameActive=false;
                                 //todo: sratatata otwórz chat itepe itede
                                 ChatServer chat = new ChatServer(ois1, ois2, oos1, oos2);
+                                chat.ServerChat();
                         }
 
 
