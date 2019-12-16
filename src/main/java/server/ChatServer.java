@@ -9,16 +9,14 @@ import java.net.Socket;
 import static java.lang.Thread.sleep;
 
 public class ChatServer {
-
-
-        private String mes1="";
-        String mes2="";
-        boolean endChat=false;
-        boolean isChatActive=false;
-        ObjectInputStream ois1;
-        ObjectInputStream ois2;
-        ObjectOutputStream oos1;
-        ObjectOutputStream oos2;
+    private String mes1="";
+    private String mes2="";
+    private boolean endChat=false;
+    boolean isChatActive=false;
+    private ObjectInputStream ois1;
+    private ObjectInputStream ois2;
+    private ObjectOutputStream oos1;
+    private ObjectOutputStream oos2;
 
         public void startChatServer()
         {
@@ -35,17 +33,13 @@ public class ChatServer {
                 ex.printStackTrace();
             }
         }
-
-        System.out.println("Stworzylem server");
-        /**Tutaj daje wiadomosc klientom ktory byl pierwszy*/
-
-
+        System.out.println("Stworzylem server chatu");
         //******************************//
         //---- PODLACZANIE DO SERVERA---//
         //******************************//
 
         /*Czekam na klienta 1*/
-        System.out.println("Czekam na 1 gracza");
+        System.out.println("Czekam na graczy az dolacza do chatu");
         /**Czekam na klienta 1*/
         Socket socket1 = null;
         Socket socket2 = null;
@@ -64,7 +58,7 @@ public class ChatServer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            System.out.println("Dolaczyli obaj pomyslnie");
             try {
                 ServerChat();
             } catch (InterruptedException e) {
@@ -81,7 +75,6 @@ public class ChatServer {
 
         client2Thread.start();
         client1Thread.start();
-
 
         /**Zmienne przechowujace wiadomosci 1 i 2 gracza*/
         endChat=false;
@@ -111,7 +104,6 @@ public class ChatServer {
             }
 
         }
-        System.out.println("Wznawiam grę");
     }
 
     /**2 metody o tej samej nazwie ale roznymi param.*/
@@ -143,8 +135,6 @@ class ClientReciveChatInfo extends Thread {
         }
         else  System.out.println("Czat nie aktywny, graj a nie piszesz");
     }
-    //GOTOWE//todo: pola prywatne! wszystkie, boole też
-
     private  ObjectInputStream ois;
     private boolean isBlack;
     private ChatServer server;
