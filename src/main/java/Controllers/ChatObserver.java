@@ -77,7 +77,7 @@ class ChatObserver extends Thread{
                 }
                 System.out.println("JESTEM TUTaJ");
 
-                observer.continueGame();
+                //observer.continueGame();
                 doWePlay=false;
                 this.interrupt();
                 break;
@@ -95,7 +95,7 @@ class ChatObserver extends Thread{
                 System.out.println("a tera tu");
                 chatController.closeChat();
 
-                observer.continueGame();
+              //  observer.continueGame();
                 doWePlay=false;
                 this.interrupt();
                 break;
@@ -132,11 +132,11 @@ class ChatObserver extends Thread{
                 e.printStackTrace();
             }
         }
-        observer.continueGame();
+      //  observer.continueGame();
     }
 
     public void endGame(){
-        observer.setEndGame(true);
+  //      observer.setEndGame(true);
     }
 
     public void startChat() {
@@ -192,7 +192,7 @@ class ChatObserver extends Thread{
 
 
         chatController.closeChat();
-        observer.continueGame();
+     //   observer.continueGame();
         doWePlay=false;
         this.interrupt();
 

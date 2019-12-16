@@ -3,54 +3,44 @@ package client;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-public class Point {
+import java.io.Serializable;
+
+public class Point implements Serializable {
     private int x,y;
     private boolean notDelete = true;
-    private Paint color;
+    private int color;
 
-    public Point(int x, int y, Paint color) {
-        this.x = x;
-        this.y = y;
-        this.color=color;
-    }
+
 
     public Point(int x, int y, boolean isBlack) {
         this.x = x;
         this.y = y;
         if(isBlack)
-            this.color=Color.BLACK;
+            this.color=1;
         else
-            this.color=Color.WHITE;
+            this.color=0;
     }
 
     public Point(int x, int y, int color) {
         this.x = x;
         this.y = y;
-        if(color==0)
-            this.color=Color.WHITE;
-        else if(color==1)
-            this.color=Color.BLACK;
-        else
-            this.color=Color.GREY;
+        this.color=color;
+
     }
 
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
-        this.color=Color.GREY;
+        this.color=5;
     }
 
     public Point(int x, int y, int color, boolean notDelete) {
         this.x = x;
         this.y = y;
         this.notDelete=notDelete;
-        if(color==0)
-            this.color=Color.WHITE;
-        else if(color==1)
-            this.color=Color.BLACK;
-        else
-            this.color=Color.GREY;
+        this.color=color;
     }
+
 
     public int getX() {
         return x;
@@ -65,7 +55,7 @@ public class Point {
     }
 
     public boolean isBlack(){
-        if(color==Color.BLACK)
+        if(color==1)
             return true;
 
         return false;

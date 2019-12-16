@@ -83,6 +83,7 @@ public class Observer extends Thread{
             cc.setIsBlack((boolean) ois.readObject());
             if (cc.isBlack()) {
                 System.out.println("Jestes czarny");
+
             }
             else {
                 System.out.println("Jestes bialy");
@@ -115,32 +116,11 @@ public class Observer extends Thread{
              *
              * */
 
-            while (endGame==false) {
-                if (isSecond&&continueGames) {
-                    System.out.println("\nWszedlem do gry");
-                    /**Otwieramy wymiane wiadomości do obslugi rozgrywki*/
-                    sleep(1000); //czekam az sie watki rozpoczna
-                    runGame();
-                    isChatOpen=false;
-                    continueGames=false;
-                }
 
-                /**Zaczynamy chat*/
-                if(!isChatOpen) {
-                     System.out.println("wszedlem do czatu");
-                    isChatOpen=true;
-                    runChat();
-                }
-                sleep(100);
-
-
-                if(endGame){
-                    break;
-                    //todo: wyslij do serwera informacje o checi zakonczenia gry przez
-                }
-
-            }
-
+            System.out.println("\nWszedlem do gry");
+            /**Otwieramy wymiane wiadomości do obslugi rozgrywki*/
+            sleep(1000); //czekam az sie watki rozpoczna
+            runGame();
 
 
 
@@ -160,8 +140,7 @@ public class Observer extends Thread{
 
         try{
             Thread.sleep(3000);        /**odczekuje 3 sekundy i wraca do menu*/
-        }
-        catch (InterruptedException ex) {
+        } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
         if(!isServer)                     /**tylko gdy nie ma serwera*/
@@ -192,13 +171,13 @@ public class Observer extends Thread{
                 /**odbierz od socket uzywajac ObjectInputStream*/
 
                 pointsList = (ArrayList<Point>) ois.readObject();
-
+/*
                 if (pointsList.get(0).getX()==20&&pointsList.get(0).getY()==20) {
                     System.out.println("Rozpoczynam czat");
                     startTalk = true;
                     //todo: ustaw na serwerze dla obu graczy oczekiwanie - np jakiś new Point(69,69)
                 }
-
+*/
                 if(!equalsArrayLists(lastPointsList,pointsList)) {
                     lastPointsList=pointsList;
 
@@ -215,29 +194,12 @@ public class Observer extends Thread{
                 e.printStackTrace();
             }
 
-            //System.out.println("zara odbiere dane");
         }
 
     }
 
-    public void runChat(){
-        System.out.println("Rozpoczynam czat na serio");
-        ChatObserver chatObserver = new ChatObserver(socket,oos,ois,this);
-        chatObserver.setMesOut("");
-        chatObserver.setMesIn("");
-        chatObserver.start();
-    }
 
-    public void setEndGame(boolean endGame){
 
-        isChatOpen=false;
-
-    }
-
-    public void continueGame(){
-        continueGames=true;
-
-    }
 
     public boolean equalsArrayLists(ArrayList<Point> a, ArrayList<Point> b){
         if(a.size()!=b.size()){

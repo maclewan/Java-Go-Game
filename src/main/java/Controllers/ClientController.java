@@ -108,6 +108,7 @@ public class ClientController {
         else{
             pointToPush = new Point(tmpA,tmpB,isBlack);
             isSthToPush = true;
+
             /** wyślij do serwera informacje z "pointToCreate"*/
 
             }
@@ -133,6 +134,7 @@ public class ClientController {
     public void addChecker(Point point) {
 
         if(point.isNotDelete()==false){                      //gdy pion jest do usunięcia
+            System.out.println("Jest cos do usuniecia");
             removeChecker(point.getX(),point.getY());
             return;
         }

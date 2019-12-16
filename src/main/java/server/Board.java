@@ -1,3 +1,9 @@
+/** Definicje pionków:
+ * 20;20 - pas
+ * 50;50 - zły ruch
+ */
+
+
 package server;
 
 
@@ -8,7 +14,7 @@ import java.util.Random;
 
 public class Board {
 
-
+    private Server server;
     private boolean isBlack=false;
 
 
@@ -16,32 +22,29 @@ public class Board {
     private Point tempPoint = new Point(21,21,isBlack);
 
 
-    private int x, y;
 
 
     private int[][] pointsArr = new int[19][19];                       /** 0-white, 1-black, 2-empty*/
+
     private boolean[][] groupedArr = new boolean[19][19];
 
     private ArrayList<ArrayList<Point>> groupList = new ArrayList();
     private ArrayList<Point> lastlyKilled = new ArrayList<>();
-    private Point lastAddedWhite = new Point(23,23, Color.WHITE);
-    private Point lastAddedBlack = new Point(23,23, Color.BLACK);
-    private Point lastAdded = new Point(23,23,Color.GREY);
+    private Point lastAdded = new Point(23,23,5);
+    private ArrayList<Point> checkersToKill;
 
 
 
-
-
-
+    public Board(Server server) {
+        this.server = server;
+    }
 
     /**Dodawanie pionka*/
 
     public void addChecker(int x, int y, boolean isBlack) {
 
-        if(pointsArr[x][y]!= 2)                     /**gdy punkt już istnieje*/
-            //todo: info do clienta - zły ruch
+        if(pointsArr[x][y]!= 2)                  /**gdy punkt już istnieje*/
             return;
-
         else {
             tempPoint = new Point(x, y, isBlack);
             if(isBlack) {                              //tworze pionka
@@ -49,31 +52,31 @@ public class Board {
             }
             else
                 pointsArr[x][y] =0;
+            lastAdded=tempPoint;
         }
 
 
         if (isSuicide2(x, y)) {
             removeChecker(x, y, false);
             System.out.println("To jest zamobojstwo! Zrob inny ruch");
-            //todo: info do clienta - zły ruch
+            return;
         }
         if (myContains(lastlyKilled, x, y)) {
             removeChecker(x, y, false);
             System.out.println("Ten pionek byl ostatnio zbity! Zrob inny ruch");
-            //todo: info do clienta - zły ruch
+            return;
         }
+        System.out.println("Dodano chyba pozytywnie");
 
-        if(tempPoint.isBlack()){
-            lastAddedBlack=tempPoint;
-        }
-        else
-            lastAddedWhite=tempPoint;
 
 
         killer();                 //podaje w sobie info do serwera
-        //groupCheckers();   //czy tu potrzebne?
+        lastlyKilled=checkersToKill;
 
-        //todo: info do clientow - dobry ruch, zwróć x, y, kolor
+        checkersToKill.add(tempPoint);
+        setPointsList(checkersToKill);  /**wyslanie info do serwera*/
+        server.changePlayer();
+
     }
 
     /**Usuwanie pionka*/
@@ -87,13 +90,12 @@ public class Board {
 
 
 
-    //-----------------------------------------------------------------------------TUTAJ SPRAWDZAM ZASADY
 
 
     /**Funkcja zabijająca piony bez oddechu*/
 
     public void killer() {
-        lastlyKilled=new ArrayList<>();
+        checkersToKill=new ArrayList<>();
 
         for (int i = 0; i < 19; i++) {                                    //sprawdznie i zabijanie pojedynczych pionków
             for (int j = 0; j < 19; j++) {
@@ -102,22 +104,28 @@ public class Board {
                 if (groupedArr[i][j])
                     continue;
                 if (pointsArr[i][j]!=2&&countBreaths(i, j) == 0) {
-                    lastlyKilled.add(new Point(i,j,Color.GREY));
+                    checkersToKill.add(new Point(i,j,5,false));
                     removeChecker(i, j,true);
+
                 }
             }
         }
-        killGroupedCheckers();                                                   //sprawdzanie i zabijanie grup
-        if (!groupedArr[lastAdded.getX()][lastAdded.getY()]){                     //sprawdzanie ostatnio dodanego
+        killGroupedCheckers(lastlyKilled);                                                   //sprawdzanie i zabijanie grup
+        if (!groupedArr[lastAdded.getX()][lastAdded.getY()]){                                 //sprawdzanie ostatnio dodanego
             if (countBreaths(lastAdded.getX(), lastAdded.getY()) == 0) {
+                checkersToKill.add(new Point(lastAdded.getX(), lastAdded.getY(),5,false));
                 removeChecker(lastAdded.getX(), lastAdded.getY(),true);
             }
         }
 
-        //todo: info do clientow - usuń piony które są w lastlyKilled
+        lastlyKilled=checkersToKill;  //przypisz poprzednio zabite
+
+
 
 
     }
+
+
 
     void killerSimulation(ArrayList<Point> pointsToKill) {
 
@@ -129,7 +137,7 @@ public class Board {
                 if (groupedArr[i][j])
                     continue;
                 if (pointsArr[i][j]!=2&&countBreathsSim(i, j,pointsToKill) == 0) {
-                    pointsToKill.add(new Point(i,j,Color.GRAY));
+                    pointsToKill.add(new Point(i,j,5));
 
                 }
             }
@@ -137,7 +145,7 @@ public class Board {
         killGroupedCheckersSim(pointsToKill);                   //sprawdzanie i zabijanie grup
         if (!groupedArr[lastAdded.getX()][lastAdded.getY()]){                     //sprawdzanie ostatnio dodanego
             if (countBreathsSim(lastAdded.getX(), lastAdded.getY(),pointsToKill) == 0) {
-                pointsToKill.add(new Point(lastAdded.getX(), lastAdded.getY(),Color.GRAY));
+                pointsToKill.add(new Point(lastAdded.getX(), lastAdded.getY(),5));
             }
         }
 
@@ -267,13 +275,8 @@ public class Board {
     }
 
 
-    void killGroupedCheckers() {
+    void killGroupedCheckers(ArrayList<Point> checkersToKill) {
 
-        if(tempPoint.isBlack())
-            lastAdded=lastAddedBlack;
-
-        else
-            lastAdded=lastAddedWhite;
 
 
         for(int i=0; i<groupList.size();i++){
@@ -288,23 +291,16 @@ public class Board {
                 counter+=countBreaths(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY());
             }
             if(counter==0){
-                ArrayList<Point> pointsToKill= new ArrayList<>();
                 for(int j=groupList.get(i).size()-1; j>=0;j--){
                     removeChecker(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),true);
-                    pointsToKill.add(new Point(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY()));
+                    checkersToKill.add(new Point(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),5,false));
                 }
-                //todo: info do clientow - usunac piony z pointsToKill
             }
         }
 
     }
 
     void killGroupedCheckersSim(ArrayList<Point> pointsToKill) {
-        if(tempPoint.isBlack())
-            lastAdded=lastAddedBlack;
-
-        else
-            lastAdded=lastAddedWhite;
 
 
         for(int i=0; i<groupList.size();i++){
@@ -320,12 +316,14 @@ public class Board {
             }
             if(counter==0){
                 for(int j=groupList.get(i).size()-1; j>=0;j--){
-                    pointsToKill.add(new Point(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),Color.GRAY));
+                    pointsToKill.add(new Point(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),5));
                 }
             }
         }
 
     }
+
+
 
 
     boolean isSuicide2(int a, int b){
@@ -357,7 +355,7 @@ public class Board {
         return false;
     }
 
-    void botMove(){       /**przykładowy bot*/
+    void botMove(){       /**przykładowy bot, zawsze białe*/
 
         int[][] killPotential = new int[19][19];
         for(int i=0;i<19;i++){
@@ -365,7 +363,7 @@ public class Board {
                 if(pointsArr[i][j]!=2)
                     continue;
 
-                addChecker(i,j,isBlack);
+                addChecker(i,j,false);
 
                 if(pointsArr[i][j]!=2){                  //gdy punkt od razu znika - samobójstwo, albo nielegalny ruch
                     killPotential[i][j]=-1;
@@ -405,13 +403,30 @@ public class Board {
         Random rand = new Random();                       //wybierz losowe pole do wstawienia piona z najoptymalniejszych
         int[] randomElement = maxValueIndexes.get(rand.nextInt(maxValueIndexes.size()));
 
-        Point botPoint = new Point(randomElement[0],randomElement[1],isBlack);
+        Point botPoint = new Point(randomElement[0],randomElement[1],false);
         addChecker(botPoint.getX(),botPoint.getY(),botPoint.isBlack());
-        //todo: info do serwera o dodaniu piona
+        /**tutaj wywołuje sie fkcja addChecker*/
     }
 
 
 
+
+
+    public ArrayList<Point> getLastlyKilled() {
+        lastlyKilled.clear();
+        return lastlyKilled;
+    }
+
+    private void setPointsList(ArrayList<Point> listToKill) {
+        server.setPointList(listToKill);
+    }
+    public void startArrayOfCheckers(){
+        for(int i=0;i<19;i++){
+            for(int j=0;j<19;j++){
+                pointsArr[i][j]=2;
+            }
+        }
+    }
 
 
 }

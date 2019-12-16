@@ -1,6 +1,6 @@
 package Controllers;
 
-
+/*
 import client.Point;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,11 +25,11 @@ public class GuiController {
 
     private Stage stage;
     public Ellipse[][] checkers = new Ellipse[19][19];
-    private boolean[][] groupedArr = new boolean[19][19];              /*czy pion należy do jakiejs grupy*/
+    private boolean[][] groupedArr = new boolean[19][19];
     private boolean[][] allreadyChecked = new boolean[19][19];
-    private ArrayList<ArrayList<Point>> groupList = new ArrayList();   /*zgrupowane piony*/
-    private ArrayList<Point> lastlyKilled = new ArrayList<>();         /*zasada ko*/
-    private Point lastAdded = new Point(0,0,Color.WHITE);         /*do funkcji isSuicide*/
+    private ArrayList<ArrayList<Point>> groupList = new ArrayList();
+    private ArrayList<Point> lastlyKilled = new ArrayList<>();
+    private Point lastAdded = new Point(0,0,0)  ;
     private int killedBlack=0;
     private int killedWhite=0;
 
@@ -94,10 +94,10 @@ public class GuiController {
         diffR = Math.sqrt(diffX * diffX + diffY * diffY);
 
         if(!(diffR>15)) {  //if clicked not out of any points range
-            if (checkers[a][b] == null) { /*jesli nie ma to dodaj*/
+            if (checkers[a][b] == null) { /*jesli nie ma to dodaj
                 addChecker(a, b);
             }
-            else {       /*UWAGA tymczasowe tylko*/
+            else {
                 removeChecker(a, b,false);
                 checkers[a][b] = null;
             }
@@ -137,7 +137,7 @@ public class GuiController {
         isBlack=!isBlack;     //wybiera drugi kolor;
     }
 
-    /*Dodaje pionek*/
+    /*Dodaje pionek
     void addChecker(int a, int b) {
 
 
@@ -152,11 +152,11 @@ public class GuiController {
         if (isBlack) {
             checkers[a][b].setFill(Color.BLACK);
             checkers[a][b].setStroke(Color.WHITE);
-            lastAdded = new Point(a,b,Color.BLACK);
+            lastAdded = new Point(a,b,1);
         } else {
             checkers[a][b].setFill(Color.WHITE);
             checkers[a][b].setStroke(Color.BLACK);
-            lastAdded = new Point(a,b,Color.WHITE);
+            lastAdded = new Point(a,b,0);
         }
 
             board.getChildren().add(checkers[a][b]);
@@ -180,7 +180,7 @@ public class GuiController {
 
 
 
-    /*Usuwam pionek*/
+    /*Usuwam pionek
     void removeChecker(int a, int b, boolean seriously) {
         if(checkers[a][b]!=null) {
             if (seriously) {
@@ -200,7 +200,7 @@ public class GuiController {
     //-----------------------------------------------------------------------------TUTAJ SPRAWDZAM ZASADY
 
 
-    /*Funkcja zabijająca piony bez oddechu*/
+    /*Funkcja zabijająca piony bez oddechu
 
     void killer() {
         lastlyKilled=new ArrayList<>();
@@ -212,7 +212,7 @@ public class GuiController {
                 if (groupedArr[i][j])
                     continue;
                 if (countBreaths(i, j) == 0&&checkers[i][j]!=null) {
-                    lastlyKilled.add(new Point(i,j,Color.GREY));
+                    lastlyKilled.add(new Point(i,j,5));
                     removeChecker(i, j,true);
                 }
             }
@@ -237,7 +237,7 @@ public class GuiController {
                 if (groupedArr[i][j])
                     continue;
                 if (countBreathsSim(i, j,pointsToKill) == 0&&checkers[i][j]!=null) {
-                    pointsToKill.add(new Point(i,j,Color.GRAY));
+                    pointsToKill.add(new Point(i,j,5));
 
                 }
             }
@@ -245,14 +245,14 @@ public class GuiController {
         killGroupedCheckersSim(pointsToKill);                   //sprawdzanie i zabijanie grup
         if (!groupedArr[lastAdded.getX()][lastAdded.getY()]){                     //sprawdzanie ostatnio dodanego
             if (countBreathsSim(lastAdded.getX(), lastAdded.getY(),pointsToKill) == 0) {
-                pointsToKill.add(new Point(lastAdded.getX(), lastAdded.getY(),Color.GRAY));
+                pointsToKill.add(new Point(lastAdded.getX(), lastAdded.getY(),5));
             }
         }
 
 
     }
 
-    /*Grupuje zbite piony w grupy*/
+    /*Grupuje zbite piony w grupy
     void groupCheckers() {
         groupedArr = new boolean[19][19];
         groupList.clear();
@@ -270,7 +270,7 @@ public class GuiController {
 
     }
 
-    /*Sprawdzanie i dodawanie sąsiadów do grupy*/
+    /*Sprawdzanie i dodawanie sąsiadów do grupy
     void getComrade(int a, int b, Paint color, ArrayList<Point> comList) {
         if (groupedArr[a][b]) {    //czy tego punktu juz nie ma w liście
             return;
@@ -278,7 +278,7 @@ public class GuiController {
 
         comList.add(new Point(a, b, color));         //dodaj punkt
 
-        /*sprawdzam okoliczne punkty*/
+        /*sprawdzam okoliczne punkty
         try {
             if (checkers[a][b + 1].getFill() == color) {         //jeśli kolor sie zgadza
                 groupedArr[a][b] = true;                      //oznaczam pkt [a][b] jako element zgrupowany
@@ -455,7 +455,7 @@ public class GuiController {
         return false;
     }
 
-    void botMove(){       /*przykładowy bot*/
+    void botMove(){       /*przykładowy bot
 
             int[][] killPotential = new int[19][19];
             for (int i = 0; i < 19; i++) {
@@ -524,3 +524,4 @@ public class GuiController {
 
 
 }
+*/
