@@ -169,8 +169,9 @@ public class Server {
                         /**zawieszanie gry*/
                         if(oldPoint.getX()==newPoint.getX()&&oldPoint.getX()==69){
                                 isGameActive=false;
+                                //todo: sratatata otwórz chat itepe itede
                         }
-                        //todo: sratatata otwórz chat itepe itede
+
 
                         ArrayList<Point> tempList;
                         tempList=pointList;
