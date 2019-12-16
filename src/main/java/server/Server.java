@@ -89,7 +89,7 @@ public class Server {
                         /**Teraz biore wiadomosc od klienta 2 */
                         ois2 = new ObjectInputStream(socket2.getInputStream());
 
-                        /**Konwertuje na inta*/
+                        /**Konwertuje na stringa*/
                         String b = (String) ois2.readObject();
                         System.out.println("Dostalem widomosc od 2 gracza: " + b);
 
@@ -101,6 +101,10 @@ public class Server {
                         /**informuje klienta 2 ze wszyscy sa*/
                         oos1.writeObject(true);
 
+                        /******************************************************/
+                        /*W tle wlaczam server czatu aby mogli sie juz polaczyc*/
+                        /*******************************************************/
+                        s.chat.start();
 
                         /******************************************/
                         /*Otwieram strumien do gry miedzy graczami*/
@@ -131,7 +135,6 @@ public class Server {
 
 
         }
-
 
         private void ServerGame(ObjectInputStream ois1, ObjectInputStream ois2, ObjectOutputStream oos1, ObjectOutputStream oos2) throws InterruptedException, IOException {
 

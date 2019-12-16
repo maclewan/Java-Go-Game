@@ -15,12 +15,15 @@ public class wywolajChat {
          //-----------tworzenie servera--------------------//
          //------------------------------------------------*/
 
+        //done
         /*deklarowanie chatu - zrob to w serverze(EDIT: juz to zrobilem)*/
         ChatServer chat = new ChatServer(s);
 
+        //done
         /*start serverachatu - zrob to w serwerze gdy sie wszyscy polacza*/
         chat.start();
 
+        // todo:
         /*gdy dostaniesz wiadomosc od obu graczy ze czas zaczac chat to otworz drzwi - SERVER*/
         chat.chatDoor();
 

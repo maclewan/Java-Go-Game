@@ -16,47 +16,52 @@ import java.net.UnknownHostException;
 public class ClientChat {
 
     public static void main(String[] args) {
+        //todo:
         /*ponizszy kod wrzuc w kliencie*/
         /**------------------------------------------------//
          //-------------KLIENTA TWORZENIE ------------------//
          //------------------------------------------------*/
         /**zdobadz localhost*/
-        InetAddress host = null;
+        InetAddress host = null;    //host jest ten sam co od gameserver - nie musisz tego deklarowac
         /**DO SOCKETA*/
-        Socket chatSocket = null;
+        Socket chatSocket ;
         /**DO output*/
-        ObjectOutputStream oos = null;
+        ObjectOutputStream oosChat;
         /**DO input*/
-        ObjectInputStream ois = null;
+        ObjectInputStream oisChat;
 
-        /**Lapanie localHosta*/
-        try {
-            host = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        /**Lapanie localHosta*/                 //host jest ten sam co od gameserver - nie musisz tego deklarowac
+        try {                                   //host jest ten sam co od gameserver - nie musisz tego deklarowac
+            host = InetAddress.getLocalHost();  //host jest ten sam co od gameserver - nie musisz tego deklarowac
+        } catch (UnknownHostException e) {      //host jest ten sam co od gameserver - nie musisz tego deklarowac
+            e.printStackTrace();                //host jest ten sam co od gameserver - nie musisz tego deklarowac
+        }                                       //host jest ten sam co od gameserver - nie musisz tego deklarowac
 
-        /**Lacze z serwerrem*/
-        /**skonfiguruj polaczenie socket do servera*/
+        /**Lacze z serwerrem czatu */
         try {
             chatSocket = new Socket(host.getHostName(), 7777);
 
 
             /**odbierz odpowiedz serwera*/
-            ois = new ObjectInputStream(chatSocket.getInputStream());
+            oisChat = new ObjectInputStream(chatSocket.getInputStream());
             System.out.println("Dolaczylem sb do servera");
 
             /**napisz do socket uzywajac ObjectOutputStream*/
-            oos = new ObjectOutputStream(chatSocket.getOutputStream());
-            oos.writeObject("OK");
+            oosChat = new ObjectOutputStream(chatSocket.getOutputStream());
+            oosChat.writeObject("OK");
 
-            /**Czekam2 gracza*/
-            boolean isSecond = (boolean) ois.readObject();       //tu czeka na drugiego gracza
+            /**Czekam na 2 gracza*/
+            boolean isSecond = (boolean) oisChat.readObject();       //tu czeka na drugiego gracza
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        /*W TYM MOMENCIE OBAJ GRACZE SĄ PODLACZENI ale wysylac
+        wiadomosci miedzy soba beda mogli dopiero
+        gdy server otworzy drzwi (zobacz klasa wywolajChat)*/
+
+
     }
 
 }
