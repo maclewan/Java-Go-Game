@@ -123,6 +123,7 @@ public class ChatServer {
     public void chatDoor()
     {
         isChatActive=!isChatActive;
+        //todo: okna
     }
 }
 

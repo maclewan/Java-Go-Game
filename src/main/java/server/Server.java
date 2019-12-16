@@ -160,9 +160,7 @@ public class Server {
                         }
                         /**pasowanie tury*/
                         if(newPoint.getY()==20&&newPoint.getX()==20){
-                                System.out.println("czy czarny? " +isBlack);
                                 changePlayer();
-                                System.out.println("czy czarny? " +isBlack);
                                 newPoint=new Point(69,69);                   //oba sygnały 69 oznacząc będą zawiesznie gry
                         }
                         /**zawieszanie gry*/
@@ -172,13 +170,7 @@ public class Server {
                                 /*ChatServer chat = new ChatServer(ois1, ois2, oos1, oos2);
                                 chat.ServerChat();*/
                         }
-                        /**otwieranie chatu*/
-                        if(newPoint.getY()==20&&newPoint.getX()==20){
-                                System.out.println("czy czarny? " +isBlack);
-                                changePlayer();
-                                System.out.println("czy czarny? " +isBlack);
-                                newPoint=new Point(69,69);                   //oba sygnały 69 oznacząc będą zawiesznie gry
-                        }
+
 
 
                         ArrayList<Point> tempList;

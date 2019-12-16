@@ -41,11 +41,7 @@ public class Observer extends Thread{
     /**Pionek do dodania*/
         Point a = new Point(21,21);
 
-    /**Ostatnio dodany pionek*/
-        Point lastA =new Point(21,21);
 
-        /**Tymczasowy pion*/
-        Point tempPoint;
 
     /**Czy ma sie zaczac rozmowa*/
         boolean startTalk=false;
