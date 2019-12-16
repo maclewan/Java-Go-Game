@@ -174,18 +174,19 @@ public class Observer extends Thread{
                     cc.setSthToPush(false);
                     System.out.println("Wysylam zapytanie o punkt " + a.getX() +";"+ a.getY());
                 }
+                /*if (pointsList.get(0).getX()==20&&pointsList.get(0).getY()==20) {
+                    System.out.println("Rozpoczynam czat");
+                    startTalk = true;
+                    //todo: ustaw na serwerze dla obu graczy oczekiwanie - np jakiś new Point(69,69)
+                }*/
 
                 /**odbierz od socket uzywajac ObjectInputStream*/
                 pointsList=new ArrayList<>();
                 pointsList = (ArrayList<Point>) ois.readObject();
 
-/*
-                if (pointsList.get(0).getX()==20&&pointsList.get(0).getY()==20) {
-                    System.out.println("Rozpoczynam czat");
-                    startTalk = true;
-                    //todo: ustaw na serwerze dla obu graczy oczekiwanie - np jakiś new Point(69,69)
-                }
-*/
+
+
+
                 if(!equalsArrayLists(lastPointsList,pointsList)) {
                     lastPointsList=pointsList;
 
