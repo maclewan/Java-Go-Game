@@ -5,7 +5,8 @@ import javafx.scene.paint.Paint;
 
 public class Point {
     private int x,y;
-    Paint color;
+    private boolean notDelete = true;
+    private Paint color;
 
     public Point(int x, int y, Paint color) {
         this.x = x;
@@ -39,6 +40,18 @@ public class Point {
         this.color=Color.GREY;
     }
 
+    public Point(int x, int y, int color, boolean notDelete) {
+        this.x = x;
+        this.y = y;
+        this.notDelete=notDelete;
+        if(color==0)
+            this.color=Color.WHITE;
+        else if(color==1)
+            this.color=Color.BLACK;
+        else
+            this.color=Color.GREY;
+    }
+
     public int getX() {
         return x;
     }
@@ -47,6 +60,9 @@ public class Point {
         return y;
     }
 
+    public boolean isNotDelete() {
+        return notDelete;
+    }
 
     public boolean isBlack(){
         if(color==Color.BLACK)
@@ -54,6 +70,8 @@ public class Point {
 
         return false;
     }
+
+
 
 
 

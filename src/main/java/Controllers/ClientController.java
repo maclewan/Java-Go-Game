@@ -20,9 +20,8 @@ import java.util.Random;
 public class ClientController {
 
 
-    public boolean isBlack;
-    public boolean yourTurn=true;
-    public boolean madeMove=false;
+    private boolean isBlack;
+
 
 
 
@@ -33,8 +32,10 @@ public class ClientController {
     private int killedBlack=0;
     private int killedWhite=0;
 
-    private Ellipse[][] checkers = new Ellipse[19][19];     //todo: do clienta
+    private Ellipse[][] checkers = new Ellipse[19][19];
 
+    private Point pointToPush;
+    private boolean isSthToPush;
 
 
 
@@ -66,7 +67,7 @@ public class ClientController {
 
 
     @FXML // fx:id="board"
-    public Pane board; // Value injected by FXMLLoader
+    private Pane board; // Value injected by FXMLLoader
 
 
     @FXML // fx:id="passWhite"
@@ -105,8 +106,9 @@ public class ClientController {
             /**clicked out of any points range*/
         }
         else{
-            Point pointToCreate = new Point(tmpA,tmpB,isBlack);
-            //todo: wyślij do serwera informacje z "pointToCreate"
+            pointToPush = new Point(tmpA,tmpB,isBlack);
+            isSthToPush = true;
+            /** wyślij do serwera informacje z "pointToCreate"*/
 
             }
     }
@@ -116,9 +118,10 @@ public class ClientController {
 
     @FXML
     void btnPassOnAction(ActionEvent event)  {
-        Point passPoint = new Point(20,20,isBlack);
-            //todo: wyslij do serwera informacje z "passPoint"
-            System.out.println("Zrobiles PASS jednej rundy.");
+        /** wyslij do serwera informacje z "passPoint"*/
+        pointToPush = new Point(20,20,isBlack);
+        isSthToPush = true;
+        System.out.println("Zrobiles PASS jednej rundy.");
 
     }
 
@@ -128,6 +131,11 @@ public class ClientController {
 
     @FXML
     public void addChecker(Point point) {
+
+        if(point.isNotDelete()==false){                      //gdy pion jest do usunięcia
+            removeChecker(point.getX(),point.getY());
+            return;
+        }
 
         int a=point.getX();
         int b=point.getY();
@@ -198,5 +206,23 @@ public class ClientController {
 
     }
 
+    public boolean isBlack() {
+        return isBlack;
+    }
 
+    public void setIsBlack(boolean black) {
+        isBlack = black;
+    }
+
+    public Point getPointToPush() {
+        return pointToPush;
+    }
+
+    public boolean isSthToPush() {
+        return isSthToPush;
+    }
+
+    public void setSthToPush(boolean sthToPush) {
+        isSthToPush = sthToPush;
+    }
 }
