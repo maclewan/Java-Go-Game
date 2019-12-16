@@ -28,10 +28,7 @@ public class Server {
         private boolean isGameActive=true;
         private boolean isGameOn=true;
         private boolean isBlack=true;
-
-
-
-
+        private ChatServer chat = new ChatServer(this);
 
         public static void main(String[] args){
 
@@ -103,7 +100,6 @@ public class Server {
 
                         /**informuje klienta 2 ze wszyscy sa*/
                         oos1.writeObject(true);
-
 
 
                         /******************************************/
@@ -233,9 +229,7 @@ public class Server {
                 isBlack=!isBlack;
         }
 
-        public void setGameActive(boolean gameActive) {
-                isGameActive = gameActive;
-        }
+        public void gameDoor(){ isGameActive = !isGameActive; }
 }
 
 
