@@ -1,6 +1,9 @@
 package server;
 
 public class wywolajChat {
-    ChatServer chat = new ChatServer();
-    chat.startChatServer();
+    public static void main(String[] args) {
+        ChatServer chat = new ChatServer();
+        chat.startChatServer();
+    }
+
 }
