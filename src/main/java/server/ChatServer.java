@@ -92,7 +92,6 @@ public class ChatServer {
             {
                 System.out.println("Wznawiam grę");
                 isChatActive=false;
-                break;
             }
             sleep(100);
             /**Daje klientowi 2 odpowiedz*/
