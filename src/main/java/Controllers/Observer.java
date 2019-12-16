@@ -110,6 +110,14 @@ public class Observer extends Thread{
                 return;
             });
 
+
+
+
+
+
+
+
+
             /**
              *
              * Etap gry miedzy 2 klientami
@@ -169,8 +177,9 @@ public class Observer extends Thread{
                 }
 
                 /**odbierz od socket uzywajac ObjectInputStream*/
-
+                pointsList=new ArrayList<>();
                 pointsList = (ArrayList<Point>) ois.readObject();
+
 /*
                 if (pointsList.get(0).getX()==20&&pointsList.get(0).getY()==20) {
                     System.out.println("Rozpoczynam czat");
@@ -181,10 +190,9 @@ public class Observer extends Thread{
                 if(!equalsArrayLists(lastPointsList,pointsList)) {
                     lastPointsList=pointsList;
 
-                    for(int i=0; i<pointsList.size();i++){
-                        tempPoint=pointsList.get(i);
-                        Platform.runLater(() ->cc.addChecker(tempPoint));
-                    }
+                    cc.setArrayOfPoints(pointsList);
+                    Platform.runLater(() ->cc.addArrayOfPoints());
+
 
                 }
 

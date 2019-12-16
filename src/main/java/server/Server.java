@@ -159,7 +159,6 @@ public class Server {
                         /**pasowanie tury*/
                         if(newPoint.getY()==20&&newPoint.getX()==20){
                                 changePlayer();
-                                continue;
                         }
 
                         ArrayList<Point> tempList = new ArrayList<>();
@@ -200,6 +199,7 @@ public class Server {
 
 
         public void setPointList(ArrayList<Point> list){
+
                 this.pointList = list;
         }
 

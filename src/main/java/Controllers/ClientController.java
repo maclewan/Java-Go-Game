@@ -36,6 +36,7 @@ public class ClientController {
 
     private Point pointToPush;
     private boolean isSthToPush;
+    private ArrayList<Point> pointsToAdd = new ArrayList<>();
 
 
 
@@ -133,9 +134,10 @@ public class ClientController {
     @FXML
     public void addChecker(Point point) {
 
-        if(point.isNotDelete()==false){                      //gdy pion jest do usunięcia
-            System.out.println("Jest cos do usuniecia");
-            removeChecker(point.getX(),point.getY());
+        if(point.getX()<0){                      //gdy pion jest do usunięcia
+
+
+            removeChecker(-(point.getX()+1),-(point.getY()+1));
             return;
         }
 
@@ -226,5 +228,15 @@ public class ClientController {
 
     public void setSthToPush(boolean sthToPush) {
         isSthToPush = sthToPush;
+    }
+    public void addArrayOfPoints(){
+        for(int h=0; h<pointsToAdd.size();h++){
+            addChecker(pointsToAdd.get(h));
+        }
+    }
+    public void setArrayOfPoints(ArrayList<Point> list){
+        this.pointsToAdd= list;
+
+
     }
 }

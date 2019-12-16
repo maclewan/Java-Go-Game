@@ -66,7 +66,6 @@ public class Board {
             System.out.println("Ten pionek byl ostatnio zbity! Zrob inny ruch");
             return;
         }
-        System.out.println("Dodano chyba pozytywnie");
 
 
 
@@ -74,6 +73,7 @@ public class Board {
         lastlyKilled=checkersToKill;
 
         checkersToKill.add(tempPoint);
+
         setPointsList(checkersToKill);  /**wyslanie info do serwera*/
         server.changePlayer();
 
@@ -104,7 +104,7 @@ public class Board {
                 if (groupedArr[i][j])
                     continue;
                 if (pointsArr[i][j]!=2&&countBreaths(i, j) == 0) {
-                    checkersToKill.add(new Point(i,j,5,false));
+                    checkersToKill.add(new Point(-i-1,-j-1,5,true));
                     removeChecker(i, j,true);
 
                 }
@@ -113,7 +113,7 @@ public class Board {
         killGroupedCheckers(lastlyKilled);                                                   //sprawdzanie i zabijanie grup
         if (!groupedArr[lastAdded.getX()][lastAdded.getY()]){                                 //sprawdzanie ostatnio dodanego
             if (countBreaths(lastAdded.getX(), lastAdded.getY()) == 0) {
-                checkersToKill.add(new Point(lastAdded.getX(), lastAdded.getY(),5,false));
+                checkersToKill.add(new Point(-lastAdded.getX()-1, -lastAdded.getY()-1,5,true));
                 removeChecker(lastAdded.getX(), lastAdded.getY(),true);
             }
         }
@@ -293,7 +293,7 @@ public class Board {
             if(counter==0){
                 for(int j=groupList.get(i).size()-1; j>=0;j--){
                     removeChecker(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),true);
-                    checkersToKill.add(new Point(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),5,false));
+                    checkersToKill.add(new Point(-groupList.get(i).get(j).getX()-1,-groupList.get(i).get(j).getY()-1,5,true));
                 }
             }
         }
