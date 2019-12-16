@@ -20,19 +20,18 @@ public class ChatServer {
 
         public void startChatServer()
         {
-
         ServerSocket server = null;
         /**port socket serwer-a*/
         int port = 7777;
 
         /**tworzenie socket serwer*/
-        {
+
             try {
                 server = new ServerSocket(port);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        }
+
         System.out.println("Stworzylem server chatu");
         //******************************//
         //---- PODLACZANIE DO SERVERA---//
@@ -143,9 +142,6 @@ class ClientReciveChatInfo extends Thread {
     /**
      * Biore i konwertuje na String wiadomosc od 1 klienta
      */
-
-
-
     @Override
     public synchronized void run() {
         System.out.println("Jestem w watku CHAT");
