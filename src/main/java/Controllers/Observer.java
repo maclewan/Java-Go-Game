@@ -10,7 +10,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**Klasa Observer odpowiedzialna za polaczenie z serverem*/
 public class Observer extends Thread{
@@ -168,7 +167,7 @@ public class Observer extends Thread{
 
             try {
                 /**napisz do socket uzywajac ObjectOutputStream*/
-                if(cc.isSthToPush()) {
+                if(cc.isSthToPush()) {//                        if(isNewMes)
 
                     oos.writeObject(a);
 

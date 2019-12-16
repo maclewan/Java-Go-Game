@@ -3,7 +3,6 @@ package server;
 
 import client.Point;
 
-import javax.annotation.processing.SupportedSourceVersion;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -170,6 +169,7 @@ public class Server {
                         if(oldPoint.getX()==newPoint.getX()&&oldPoint.getX()==69){
                                 isGameActive=false;
                                 //todo: sratatata otwórz chat itepe itede
+                                ChatServer chat = new ChatServer(ois1, ois2, oos1, oos2);
                         }
 
 
