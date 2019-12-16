@@ -171,6 +171,7 @@ public class Server {
                                 tempList.add(new Point(69,69));
                                 ChatServer chatServer = new ChatServer(this);
                                 chatServer.start();
+                                newPoint=new Point(99,99);
 
                         }
 

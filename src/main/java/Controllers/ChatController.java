@@ -61,7 +61,7 @@ public class ChatController {
 
     @FXML
     void endGameOnAction(ActionEvent event) {
-        co.endGame();
+        co.setMesOut("Koniec gry!");
     }
 
 

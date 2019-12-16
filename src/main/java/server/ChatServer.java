@@ -38,6 +38,7 @@ public class ChatServer  extends Thread  {
                 server = new ServerSocket(port);
             } catch (IOException ex) {
                 ex.printStackTrace();
+                System.out.println("Problem :/");
             }
         try {
             System.out.println("Stworzylem server chatu");
