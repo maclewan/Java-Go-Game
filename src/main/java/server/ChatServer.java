@@ -58,7 +58,7 @@ public class ChatServer  extends Thread  {
             System.out.println("Gracz 2 dolaczyl do serwera");
 
             /**Konwertuje na inta*/
-            boolean isFirstBlack = (boolean) ois1.readObject();
+            isFirstBlack = (boolean) ois1.readObject();
             if(isFirstBlack)System.out.println("1 podlaczony jest czarny");
 
             /**Daje klientowi 2 odpowiedz*/
