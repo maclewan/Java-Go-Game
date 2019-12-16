@@ -16,6 +16,7 @@ import java.net.UnknownHostException;
 public class ClientChat {
 
     public static void main(String[] args) {
+        boolean isBlack=true; //tego nie kopiuj to tylko w ramach tej klasy
         //todo:
         /*ponizszy kod wrzuc w kliencie*/
         /**------------------------------------------------//
@@ -48,7 +49,7 @@ public class ClientChat {
 
             /**napisz do socket uzywajac ObjectOutputStream*/
             oosChat = new ObjectOutputStream(chatSocket.getOutputStream());
-            oosChat.writeObject("OK");
+            oosChat.writeObject(isBlack);
 
             /**Czekam na 2 gracza*/
             boolean isSecondChatter = (boolean) oisChat.readObject();       //tu czeka na drugiego gracza

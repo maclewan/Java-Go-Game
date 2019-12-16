@@ -11,6 +11,7 @@ public class ChatServer  extends Thread  {
     private String mes2="";
     private boolean endChat=false;
     boolean isChatActive=false;
+    boolean isFirstBlack=false;
     private ObjectInputStream ois1;
     private ObjectInputStream ois2;
     private ObjectOutputStream oos1;
@@ -57,8 +58,8 @@ public class ChatServer  extends Thread  {
             System.out.println("Gracz 2 dolaczyl do serwera");
 
             /**Konwertuje na inta*/
-            String a = (String) ois1.readObject();
-            System.out.println("Dostalem waidomosc od 1 gracza: " + a);
+            boolean isFirstBlack = (boolean) ois1.readObject();
+            if(isFirstBlack)System.out.println("1 podlaczony jest czarny");
 
             /**Daje klientowi 2 odpowiedz*/
             oos2 = new ObjectOutputStream(socket2.getOutputStream());
@@ -68,8 +69,8 @@ public class ChatServer  extends Thread  {
             ois2 = new ObjectInputStream(socket2.getInputStream());
 
             /**Konwertuje na inta*/
-            String b = (String) ois2.readObject();
-            System.out.println("Dostalem widomosc od 2 gracza: " + b);
+            boolean tmp = (boolean) ois2.readObject();
+            if(tmp)System.out.println("2 podlaczony gracz jest czarny" );
 
 
             /**informuje klienta 1 ze wszyscy sa*/
