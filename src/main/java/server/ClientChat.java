@@ -51,7 +51,7 @@ public class ClientChat {
             oosChat.writeObject("OK");
 
             /**Czekam na 2 gracza*/
-            boolean isSecond = (boolean) oisChat.readObject();       //tu czeka na drugiego gracza
+            boolean isSecondChatter = (boolean) oisChat.readObject();       //tu czeka na drugiego gracza
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -61,6 +61,9 @@ public class ClientChat {
         wiadomosci miedzy soba beda mogli dopiero
         gdy server otworzy drzwi (zobacz klasa wywolajChat)*/
 
+        //PISANIE WIADOMOSCI: oosChat.writeObject(mesOut);
+        //CZYTANIE WIADOMOSCI: oisChat.readObject(mesIn);
+        //Wiadomosc:  "Wznawiam gre!" konczy czat i wznawia server(6666) nasluchujacy ruchy gracza
 
     }
 
