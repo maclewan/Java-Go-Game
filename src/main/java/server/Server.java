@@ -1,6 +1,7 @@
 
 package server;
 
+import Controllers.ChatController;
 import client.Point;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class Server {
         private boolean isGameOn=true;
         private boolean isBlack=true;
         private ChatServer chat = new ChatServer(this);
+        private ArrayList<Point> tempList;
 
         public static void main(String[] args){
 
@@ -165,14 +167,16 @@ public class Server {
                         /**zawieszanie gry*/
                         if(oldPoint.getX()==newPoint.getX()&&oldPoint.getX()==69){
                                 isGameActive=false;
-                                //todo: sratatata otwórz chat itepe itede
-                                /*ChatServer chat = new ChatServer(ois1, ois2, oos1, oos2);
-                                chat.ServerChat();*/
+                                tempList.clear();
+                                tempList.add(new Point(69,69));
+                                ChatServer chatServer = new ChatServer(this);
+                                chatServer.start();
+
                         }
 
 
 
-                        ArrayList<Point> tempList;
+
                         tempList=pointList;
 
                         if(tempList.size()>0)
@@ -189,8 +193,6 @@ public class Server {
 
 
 
-                        //todo: sprawdzam czy nie ma kontynuacji -> endChatMode(int <czyja tura teraz>) ->isGameActive = true
-                        //todo: sprawdzam czy nie ma końca gry -> endGame() ->isGameOn = false
 
                         sleep(100);
                 }
@@ -218,9 +220,7 @@ public class Server {
         }
 
 
-        private void startChatMode(){
 
-        }
         private void endChatMode(int whosTurn){
                 pointList = new ArrayList<>();
 
@@ -232,7 +232,9 @@ public class Server {
                 isBlack=!isBlack;
         }
 
-        public void gameDoor(){ isGameActive = !isGameActive; }
+        public void setIsBlack(boolean black) {
+                isBlack = black;
+        }
 }
 
 

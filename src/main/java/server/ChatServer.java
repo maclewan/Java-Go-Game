@@ -8,10 +8,13 @@ import java.net.Socket;
 
 public class ChatServer  extends Thread  {
     private String mes1="";
-    private String mes2="";
+
     private boolean endChat=false;
-    boolean isChatActive=false;
-    boolean isFirstBlack=false;
+    private boolean endGame=false;
+
+    private boolean isFirstBlack=false;
+
+    private Socket socket1;
     private ObjectInputStream ois1;
     private ObjectInputStream ois2;
     private ObjectOutputStream oos1;
@@ -41,7 +44,7 @@ public class ChatServer  extends Thread  {
             //******************************//
             //---- PODLACZANIE DO SERVERA---//
             //******************************//
-            Socket socket1 = server.accept();
+            socket1 = server.accept();
             System.out.println("Gracz 1 dolaczyl do serwera");
             /**Daje klientowi 1 odpowiedz*/
             oos1 = new ObjectOutputStream(socket1.getOutputStream());
@@ -51,7 +54,7 @@ public class ChatServer  extends Thread  {
             ois1 = new ObjectInputStream(socket1.getInputStream());
 
 
-            /*Czekam na klienta 2*/
+            /**Czekam na klienta 2*/
             System.out.println("Czekam na 2 gracza");
             /**Czekam na klienta 2*/
             Socket socket2 = server.accept();
@@ -78,9 +81,15 @@ public class ChatServer  extends Thread  {
 
             /**informuje klienta 2 ze wszyscy sa*/
             oos1.writeObject(true);
+
+
+            ServerChat();
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -100,77 +109,110 @@ public class ChatServer  extends Thread  {
         endChat=false;
         while(true){
 
-            /**Zawieszenie gry*/
+
+
+
+            /**Wysylam graczom wiadomosci*/
+            try {
+                oos2.writeObject(mes1);
+                oos1.writeObject(mes1);
+
+            } catch (IOException e) {
+                e.printStackTrace(); }
+
+            /**Zawieszenie chatu*/
             if(endChat)
             {
                 System.out.println("Wznawiam grę");
-                isChatActive=false;
-                s.gameDoor();
+                stopServer();
+                this.interrupt();
             }
+            /**Koniec gry*/
+            if(endGame)
+            {
+                System.out.println("Koniec gry");
+                stopServer();
+                this.interrupt();
+            }
+
             sleep(100);
-            /**Daje klientowi 2 odpowiedz*/
-            try {
-                oos2.writeObject(mes1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-
-            /**Daje klientowi 1 odpowiedz*/
-            try {
-                oos1.writeObject(mes2);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
         }
     }
 
     /**2 metody o tej samej nazwie ale roznymi param.*/
-    public void setParams(String mes,boolean isBlack1)
+    public void setMessageToSend(String mes,boolean isBlack)
     {
-        {
-            if (isBlack1) {
-                this.mes1 = mes;
-            } else {
-                this.mes2 = mes;
-            }
+        /**gdy wznawiam gre, wysylam info kto powinien zaczac*/
+        if(mes.equals("Wznawiam gre!")){
+            endChat=true;
+            s.setIsBlack(isBlack);
+            this.mes1=mes;
         }
-        if(mes.equals("Wznawiam gre!"))endChat=true;
+        if(mes.equals("Koniec gry!")){
+            endChat=true;
+            this.mes1=mes;
+        }
+
+
+        else if(isBlack){
+            this.mes1=("Czarny:\t "+ mes);
+        }
+        else
+            this.mes1=("Bialy:\t "+ mes);
+
+
+
+
 
     }
-    /**2 otwiera/zamyka chat*/
-    public void chatDoor() { isChatActive=!isChatActive; }
+
+    private void stopServer() {
+        try {
+            socket1.close();
+            ois1.close();
+            ois2.close();
+            oos1.close();
+            oos2.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
 class ClientReciveChatInfo extends Thread {
-    public  ClientReciveChatInfo(ObjectInputStream ois1, boolean isBlack1,ChatServer server1){
-        if(server1.isChatActive) {
-            this.ois = ois1;
-            this.server = server1;
-            this.isBlack = isBlack1;
-        }
-        else  System.out.println("Czat nie aktywny, graj a nie piszesz");
+
+    public  ClientReciveChatInfo(ObjectInputStream ois1, boolean isBlack1,ChatServer server){
+        this.ois = ois1;
+        this.server = server;
+        this.isBlack = isBlack1;
     }
-    private  ObjectInputStream ois;
+
+    private ObjectInputStream ois;
     private boolean isBlack;
     private ChatServer server;
     private String mes;
+
     /**
-     * Biore i konwertuje na String wiadomosc od 1 klienta
+     * Biore i konwertuje na String wiadomosc od klienta
      */
     @Override
     public synchronized void run() {
-        System.out.println("Jestem w watku CHAT");
+
+        System.out.println("Jestem w watku chatRecive");
+
         while(true){
             try {
                 mes = (String) ois.readObject();
-                server.setParams(mes,isBlack);
+                server.setMessageToSend(mes,isBlack);
+
             } catch (IOException e) {
             } catch (ClassNotFoundException e) {
             }
-            System.out.println("Dostalem widomosc od 1 gracza: " + mes);
+            System.out.println("Dostalem widomosc od gracza: " + mes);
+            if(mes.equals("Wznawiam gre!")||mes.equals("Koniec gry!")){
+                this.interrupt();
+            }
         }
     }
 }

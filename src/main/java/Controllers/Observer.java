@@ -107,12 +107,6 @@ public class Observer extends Thread{
 
 
 
-
-
-
-
-
-
             /**
              *
              * Etap gry miedzy 2 klientami
@@ -163,32 +157,27 @@ public class Observer extends Thread{
 
             try {
                 /**napisz do socket uzywajac ObjectOutputStream*/
-                if(cc.isSthToPush()) {//                        if(isNewMes)
+                if(cc.isSthToPush()) {
 
                     oos.writeObject(a);
 
                     cc.setSthToPush(false);
                     System.out.println("Wysylam zapytanie o punkt " + a.getX() +";"+ a.getY());
                 }
-                /*if (pointsList.get(0).getX()==20&&pointsList.get(0).getY()==20) {
-                    System.out.println("Rozpoczynam czat");
-                    startTalk = true;
-                    //todo: ustaw na serwerze dla obu graczy oczekiwanie - np jakiś new Point(69,69)
-                }*/
+
 
                 /**odbierz od socket uzywajac ObjectInputStream*/
                 pointsList=new ArrayList<>();
                 pointsList = (ArrayList<Point>) ois.readObject();
 
-
-
-
-                if(!equalsArrayLists(lastPointsList,pointsList)) {
+                if(pointsList.size()>0&&pointsList.get(0).getX()>20){
+                    checkSpecialSigns(pointsList.get(0).getX());
+                }
+                else if(!equalsArrayLists(lastPointsList,pointsList)) {
                     lastPointsList=pointsList;
 
                     cc.setArrayOfPoints(pointsList);
                     Platform.runLater(() ->cc.addArrayOfPoints());
-
 
                 }
 
@@ -202,7 +191,16 @@ public class Observer extends Thread{
 
     }
 
+    private void checkSpecialSigns(int x) {
+        if(x==69)
+            startChat();
+    }
 
+    private void startChat() {
+        ChatObserver chatObserver = new ChatObserver();
+        chatObserver.start();
+
+    }
 
 
     public boolean equalsArrayLists(ArrayList<Point> a, ArrayList<Point> b){

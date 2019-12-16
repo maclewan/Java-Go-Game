@@ -27,7 +27,6 @@ public class ChatController {
             Platform.runLater(() ->  {
                 labelChatText.selectEnd();
                 labelChatText.deselect();
-       //         lastMessage="";
             });
 
         }
@@ -56,9 +55,6 @@ public class ChatController {
     @FXML
     void continueOnAction(ActionEvent event) {
         co.setMesOut("Wznawiam gre!");
-        addLabelChatText("Wznawiam gre");
-
-        backToGame();
 
 
     }
@@ -71,11 +67,9 @@ public class ChatController {
 
     @FXML
     void sendOnAction(ActionEvent event) {
-        if(textFldType.getText().equals(lastMessage))
+        if(textFldType.getText().equals(lastMessage)||textFldType.getText().equals(""))
             return;
-        labelChatText.setText(labelChatText.getText()+"\n"+"Ja:\t\t\t"+textFldType.getText());
         co.setMesOut(textFldType.getText());
-        System.out.println("klikles to");
         lastMessage=textFldType.getText();
         textFldType.setText("");
     }
@@ -89,17 +83,10 @@ public class ChatController {
     }
 
     public void addLabelChatText(String text) {
-        labelChatText.setText(labelChatText.getText()+"\n"+"Oponent:\t\t"+text);
-
-
+        labelChatText.setText(labelChatText.getText()+"\n"+text);
 
     }
 
-    public void backToGame(){
-        co.continueGame();
-        stage.close();
-
-    }
 
     public void closeChat(){
         Platform.runLater(() ->  {
