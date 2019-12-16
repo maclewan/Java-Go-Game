@@ -25,7 +25,7 @@ public class ChatServer {
 
         ServerSocket server = null;
         /**port socket serwer-a*/
-        int port = 6666;
+        int port = 7777;
 
         /**tworzenie socket serwer*/
         {
@@ -87,14 +87,11 @@ public class ChatServer {
         endChat=false;
         while(true){
 
-            /**Sprawdzam czy doszlo do porozumienia miedzy graczami*/
+            /**Zawieszenie gry*/
             if(endChat)
             {
-
                 System.out.println("Wznawiam grę");
-                client2Thread.interrupt();
-                client1Thread.interrupt();
-
+                isChatActive=false;
                 break;
             }
             sleep(100);
