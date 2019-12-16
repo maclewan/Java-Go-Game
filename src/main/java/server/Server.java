@@ -1,7 +1,6 @@
 
 package server;
 
-import Controllers.ChatController;
 import client.Point;
 
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class Server {
         private boolean isGameActive=true;
         private boolean isGameOn=true;
         private boolean isBlack=true;
-        private ChatServer chat = new ChatServer(this);
+        //private ChatServer chat = new ChatServer(this);
         private ArrayList<Point> tempList;
 
         public static void main(String[] args){
@@ -106,7 +105,7 @@ public class Server {
                         /******************************************************/
                         /*W tle wlaczam server czatu aby mogli sie juz polaczyc*/
                         /*******************************************************/
-                        s.chat.start();
+                        //s.chat.start();
 
                         /******************************************/
                         /*Otwieram strumien do gry miedzy graczami*/
