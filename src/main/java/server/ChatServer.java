@@ -11,9 +11,10 @@ import static java.lang.Thread.sleep;
 public class ChatServer {
 
 
-        String mes1="";
+        private String mes1="";
         String mes2="";
         boolean endChat=false;
+        boolean isChatActive=false;
         ObjectInputStream ois1;
         ObjectInputStream ois2;
         ObjectOutputStream oos1;
@@ -114,6 +115,7 @@ public class ChatServer {
             }
 
         }
+        System.out.println("Wznawiam grę");
     }
 
     /**2 metody o tej samej nazwie ale roznymi param.*/
@@ -129,13 +131,21 @@ public class ChatServer {
         if(mes.equals("Wznawiam gre!"))endChat=true;
 
     }
+    /**2 otwiera/zamyka chat*/
+    public void chatDoor()
+    {
+        isChatActive=!isChatActive;
+    }
 }
 
 class ClientReciveChatInfo extends Thread {
     public  ClientReciveChatInfo(ObjectInputStream ois1, boolean isBlack1,ChatServer server1){
-        this.ois=ois1;
-        this.server = server1;
-        this.isBlack=isBlack1;
+        if(server1.isChatActive) {
+            this.ois = ois1;
+            this.server = server1;
+            this.isBlack = isBlack1;
+        }
+        else  System.out.println("Czat nie aktywny, graj a nie piszesz");
     }
     //GOTOWE//todo: pola prywatne! wszystkie, boole też
 
