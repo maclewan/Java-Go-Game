@@ -39,6 +39,7 @@ public class KillEyeInCornerTest{
         //player2.start();
 
         Board test= new Board(null);
+        test.startArrayOfCheckers();
         test.addChecker(0, 1, false);
         test.addChecker(1, 0, false);
         test.addChecker(1, 1, false);
@@ -49,7 +50,7 @@ public class KillEyeInCornerTest{
         /*temp[0][17].setStroke(Color.WHITE);
         temp[1][18].setStroke(Color.WHITE);*/
 
-        test.startArrayOfCheckers();
+
         test.addChecker(0, 0, true);
      //   test.checkers[0][0]=pc;
         assert(test.getChecker(0,0)==1) && (test.getChecker(1,1)==2) && (test.getChecker(1,0)==2) && (test.getChecker(0,1)==2);
