@@ -1,7 +1,6 @@
 package gameServerTests;
 
 import Server.ChatServer;
-import Server.Server;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,18 +14,13 @@ import java.net.UnknownHostException;
  * Test na polaczenie sie 1 gracza do servera chatu
  *
  * */
-public class ChatTest {
-    Server s = new Server();
-    boolean is2Black=false;
-    boolean is1Black;
+public class ChatTest { ;
     boolean isSecondChatter=false;
     @Test
     public void test() throws UnknownHostException {
         ChatServer chatServer = new ChatServer(null);
         chatServer.start();
         ConnectChatter();
-
-        //assert(is1Black && !is2Black);
 
     }
     public void ConnectChatter() {
@@ -123,18 +117,11 @@ public class ChatTest {
             /**------------------------------------------------//
              //-------------KLIENTA 2 TWORZENIE ------------------//
              //------------------------------------------------*/
-            boolean isNewMessage=false;
             boolean isBlack=false;
             Socket chatSocket;
 
-
-            String mesIn = new String("");
-            String mesOut = new String("");
-            String lastMes = new String("");
             /**zdobadz localhost*/
             InetAddress host = null;
-            /**DO SOCKETA*/
-            chatSocket=null ;
             /**DO output*/
             oosChat = null;
             /**DO input*/
