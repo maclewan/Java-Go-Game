@@ -35,8 +35,8 @@ public class Server {
     private boolean botGame=false;
 
 
-    private static ObjectOutputStream oos1;
-    private static ObjectOutputStream oos2;
+    private ObjectOutputStream oos1;
+    private ObjectOutputStream oos2;
 
 
     private ArrayList<Point> tempList;
@@ -48,7 +48,7 @@ public class Server {
         int port = 6666;
 
 
-        Server s=new Server();                //todo: może zrobić z tego wzorzec singleton? - nie jest to trudne, a można w to ubrać - serwer powinien byc tylko jeden, sratatatata xD
+        Server s=new Server();
         /**tworzenie socket serwer*/
         try {
             server = new ServerSocket(port);
@@ -68,16 +68,16 @@ public class Server {
         /**Czekam na klienta 1*/
         Socket socket1;
         Socket socket2;
-    //    ObjectOutputStream oos1;
-     //   ObjectOutputStream oos2;
+        //ObjectOutputStream oos1;
+        //ObjectOutputStream oos2;
         ObjectInputStream ois1;
         ObjectInputStream ois2;
         try {
             socket1 = server.accept();
             System.out.println("Gracz 1 dolaczyl do serwera");
             /**Daje klientowi 1 odpowiedz*/
-            oos1 = new ObjectOutputStream(socket1.getOutputStream());
-            oos1.writeObject(true);
+            s.oos1 = new ObjectOutputStream(socket1.getOutputStream());
+            s.oos1.writeObject(true);
 
             /**Teraz biore wiadomosc od klienta 1 */
             ois1 = new ObjectInputStream(socket1.getInputStream());
@@ -94,8 +94,8 @@ public class Server {
             System.out.println("Dostalem waidomosc od 1 gracza: " + a);
 
             /**Daje klientowi 2 odpowiedz*/
-            oos2 = new ObjectOutputStream(socket2.getOutputStream());
-            oos2.writeObject(false);
+            s.oos2 = new ObjectOutputStream(socket2.getOutputStream());
+            s.oos2.writeObject(false);
 
             /**Teraz biore wiadomosc od klienta 2 */
             ois2 = new ObjectInputStream(socket2.getInputStream());
@@ -107,10 +107,10 @@ public class Server {
 
 
             /**informuje klienta 1 ze wszyscy sa*/
-            oos2.writeObject(true);
+            s.oos2.writeObject(true);
 
             /**informuje klienta 2 ze wszyscy sa*/
-            oos1.writeObject(true);
+            s.oos1.writeObject(true);
 
 
 
@@ -122,14 +122,14 @@ public class Server {
 
             /**Pętla uruchamiajaca gre bez resetu serwera*/
 
-            s.ServerGame(ois1, ois2, oos1, oos2);
+            s.ServerGame(ois1, ois2, s.oos1, s.oos2);
 
 
             /**zamykam wszystkie zrodla*/
-            oos2.close();
+            s.oos2.close();
             ois1.close();
-            oos1.close();
-            oos2.close();
+            s.oos1.close();
+            s.oos2.close();
             socket2.close();
             socket1.close();
 

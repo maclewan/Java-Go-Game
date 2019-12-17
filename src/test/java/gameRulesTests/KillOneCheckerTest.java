@@ -14,6 +14,7 @@ public class KillOneCheckerTest {
     @Test
     public void test() {
         Board test= new Board(null);
+        test.startArrayOfCheckers();
 
         test.addChecker(2, 2, false);
         test.addChecker(3, 3, false);

@@ -13,7 +13,7 @@ public class KillMoreControllerTest {
     @Test
     public void test() {
         Board test= new Board(null);
-
+        test.startArrayOfCheckers();
 
         //*dodawanie bialych*//
         test.addChecker(2, 2, false);
