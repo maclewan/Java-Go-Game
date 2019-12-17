@@ -116,6 +116,8 @@ public class Server {
             /*Otwieram strumien do gry miedzy graczami*/
             /******************************************/
 
+            /**Pętla uruchamiajaca gre bez resetu serwera*/
+
             s.ServerGame(ois1, ois2, oos1, oos2);
 
 
@@ -249,7 +251,6 @@ public class Server {
     }
 
     public void sendSignal(int signal){
-        System.out.println("/*uwaga wysle 69*/");
         ArrayList<Point> temp =new ArrayList<>();
         temp.add(new Point(signal,signal));
         try {
@@ -263,6 +264,9 @@ public class Server {
     public void setIsBlack(boolean black) {
         isBlack = black;
         isGameActive=true;
+    }
+
+    public void endCurrentGame(){
     }
 
 }
