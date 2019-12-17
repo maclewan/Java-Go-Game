@@ -11,7 +11,7 @@ import Server.Server;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+/**Logika gry obslugiwana przez server*/
 public class Board {
 
     private Server server;
