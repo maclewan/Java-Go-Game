@@ -13,7 +13,6 @@ import java.net.UnknownHostException;
 /**
  *
  * Test na polaczenie sie 1 gracza do servera
- *Przed testem nalezy wlaczyc Server
  *
  * */
 public class AllPlayersConnectionTest {
