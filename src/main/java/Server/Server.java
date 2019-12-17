@@ -33,14 +33,31 @@ public class Server {
     private boolean isGameOn=true;
     private boolean isBlack=true;
     private boolean botGame=false;
-
-
     private ObjectOutputStream oos1;
     private ObjectOutputStream oos2;
-
-
     private ArrayList<Point> tempList;
 
+    private Server() {
+    }
+    public static Server getInstance() {
+        return ServerHolder.INSTANCE;
+    }
+
+    private static class ServerHolder {
+        private static final Server INSTANCE = new Server();
+    }
+    /*Pozwala na utworzenie tylko jednego obiektu danej klasy i zapewnienie do niego globalnego dostępu.
+    Zawiera:
+    statyczną zmienną przechowującą instancję tej klasy,
+    prywatny „pusty” konstruktor (aby nie można było utworzyć nowego obiektu tej klasy z wykorzystaniem operatora „new”),
+    publiczną statyczną metodę „getInstance” bez żadnych parametrów.
+
+    gdy klasa Singleton zostanie załadowana,
+    klasa SingletonHolder nie zostanie wczytana
+    do pamięci dopóki nie zostanie wywołana metoda getInstance().
+    Takie podejście nie wymaga synchronizacji
+
+    */
     public static void main(String[] args){
 
         ServerSocket server = null;
@@ -274,6 +291,8 @@ public class Server {
     }
 
 }
+
+
 
 /**
  *

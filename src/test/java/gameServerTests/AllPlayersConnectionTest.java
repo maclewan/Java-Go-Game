@@ -1,6 +1,5 @@
 package gameServerTests;
 
-import Server.Server;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -16,14 +15,15 @@ import java.net.UnknownHostException;
  *
  * */
 public class AllPlayersConnectionTest {
-    Server s = new Server();
+    //Server s = new Server(); - nie moge tego zrobic przez moj wzorzec singleton
     boolean is2Black=false;
     boolean is1Black;
 
     @Test
     public void test() throws UnknownHostException {
+        /*Nie moge tego nizej zrobic przez moj wzorzec singletton
         server a= new server();
-        a.start();
+        a.start();*/
         /*Gracz nr 1: */
         InetAddress host = InetAddress.getLocalHost();
         Socket socket;
@@ -86,12 +86,12 @@ public class AllPlayersConnectionTest {
         }
 
     }
-    public class server extends Thread {
+   /* public class server extends Thread {      //Nie moge tego zrobic przez moj wzorzec singletton
         @Override
         public synchronized void run() {
 
             String[] args=null;
             s.main(args);
         }
-    }
+    }*/
 }

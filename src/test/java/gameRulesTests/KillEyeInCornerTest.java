@@ -6,7 +6,6 @@
 package gameRulesTests;
 
 import Server.GameLogic.Board;
-import Server.Server;
 import org.junit.Test;
 
 /**
@@ -16,7 +15,7 @@ import org.junit.Test;
  * */
 public class KillEyeInCornerTest{
 
-    Server s = new Server();
+    //Server s = new Server();
     boolean isFirst=false;
 
     @Test
@@ -35,14 +34,14 @@ public class KillEyeInCornerTest{
         assert(test.getChecker(0,0)==1) && (test.getChecker(1,1)==2) && (test.getChecker(1,0)==2) && (test.getChecker(0,1)==2);
 
     }
-    public class server extends Thread {
+    /*public class server extends Thread {
         @Override
         public synchronized void run() {
 
             String[] args=null;
             s.main(args);
         }
-    }
+    }*/
 
 
 }
