@@ -8,7 +8,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
+/**
+ *
+ * Odpowiada za obslugę menu gry
+ *
+ * */
 public class MenuFrameController {
     private Stage stage;
 

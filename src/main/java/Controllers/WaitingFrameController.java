@@ -10,7 +10,11 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
+/**
+ *
+ * Odpowiada za obslugę poczekalni
+ *
+ * */
 public class WaitingFrameController{
     private Stage stage= new Stage();
     private boolean startBot=false;

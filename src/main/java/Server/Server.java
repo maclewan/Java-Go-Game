@@ -18,7 +18,11 @@ import static java.lang.Thread.sleep;
  * Ta klasa implementuje Socket Server
  *
  */
-
+/**
+ *
+ * server gry- główny
+ *
+ * */
 public class Server {
     private Point newPoint = new Point(21,21);
     private Point oldPoint = new Point(21,21);
@@ -271,8 +275,11 @@ public class Server {
 
 }
 
-
-
+/**
+ *
+ * odbieranie info gry
+ *
+ * */
 class ClientReciveGameInfo extends Thread {
     ClientReciveGameInfo(ObjectInputStream ois, boolean isBlack1, Server server1){
         this.ois=ois;

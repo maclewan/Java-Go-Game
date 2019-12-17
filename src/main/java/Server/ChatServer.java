@@ -5,7 +5,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-
+/**
+ *
+ * Server Chatu
+ *
+ * */
 public class ChatServer  extends Thread  {
     private String mes1="";
 
@@ -159,7 +163,11 @@ public class ChatServer  extends Thread  {
     }
 
 }
-
+/**
+ *
+ * odbieranie info Chatu
+ *
+ * */
 class ClientReciveChatInfo extends Thread {
 
     ClientReciveChatInfo(ObjectInputStream ois1, boolean isBlack1, ChatServer server){

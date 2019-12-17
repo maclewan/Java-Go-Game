@@ -25,13 +25,4 @@ public class BotKillMyChekerTest {
         assert(test.getChecker(2,1)==0 && test.getChecker(1,1)==2 );
 
     }
-
-    public class server extends Thread {
-        @Override
-        public synchronized void run() {
-
-            String[] args=null;
-            //s.main(args);
-        }
-    }
 }
