@@ -178,7 +178,6 @@ class ClientReciveChatInfo extends Thread {
 
     private ObjectInputStream ois;
     private boolean isBlack;
-    private boolean activeChat=true;
     private ChatServer server;
     private String mes;
 
