@@ -22,6 +22,7 @@ public class Observer extends Thread{
     private boolean continueGames=true;
 
     private boolean isServer=true;
+    private ChatObserver chatObserver;
     private boolean isChatOpen=false;
     /**zdobadz localhost*/
     InetAddress host;
@@ -85,16 +86,21 @@ public class Observer extends Thread{
             }
 
 
-
             /**napisz do socket uzywajac ObjectOutputStream*/
             oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject("OK");
 
 
-
             /**Odbierz wiadomosc nt 2 gracza*/
             /**odbierz odpowiedz serwera*/
             boolean isSecond = (boolean) ois.readObject();       //tu czeka na drugiego gracza
+
+            if(isSecond){
+                Thread.sleep(500);
+            }
+
+            chatObserver = new ChatObserver();
+            chatObserver.start();
 
             Thread.sleep(1000);
 
@@ -170,6 +176,7 @@ public class Observer extends Thread{
                 pointsList=new ArrayList<>();
                 pointsList = (ArrayList<Point>) ois.readObject();
 
+
                 if(pointsList.size()>0&&pointsList.get(0).getX()>20){
                     checkSpecialSigns(pointsList.get(0).getX());
                 }
@@ -192,15 +199,13 @@ public class Observer extends Thread{
     }
 
     private void checkSpecialSigns(int x) {
-        if(x==69)
-            startChat();
+        if(x==69) {
+            Platform.runLater(() ->chatObserver.startChat());
+
+        }
     }
 
-    private void startChat() {
-        ChatObserver chatObserver = new ChatObserver();
-        chatObserver.start();
 
-    }
 
 
     public boolean equalsArrayLists(ArrayList<Point> a, ArrayList<Point> b){

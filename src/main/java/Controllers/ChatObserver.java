@@ -69,19 +69,21 @@ class ChatObserver extends Thread{
 
             /**Czekam na 2 gracza*/
             boolean isSecondChatter = (boolean) oisChat.readObject();       //tu czeka na drugiego gracza
+            boolean uselesstempBoolean = (boolean) oisChat.readObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        Platform.runLater(() -> startChat());
 
 
         while(true){
 
             try {
 
+
+                sleep(100);
                 /**jesli jest nowa wiadomosc to ja wysylam do serwera*/
                 if (isNewMessage) {
                     System.out.println("wysylam wiadomosc: " + mesOut);
@@ -95,22 +97,22 @@ class ChatObserver extends Thread{
 
                 /**wypisuje wiadomosc w konsoli*/
                 if(!lastMes.equals(mesIn)){
+
                     Platform.runLater(() ->chatController.addLabelChatText(mesIn));
                 }
 
+
                 /**Czy gra nie jest do wznowienia*/
-                if(mesIn.equals("Wznawiam gre!")){
-                    closeObserver();
-                    chatController.closeChat();
-                    this.interrupt();
+                if(mesIn.equals("Bialy:\t Wznawiam gre!")||mesIn.equals("Czarny:\t Wznawiam gre!")){
+
+                    setMesOut("");
+                    System.out.println("Zamykam chat");
+                    Platform.runLater(() ->chatController.closeChat());
+
                 }
                 else if(mesIn.equals("Koniec gry!")){
-                    closeObserver();
-                    this.interrupt();
-
+                    //todo: do obgadania jak to ma wygladac
                 }
-                sleep(100);
-
 
 
             } catch (IOException e) {
@@ -120,25 +122,17 @@ class ChatObserver extends Thread{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-
         }
+
 
     }
 
-    private void closeObserver() {
-        try {
-            chatSocket.close();
-            oisChat.close();
-            oosChat.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 
-    private void startChat() {
+
+    public void startChat() {
         try {
+            System.out.println("Starting chat!");
             Stage stage = new Stage();
             chatController = new ChatController();
             chatController.setCo(this);

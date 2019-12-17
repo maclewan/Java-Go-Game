@@ -19,7 +19,6 @@ import static java.lang.Thread.sleep;
  */
 
 public class Server {
-        private String mes1="",mes2="";
         private Point newPoint = new Point(21,21);
         private Point oldPoint = new Point(21,21);
 
@@ -28,7 +27,7 @@ public class Server {
         private boolean isGameActive=true;
         private boolean isGameOn=true;
         private boolean isBlack=true;
-        //private ChatServer chat = new ChatServer(this);
+
         private ArrayList<Point> tempList;
 
         public static void main(String[] args){
@@ -102,10 +101,7 @@ public class Server {
                         /**informuje klienta 2 ze wszyscy sa*/
                         oos1.writeObject(true);
 
-                        /******************************************************/
-                        /*W tle wlaczam server czatu aby mogli sie juz polaczyc*/
-                        /*******************************************************/
-                        //s.chat.start();
+
 
                         /******************************************/
                         /*Otwieram strumien do gry miedzy graczami*/
@@ -142,6 +138,9 @@ public class Server {
                 ClientReciveGameInfo client2GameThread= new ClientReciveGameInfo(ois2, false ,this);
                 ClientReciveGameInfo client1GameThread= new ClientReciveGameInfo(ois1, true ,this);
 
+                ChatServer chatServer = new ChatServer(this);
+                chatServer.start();
+
                 client2GameThread.start();
                 client1GameThread.start();
 
@@ -166,15 +165,17 @@ public class Server {
                         /**zawieszanie gry*/
                         if(oldPoint.getX()==newPoint.getX()&&oldPoint.getX()==69){
                                 isGameActive=false;
-                                tempList.clear();
-                                tempList.add(new Point(69,69));
-                                ChatServer chatServer = new ChatServer(this);
-                                chatServer.start();
+
+
                                 newPoint=new Point(99,99);
+                                System.out.println("/*uwaga wysle 69*/");
+                                ArrayList<Point> temp =new ArrayList<>();
+                                temp.add(new Point(69,69));
+                                oos1.writeObject(temp);
+                                oos2.writeObject(temp);
+                                continue;
 
                         }
-
-
 
 
                         tempList=pointList;
@@ -191,9 +192,6 @@ public class Server {
                         tempList.clear();
 
 
-
-
-
                         sleep(100);
                 }
         }
@@ -206,6 +204,8 @@ public class Server {
                                 newPoint = point;
                                 System.out.println("Wiadomosc przeszla");
                         }
+                        else
+                                System.out.println("Wiadomosc nieprzeszla");
                 }
                 else
                         System.out.println("Wiadomosc nieprzeszla");
@@ -215,25 +215,17 @@ public class Server {
 
 
         public void setPointList(ArrayList<Point> list){
-
                 this.pointList = list;
         }
 
 
-
-        private void endChatMode(int whosTurn){
-                pointList = new ArrayList<>();
-
-        }
-        private void endGame(){
-                isGameActive=false;
-        }
         public void changePlayer(){
                 isBlack=!isBlack;
         }
 
         public void setIsBlack(boolean black) {
                 isBlack = black;
+                isGameActive=true;
         }
 }
 
@@ -271,9 +263,5 @@ class ClientReciveGameInfo extends Thread {
                         }
                 }
         }
-
-
-
-
 
 }

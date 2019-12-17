@@ -5,9 +5,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-        import javafx.scene.control.Button;
-        import javafx.scene.control.TextArea;
-        import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class ChatController {
@@ -88,8 +88,9 @@ public class ChatController {
     }
 
 
-    public void closeChat(){
+    public void closeChat() {
         Platform.runLater(() ->  {
+
             stage.close();
         });
 

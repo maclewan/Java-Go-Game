@@ -1,5 +1,7 @@
 package server;
 
+import com.sun.jdi.event.ThreadStartEvent;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,10 +11,13 @@ import java.net.Socket;
 public class ChatServer  extends Thread  {
     private String mes1="";
 
-    private boolean endChat=false;
+
     private boolean endGame=false;
 
     private boolean isFirstBlack=false;
+
+    private  ClientReciveChatInfo client2Thread;
+    private  ClientReciveChatInfo client1Thread;
 
     private Socket socket1;
     private ObjectInputStream ois1;
@@ -99,40 +104,30 @@ public class ChatServer  extends Thread  {
 
 
     private void ServerChat() throws InterruptedException {
-        ClientReciveChatInfo client2Thread= new ClientReciveChatInfo(ois2, false,this );
-        ClientReciveChatInfo client1Thread= new ClientReciveChatInfo( ois1, true ,this);
+        client2Thread= new ClientReciveChatInfo(ois2, false,this );
+        client1Thread= new ClientReciveChatInfo( ois1, true ,this);
 
         client2Thread.start();
         client1Thread.start();
 
         /**Zmienne przechowujace wiadomosci 1 i 2 gracza*/
-        endChat=false;
         while(true){
-
-
 
 
             /**Wysylam graczom wiadomosci*/
             try {
+
                 oos2.writeObject(mes1);
                 oos1.writeObject(mes1);
 
             } catch (IOException e) {
                 e.printStackTrace(); }
 
-            /**Zawieszenie chatu*/
-            if(endChat)
-            {
-                System.out.println("Wznawiam grę");
-                stopServer();
-                this.interrupt();
-            }
-            /**Koniec gry*/
+
             if(endGame)
             {
                 System.out.println("Koniec gry");
-                stopServer();
-                this.interrupt();
+
             }
 
             sleep(100);
@@ -144,12 +139,11 @@ public class ChatServer  extends Thread  {
     {
         /**gdy wznawiam gre, wysylam info kto powinien zaczac*/
         if(mes.equals("Wznawiam gre!")){
-            endChat=true;
             s.setIsBlack(isBlack);
             this.mes1=mes;
         }
         if(mes.equals("Koniec gry!")){
-            endChat=true;
+            endGame=true;
             this.mes1=mes;
         }
 
@@ -161,21 +155,6 @@ public class ChatServer  extends Thread  {
             this.mes1=("Bialy:\t "+ mes);
 
 
-
-
-
-    }
-
-    private void stopServer() {
-        try {
-            socket1.close();
-            ois1.close();
-            ois2.close();
-            oos1.close();
-            oos2.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }
@@ -190,6 +169,7 @@ class ClientReciveChatInfo extends Thread {
 
     private ObjectInputStream ois;
     private boolean isBlack;
+    private boolean activeChat=true;
     private ChatServer server;
     private String mes;
 
@@ -202,18 +182,26 @@ class ClientReciveChatInfo extends Thread {
         System.out.println("Jestem w watku chatRecive");
 
         while(true){
+
             try {
+                sleep(100);
                 mes = (String) ois.readObject();
                 server.setMessageToSend(mes,isBlack);
 
             } catch (IOException e) {
             } catch (ClassNotFoundException e) {
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            System.out.println("Dostalem widomosc od gracza: " + mes);
+
             if(mes.equals("Wznawiam gre!")||mes.equals("Koniec gry!")){
-                this.interrupt();
+
             }
         }
+
     }
+
+
 }
+
 

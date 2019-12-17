@@ -102,7 +102,6 @@ public class Board {
                     continue;
                 if (groupedArr[i][j])
                     continue;
-                System.out.println("i;j = "+i+";"+j+" breaths: "+ countBreaths(i,j));
                 if (pointsArr[i][j]!=2&&countBreaths(i, j) == 0) {
                     checkersToKill.add(new Point(-i-1,-j-1,5,true));
                     removeChecker(i, j,true);
@@ -291,7 +290,6 @@ public class Board {
 
             for(int j=0; j<groupList.get(i).size();j++){
                 counter+=countBreaths(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY());
-                System.out.println("i;j = "+ groupList.get(i).get(j).getX()+";"+groupList.get(i).get(j).getY()+" breaths = "+counter);
             }
             if(counter==0){
                 for(int j=groupList.get(i).size()-1; j>=0;j--){
