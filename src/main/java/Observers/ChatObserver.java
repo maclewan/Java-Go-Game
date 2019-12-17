@@ -117,7 +117,6 @@ public class ChatObserver extends Thread{
 
                 }
                 else if(mesIn.equals("Koniec gry!")){
-
                     chatController.setBtnContinueDisabled();
                 }
 
