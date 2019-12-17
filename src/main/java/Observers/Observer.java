@@ -225,6 +225,9 @@ public class Observer extends Thread{
             else if (x==61)
                 Platform.runLater(() -> cc.setYourTurnText("Czarny wznowił grę\nTura Czarnego"));
 
+            else if (x==999)
+                Platform.runLater(() -> cc.setYourTurnText("Koniec gry!"));
+
         }
     }
 

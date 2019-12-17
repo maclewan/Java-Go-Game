@@ -141,8 +141,10 @@ public class ChatServer  extends Thread  {
             this.mes1=mes;
         }
         if(mes.equals("Koniec gry!")){
+            s.sendSignal(999);
             endGame=true;
             this.mes1=mes;
+
         }
 
 

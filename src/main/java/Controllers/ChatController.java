@@ -94,6 +94,12 @@ public class ChatController {
 
     }
 
+    public void setBtnContinueDisabled(){
+        btnContinue.setDisable(true);
+    }
+
+
+
 
 
 }
