@@ -31,31 +31,30 @@ public class MenuFrameController {
 
     public void startGame(int type){  //0 - singleplayer, 1- multiplayer
 
-        if(type==0) {
 
-           //todo: bot!
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("WaitingFrame.fxml"));
+            WaitingFrameController wfc;
+
+            if(type==0)
+                wfc = new WaitingFrameController(true);
+            else if(type==1)
+                wfc = new WaitingFrameController();
+            else return;
+
+            loader.setController(wfc);
+            Scene sceneG = new Scene(loader.load());
+            stage.setTitle("Waiting");
+            stage.setScene(sceneG);
+            stage.setX(stage.getX()-100);
+            wfc.setStage(stage);
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
-        else if(type==1){
-            try {
-
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("WaitingFrame.fxml"));
-                WaitingFrameController wfc = new WaitingFrameController();
-                loader.setController(wfc);
-
-                Scene sceneG = new Scene(loader.load());
-
-                stage.setTitle("Waiting");
-                stage.setScene(sceneG);
-                stage.setX(stage.getX()-100);
-                wfc.setStage(stage);
 
 
 
-
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-        }
     }
 
     public void setStage(Stage stage) {

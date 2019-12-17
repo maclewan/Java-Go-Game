@@ -9,6 +9,7 @@ package Server.GameLogic;
 
 import Server.Server;
 
+import java.awt.desktop.SystemSleepEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -55,12 +56,12 @@ public class Board {
 
         if (isSuicide2(x, y)) {
             removeChecker(x, y, false);
-            System.out.println("To jest zamobojstwo! Zrob inny ruch");
+            System.out.println("Board: To jest samobojstwo! Zrob inny ruch "+x+";"+y);
             return;
         }
         if (lastKilled.getX()==x&&lastKilled.getY()==y){
             removeChecker(x, y, false);
-            System.out.println("Ten pionek byl ostatnio zbity! Zrob inny ruch");
+            System.out.println("Board: pionek byl ostatnio zbity! Zrob inny ruch "+x+";"+y);
             return;
         }
 
@@ -355,13 +356,16 @@ public class Board {
         return false;
     }
 
-    void botMove(){       /**przykładowy bot, zawsze białe*/
+    public void botMove(){       /**przykładowy bot, zawsze białe*/
 
         int[][] killPotential = new int[19][19];
         for(int i=0;i<19;i++){
             for(int j=0;j<19;j++){
-                if(pointsArr[i][j]!=2)
+                System.out.println("Czy pion juz stoi " + i + ";" + j+";"+pointsArr[i][j]);
+                if(pointsArr[i][j]!=0) {//todo:test
+                    System.out.println("Tu pion juz stoi " + i + ";" + j+";"+pointsArr[i][j]);
                     continue;
+                }
 
                 addChecker(i,j,false);
 
@@ -374,6 +378,7 @@ public class Board {
                 groupCheckers();
                 killerSimulation(pointsToKill);
                 killPotential[i][j]=pointsToKill.size();
+                System.out.println("punkty do zbicia: "+pointsToKill.size());
                 removeChecker(i,j,false);
             }
         }
@@ -402,8 +407,10 @@ public class Board {
 
         Random rand = new Random();                       //wybierz losowe pole do wstawienia piona z najoptymalniejszych
         int[] randomElement = maxValueIndexes.get(rand.nextInt(maxValueIndexes.size()));
+        System.out.println("Losowy element: "+randomElement[0]+";"+randomElement[1]);
 
         Point botPoint = new Point(randomElement[0],randomElement[1],false);
+        System.out.println("jestem botem, dodaje punkt ");
         addChecker(botPoint.getX(),botPoint.getY(),botPoint.isBlack());
         /**tutaj wywołuje sie fkcja addChecker*/
     }

@@ -18,9 +18,7 @@ public class ClientController {
 
 
     private boolean isBlack;
-
-
-
+    private boolean bot=false;
 
     private Stage stage;
 
@@ -35,8 +33,6 @@ public class ClientController {
 
 
 
-
-
     @FXML
     private void initialize() throws IOException {
         hidePassButton();
@@ -48,14 +44,16 @@ public class ClientController {
             labelList.get(labelList.size()-1).setLayoutY(0);
             labelList.get(labelList.size()-1).setStyle("-fx-font-weight: bold");
 
-            board.getChildren().add(labelList.get(labelList.size()-1));
+            if(!bot)
+                board.getChildren().add(labelList.get(labelList.size()-1));
 
             labelList.add(new Label(Integer.toString(i)));
             labelList.get(labelList.size()-1).setLayoutX(0);
             labelList.get(labelList.size()-1).setLayoutY(10+40*i);
             labelList.get(labelList.size()-1).setStyle("-fx-font-weight: bold");
+            if(!bot)
+                board.getChildren().add(labelList.get(labelList.size()-1));
 
-            board.getChildren().add(labelList.get(labelList.size()-1));
         }
 
 
@@ -156,8 +154,8 @@ public class ClientController {
             checkers[a][b].setFill(Color.WHITE);
             checkers[a][b].setStroke(Color.BLACK);
         }
-
-        board.getChildren().add(checkers[a][b]);
+        if(!bot)
+          board.getChildren().add(checkers[a][b]);
 
 
     }
@@ -171,20 +169,22 @@ public class ClientController {
                 incrementWhitePoints();
             else
                 incrementBlackPoints();
-
-            board.getChildren().remove(checkers[a][b]);
+            if(!bot)
+                board.getChildren().remove(checkers[a][b]);
             checkers[a][b] = null;
         }
     }
 
     private void incrementWhitePoints(){
         killedWhite++;
-        pointsWhite.setText(Integer.toString(killedWhite));
+        if(!bot)
+            pointsWhite.setText(Integer.toString(killedWhite));
     }
 
     private void incrementBlackPoints(){
         killedBlack++;
-        pointsBlack.setText(Integer.toString(killedBlack));
+        if(!bot)
+            pointsBlack.setText(Integer.toString(killedBlack));
     }
 
 
@@ -233,6 +233,13 @@ public class ClientController {
     public void setArrayOfPoints(ArrayList<Point> list){
         this.pointsToAdd= list;
 
+    }
 
+    public void setPointToPush(Point pointToPush) {
+        this.pointToPush = pointToPush;
+    }
+
+    public void setBot(boolean bot) {
+        this.bot = bot;
     }
 }
