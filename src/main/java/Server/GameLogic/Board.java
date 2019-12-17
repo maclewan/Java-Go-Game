@@ -361,7 +361,7 @@ public class Board {
         int[][] killPotential = new int[19][19];
         for(int i=0;i<19;i++){
             for(int j=0;j<19;j++){
-                if(pointsArr[i][j]!=2) {//todo:test
+                if(pointsArr[i][j]!=2) {
                     System.out.println("Tu pion juz stoi " + i + ";" + j+";"+pointsArr[i][j]);
                     continue;
                 }
