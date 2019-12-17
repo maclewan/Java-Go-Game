@@ -30,8 +30,11 @@ public class WaitingFrameController{
     @FXML
     void initialize() {
 
-        Thread observer = new Observer(this);
+        Observer observer = new Observer(this);
         observer.start();
+        if(!openWindow){
+            observer.setBot(true);
+        }
 
         if(startBot){
             try {

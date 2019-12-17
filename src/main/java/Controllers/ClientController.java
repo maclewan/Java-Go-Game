@@ -77,6 +77,9 @@ public class ClientController {
     private Label lblGraczB;
 
     @FXML
+    private Label lblYourTurn;
+
+    @FXML
     private Label lblGraczC;
 
     @FXML
@@ -198,6 +201,7 @@ public class ClientController {
         if(isBlack) {
             lblGraczC.setText("Ja");
             btnPass.setLayoutX(1000);
+            lblYourTurn.setLayoutX(1000);
         }
         else {
             lblGraczB.setText("Ja");
@@ -242,4 +246,10 @@ public class ClientController {
     public void setBot(boolean bot) {
         this.bot = bot;
     }
+
+    public void setYourTurnText(String text){
+        lblYourTurn.setText(text);
+    }
+
+
 }

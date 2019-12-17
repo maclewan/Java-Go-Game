@@ -134,6 +134,10 @@ public class ChatServer  extends Thread  {
         /**gdy wznawiam gre, wysylam info kto powinien zaczac*/
         if(mes.equals("Wznawiam gre!")){
             s.setIsBlack(isBlack);
+            if(isBlack)
+                s.sendSignal(61);
+            else
+                s.sendSignal(60);
             this.mes1=mes;
         }
         if(mes.equals("Koniec gry!")){

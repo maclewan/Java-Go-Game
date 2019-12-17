@@ -30,6 +30,11 @@ public class Server {
     private boolean isBlack=true;
     private boolean botGame=false;
 
+
+    private static ObjectOutputStream oos1;
+    private static ObjectOutputStream oos2;
+
+
     private ArrayList<Point> tempList;
 
     public static void main(String[] args){
@@ -59,8 +64,8 @@ public class Server {
         /**Czekam na klienta 1*/
         Socket socket1;
         Socket socket2;
-        ObjectOutputStream oos1;
-        ObjectOutputStream oos2;
+    //    ObjectOutputStream oos1;
+     //   ObjectOutputStream oos2;
         ObjectInputStream ois1;
         ObjectInputStream ois2;
         try {
@@ -102,6 +107,8 @@ public class Server {
 
             /**informuje klienta 2 ze wszyscy sa*/
             oos1.writeObject(true);
+
+
 
 
 
@@ -163,6 +170,10 @@ public class Server {
             /**pasowanie tury*/
             if(newPoint.getY()==20&&newPoint.getX()==20){
                 changePlayer();
+                if(isBlack)
+                    sendSignal(51);
+                else
+                    sendSignal(50);
                 newPoint=new Point(69,69);
             }
             /**sygnal poczatkowy o grze z botem*/
@@ -217,7 +228,7 @@ public class Server {
                 System.out.println("Wiadomosc nieprzeszla");
         }
         else
-            System.out.println("Wiadomosc nieprzeszla");
+            System.out.println("Wiadomosc nieprzeszla - blokada gry - chat");
 
 
     }
@@ -230,12 +241,30 @@ public class Server {
 
     public void changePlayer(){
         isBlack=!isBlack;
+
+        if(isBlack)
+            sendSignal(41);
+        else
+            sendSignal(40);
+    }
+
+    public void sendSignal(int signal){
+        System.out.println("/*uwaga wysle 69*/");
+        ArrayList<Point> temp =new ArrayList<>();
+        temp.add(new Point(signal,signal));
+        try {
+        oos1.writeObject(temp);
+        oos2.writeObject(temp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setIsBlack(boolean black) {
         isBlack = black;
         isGameActive=true;
     }
+
 }
 
 

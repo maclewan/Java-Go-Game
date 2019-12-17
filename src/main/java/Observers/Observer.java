@@ -23,6 +23,7 @@ public class Observer extends Thread{
     /**Scanner do wymiany informacji po tym jak obaj gracze zdecyduja na zakonczenie gry*/
 
     private boolean continueGames=true;
+    private boolean bot=false;
 
     private boolean isServer=true;
     private ChatObserver chatObserver;
@@ -178,6 +179,7 @@ public class Observer extends Thread{
 
                 if(pointsList.size()>0&&pointsList.get(0).getX()>20){
                     checkSpecialSigns(pointsList.get(0).getX());
+                    pointsList=lastPointsList;
                 }
                 else if(!equalsArrayLists(lastPointsList,pointsList)) {
                     lastPointsList=pointsList;
@@ -197,9 +199,31 @@ public class Observer extends Thread{
 
     }
 
-    private void checkSpecialSigns(int x) {
-        if(x==69) {
-            Platform.runLater(() ->chatObserver.startChat());
+    private void checkSpecialSigns(int x){
+        if(!bot) {
+            /**Mozliwosc rozszerzenia funkcjonalnosci o nowe sygnały itp*/
+            if (x == 69) {
+                Platform.runLater(() -> cc.setYourTurnText("Obaj gracze PASS"));
+                Platform.runLater(() -> chatObserver.startChat());
+            }
+
+            else if (x==40)
+                Platform.runLater(() -> cc.setYourTurnText("Tura Białego"));
+
+            else if (x==41)
+                Platform.runLater(() -> cc.setYourTurnText("Tura Czarnego"));
+
+            else if (x==50)
+                Platform.runLater(() -> cc.setYourTurnText("Czarny PASS\nTura Białego"));
+
+            else if (x==51)
+                Platform.runLater(() -> cc.setYourTurnText("Biały PASS\nTura Czarnego"));
+
+            else if (x==60)
+                Platform.runLater(() -> cc.setYourTurnText("Biały wznowił grę\nTura Białego"));
+
+            else if (x==61)
+                Platform.runLater(() -> cc.setYourTurnText("Czarny wznowił grę\nTura Czarnego"));
 
         }
     }
@@ -218,5 +242,7 @@ public class Observer extends Thread{
         return true;
     }
 
-
+    public void setBot(boolean bot) {
+        this.bot = bot;
+    }
 }

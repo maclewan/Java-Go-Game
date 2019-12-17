@@ -362,7 +362,6 @@ public class Board {
         for(int i=0;i<19;i++){
             for(int j=0;j<19;j++){
                 if(pointsArr[i][j]!=2) {
-                    System.out.println("Tu pion juz stoi " + i + ";" + j+";"+pointsArr[i][j]);
                     continue;
                 }
 
@@ -379,7 +378,6 @@ public class Board {
                     continue;
                 }
                 killPotential[i][j]=pointsToKill.size();
-                System.out.println("punkty do zbicia: "+pointsToKill.size());
                 pointsArr[i][j]=2;
 
             }
@@ -409,10 +407,10 @@ public class Board {
 
         Random rand = new Random();                       //wybierz losowe pole do wstawienia piona z najoptymalniejszych
         int[] randomElement = maxValueIndexes.get(rand.nextInt(maxValueIndexes.size()));
-        System.out.println("Losowy element: "+randomElement[0]+";"+randomElement[1]);
+
 
         Point botPoint = new Point(randomElement[0],randomElement[1],false);
-        System.out.println("jestem botem, dodaje punkt ");
+
         addChecker(botPoint.getX(),botPoint.getY(),botPoint.isBlack());
         /**tutaj wywołuje sie fkcja addChecker*/
     }
