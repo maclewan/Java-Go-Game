@@ -4,11 +4,11 @@
  */
 
 
-package server;
+package Server.GameLogic;
 
 
-import client.Point;
-import javafx.scene.paint.Color;
+import Server.Server;
+
 import java.util.ArrayList;
 import java.util.Random;
 

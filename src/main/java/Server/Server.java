@@ -1,7 +1,8 @@
 
-package server;
+package Server;
 
-import client.Point;
+import Server.GameLogic.Board;
+import Server.GameLogic.Point;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,7 +15,7 @@ import static java.lang.Thread.sleep;
 
 /**
  *
- * Ta klasa implementuje Socket server
+ * Ta klasa implementuje Socket Server
  *
  */
 
@@ -44,7 +45,7 @@ public class Server {
                 } catch (IOException e) {
                         e.printStackTrace();
                 }
-                System.out.println("Stworzylem server");
+                System.out.println("Stworzylem Server");
                 /**Tutaj daje wiadomosc klientom ktory byl pierwszy*/
 
 
@@ -119,7 +120,7 @@ public class Server {
                         socket1.close();
 
 
-                        System.out.println("Shutting down Socket server!");
+                        System.out.println("Shutting down Socket Server!");
                         server.close();
 
                 } catch (IOException e) {

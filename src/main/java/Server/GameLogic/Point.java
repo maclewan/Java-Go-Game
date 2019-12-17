@@ -1,7 +1,4 @@
-package client;
-
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+package Server.GameLogic;
 
 import java.io.Serializable;
 

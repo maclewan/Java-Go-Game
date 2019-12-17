@@ -1,6 +1,4 @@
-package server;
-
-import com.sun.jdi.event.ThreadStartEvent;
+package Server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -46,7 +44,7 @@ public class ChatServer  extends Thread  {
                 System.out.println("Problem :/");
             }
         try {
-            System.out.println("Stworzylem server chatu");
+            System.out.println("Stworzylem Server chatu");
             //******************************//
             //---- PODLACZANIE DO SERVERA---//
             //******************************//

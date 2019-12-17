@@ -33,23 +33,7 @@ public class MenuFrameController {
         //temp:
         if(type==0) {
 
-            try {
-
-                FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
-                //GuiController gc = new GuiController();
-               // loaderG.setController(gc);
-
-                Scene sceneG = new Scene(loaderG.load());
-
-                stage.setTitle("Go");
-                stage.setScene(sceneG);
-                stage.setX(stage.getX()-350);
-                stage.setY(stage.getY()-100);
-               // gc.setStage(stage);
-
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
+           //todo: bot!
         }
         else if(type==1){
             try {

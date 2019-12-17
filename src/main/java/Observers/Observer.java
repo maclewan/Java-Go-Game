@@ -1,6 +1,9 @@
-package Controllers;
+package Observers;
 
-import client.Point;
+
+import Controllers.ClientController;
+import Controllers.WaitingFrameController;
+import Server.GameLogic.Point;
 import javafx.application.Platform;
 
 import java.io.IOException;

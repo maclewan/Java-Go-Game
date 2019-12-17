@@ -1,6 +1,8 @@
-package Controllers;
+package Observers;
 
 
+import Controllers.ChatController;
+import Observers.Observer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,7 +15,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-class ChatObserver extends Thread{
+public class ChatObserver extends Thread{
 
 
     private boolean isNewMessage=false;

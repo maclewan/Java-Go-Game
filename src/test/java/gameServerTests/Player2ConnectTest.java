@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 /**
  *
  * Test na polaczenie sie 2 gracza do servera
- *Przed testem nalezy wlaczyc server oraz oczywiscie podlaczyc 1 gracza
+ *Przed testem nalezy wlaczyc Server oraz oczywiscie podlaczyc 1 gracza
  *
  * */
 public class Player2ConnectTest {
