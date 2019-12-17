@@ -361,25 +361,27 @@ public class Board {
         int[][] killPotential = new int[19][19];
         for(int i=0;i<19;i++){
             for(int j=0;j<19;j++){
-                System.out.println("Czy pion juz stoi " + i + ";" + j+";"+pointsArr[i][j]);
-                if(pointsArr[i][j]!=0) {//todo:test
+                if(pointsArr[i][j]!=2) {
                     System.out.println("Tu pion juz stoi " + i + ";" + j+";"+pointsArr[i][j]);
                     continue;
                 }
 
-                addChecker(i,j,false);
+                pointsArr[i][j]=0;
+                lastAdded=new Point(i,j,0);
 
-                if(pointsArr[i][j]!=2){                  //gdy punkt od razu znika - samobójstwo, albo nielegalny ruch
-                    killPotential[i][j]=-1;
-                    continue;
-                }
+
 
                 ArrayList<Point> pointsToKill = new ArrayList<>();     //liczenie potencjału zabójczości
                 groupCheckers();
                 killerSimulation(pointsToKill);
+                if(myContains(pointsToKill,i,j)){                  //gdy punkt od razu znika - samobójstwo, albo nielegalny ruch
+                    killPotential[i][j]=-1;
+                    continue;
+                }
                 killPotential[i][j]=pointsToKill.size();
                 System.out.println("punkty do zbicia: "+pointsToKill.size());
-                removeChecker(i,j,false);
+                pointsArr[i][j]=2;
+
             }
         }
 
