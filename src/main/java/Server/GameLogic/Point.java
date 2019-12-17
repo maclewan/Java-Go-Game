@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class Point implements Serializable {
     private int x,y;
-    private boolean notDelete = true;
     private int color;
 
 
@@ -31,12 +30,7 @@ public class Point implements Serializable {
         this.color=5;
     }
 
-    public Point(int x, int y, int color, boolean notDelete) {
-        this.x = x;
-        this.y = y;
-        this.notDelete=notDelete;
-        this.color=color;
-    }
+
 
 
     public int getX() {
@@ -47,9 +41,6 @@ public class Point implements Serializable {
         return y;
     }
 
-    public boolean isNotDelete() {
-        return notDelete;
-    }
 
     public boolean isBlack(){
         if(color==1)

@@ -89,11 +89,7 @@ public class ChatServer  extends Thread  {
 
             ServerChat();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException | ClassNotFoundException | InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -133,7 +129,7 @@ public class ChatServer  extends Thread  {
     }
 
     /**2 metody o tej samej nazwie ale roznymi param.*/
-    public void setMessageToSend(String mes,boolean isBlack)
+    void setMessageToSend(String mes, boolean isBlack)
     {
         /**gdy wznawiam gre, wysylam info kto powinien zaczac*/
         if(mes.equals("Wznawiam gre!")){
@@ -159,7 +155,7 @@ public class ChatServer  extends Thread  {
 
 class ClientReciveChatInfo extends Thread {
 
-    public  ClientReciveChatInfo(ObjectInputStream ois1, boolean isBlack1,ChatServer server){
+    ClientReciveChatInfo(ObjectInputStream ois1, boolean isBlack1, ChatServer server){
         this.ois = ois1;
         this.server = server;
         this.isBlack = isBlack1;
@@ -186,8 +182,7 @@ class ClientReciveChatInfo extends Thread {
                 mes = (String) ois.readObject();
                 server.setMessageToSend(mes,isBlack);
 
-            } catch (IOException e) {
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException ignored) {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -5,9 +5,7 @@
  * @info Projekt studencki tworzony przez studentów Politechniki Wrocławskiej,
  * wydziału Podstawowych Problemów Techniki, kierunku: Informatyka.
  * Kurs obowiązkowy: Technologie Programowania
- * Lista 4: "Gra w GO"
  * https://cs.pwr.edu.pl/macyna/TPLab04.pdf
- *
  *
  *
  */

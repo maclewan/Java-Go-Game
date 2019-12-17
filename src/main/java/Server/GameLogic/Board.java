@@ -78,7 +78,7 @@ public class Board {
 
     /**Usuwanie pionka*/
 
-    void removeChecker(int x, int y, boolean seriously) {
+    private void removeChecker(int x, int y, boolean seriously) {
 
         pointsArr[x][y] = 2;
         groupedArr[x][y] = false;
@@ -91,7 +91,7 @@ public class Board {
 
     /**Funkcja zabijająca piony bez oddechu*/
 
-    public void killer() {
+    private void killer() {
         lastKilled=new Point(23,23);
         groupCheckers();
         checkersToKill=new ArrayList<>();
@@ -103,7 +103,7 @@ public class Board {
                 if (groupedArr[i][j])
                     continue;
                 if (pointsArr[i][j]!=2&&countBreaths(i, j) == 0) {
-                    checkersToKill.add(new Point(-i-1,-j-1,5,true));
+                    checkersToKill.add(new Point(-i-1,-j-1,5));
                     removeChecker(i, j,true);
                     lastKilled=new Point(i,j);
 
@@ -113,7 +113,7 @@ public class Board {
         killGroupedCheckers(checkersToKill);                                                   //sprawdzanie i zabijanie grup
         if (!groupedArr[lastAdded.getX()][lastAdded.getY()]){                                 //sprawdzanie ostatnio dodanego
             if (countBreaths(lastAdded.getX(), lastAdded.getY()) == 0) {
-                checkersToKill.add(new Point(-lastAdded.getX()-1, -lastAdded.getY()-1,5,true));
+                checkersToKill.add(new Point(-lastAdded.getX()-1, -lastAdded.getY()-1,5));
                 removeChecker(lastAdded.getX(), lastAdded.getY(),true);
             }
         }
@@ -127,7 +127,7 @@ public class Board {
 
 
 
-    void killerSimulation(ArrayList<Point> pointsToKill) {
+    private void killerSimulation(ArrayList<Point> pointsToKill) {
 
 
         for (int i = 0; i < 19; i++) {           //sprawdznie i zabijanie pojedynczych klocków
@@ -153,7 +153,7 @@ public class Board {
     }
 
     /**Grupuje zbite piony w grupy*/
-    public void groupCheckers() {
+    private void groupCheckers() {
         groupedArr = new boolean[19][19];
         groupList.clear();
         for (int i = 0; i < 19; i++) {
@@ -172,7 +172,7 @@ public class Board {
     }
 
     /**Sprawdzanie i dodawanie sąsiadów do grupy*/
-    void getComrade(int a, int b, int color, ArrayList<Point> comList) {
+    private void getComrade(int a, int b, int color, ArrayList<Point> comList) {
         if (groupedArr[a][b]) {    //czy tego punktu juz nie ma w liście
             return;
         }
@@ -185,98 +185,94 @@ public class Board {
                 groupedArr[a][b] = true;                      //oznaczam pkt [a][b] jako element zgrupowany
                 getComrade(a, b + 1, color, comList);        //sprawdzam znajomych dla sąsiada o tym samym kolorze
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-        } catch (NullPointerException e) {
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException ignored) {
         }
         try {
             if (pointsArr[a - 1][b] == color) {
                 groupedArr[a][b] = true;
                 getComrade(a - 1, b, color, comList);
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-        } catch (NullPointerException e) {
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException ignored) {
         }
         try {
             if (pointsArr[a][b - 1] == color) {
                 groupedArr[a][b] = true;
                 getComrade(a, b - 1, color, comList);
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-        } catch (NullPointerException e) {
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException ignored) {
         }
         try {
             if (pointsArr[a + 1][b] == color) {
                 groupedArr[a][b] = true;
                 getComrade(a + 1, b, color, comList);
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-        } catch (NullPointerException e) {
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException ignored) {
         }
 
 
     }
 
 
-    int countBreaths(int a, int b) {
+    private int countBreaths(int a, int b) {
         int counter = 0;
         try {
             if (pointsArr[a + 1][b] == 2) {
                 counter++;
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException ignored) {
         }
         try {
             if (pointsArr[a - 1][b] == 2) {
                 counter++;
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException ignored) {
         }
         try {
             if (pointsArr[a][b + 1] == 2) {
                 counter++;
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException ignored) {
         }
         try {
             if (pointsArr[a][b - 1] == 2) {
                 counter++;
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException ignored) {
         }
         return counter;
     }
 
-    int countBreathsSim(int a, int b, ArrayList<Point> pointsToKill) {
+    private int countBreathsSim(int a, int b, ArrayList<Point> pointsToKill) {
         int counter = 0;
         try {
             if (pointsArr[a + 1][b] == 2||myContains(pointsToKill,a+1,b)) {
                 counter++;
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException ignored) {
         }
         try {
             if (pointsArr[a - 1][b] == 2||myContains(pointsToKill,a-1,b)) {
                 counter++;
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException ignored) {
         }
         try {
             if (pointsArr[a][b + 1] == 2||myContains(pointsToKill,a,b+1)) {
                 counter++;
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException ignored) {
         }
         try {
             if (pointsArr[a][b - 1] == 2||myContains(pointsToKill,a,b-1)) {
                 counter++;
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException ignored) {
         }
         return counter;
     }
 
 
-    void killGroupedCheckers(ArrayList<Point> checkersToKill) {
+    private void killGroupedCheckers(ArrayList<Point> checkersToKill) {
 
 
 
@@ -294,7 +290,7 @@ public class Board {
             if(counter==0){
                 for(int j=groupList.get(i).size()-1; j>=0;j--){
 
-                    checkersToKill.add(new Point(-groupList.get(i).get(j).getX()-1,-groupList.get(i).get(j).getY()-1,5,true));
+                    checkersToKill.add(new Point(-groupList.get(i).get(j).getX()-1,-groupList.get(i).get(j).getY()-1,5));
                     removeChecker(groupList.get(i).get(j).getX(),groupList.get(i).get(j).getY(),true);
 
 
@@ -304,7 +300,7 @@ public class Board {
 
     }
 
-    void killGroupedCheckersSim(ArrayList<Point> pointsToKill) {
+    private void killGroupedCheckersSim(ArrayList<Point> pointsToKill) {
 
 
         for(int i=0; i<groupList.size();i++){
@@ -330,7 +326,7 @@ public class Board {
 
 
 
-    boolean isSuicide2(int a, int b){
+    private boolean isSuicide2(int a, int b){
 
         ArrayList<Point> pointsToKill = new ArrayList<>();
         groupCheckers();
@@ -350,7 +346,7 @@ public class Board {
 
 
 
-    public boolean myContains(ArrayList<Point> arr, int x, int y) {
+    private boolean myContains(ArrayList<Point> arr, int x, int y) {
         for (int i = 0; i < arr.size(); i++) {
             if (arr.get(i).getY() == y && arr.get(i).getX() == x) {
                 return true;

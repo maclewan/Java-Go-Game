@@ -56,12 +56,12 @@ public class Server {
                 /*Czekam na klienta 1*/
                 System.out.println("Czekam na 1 gracza");
                 /**Czekam na klienta 1*/
-                Socket socket1 = null;
-                Socket socket2 = null;
-                ObjectOutputStream oos1=null;
-                ObjectOutputStream oos2=null;
-                ObjectInputStream ois1=null;
-                ObjectInputStream ois2=null;
+                Socket socket1;
+                Socket socket2;
+                ObjectOutputStream oos1;
+                ObjectOutputStream oos2;
+                ObjectInputStream ois1;
+                ObjectInputStream ois2;
                 try {
                         socket1 = server.accept();
                         System.out.println("Gracz 1 dolaczyl do serwera");
@@ -123,11 +123,7 @@ public class Server {
                         System.out.println("Shutting down Socket Server!");
                         server.close();
 
-                } catch (IOException e) {
-                        e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (IOException | ClassNotFoundException | InterruptedException e) {
                         e.printStackTrace();
                 }
 
@@ -233,7 +229,7 @@ public class Server {
 
 
 class ClientReciveGameInfo extends Thread {
-        public  ClientReciveGameInfo( ObjectInputStream ois, boolean isBlack1,Server server1){
+        ClientReciveGameInfo(ObjectInputStream ois, boolean isBlack1, Server server1){
                 this.ois=ois;
                 this.server = server1;
                 this.isBlack=isBlack1;
@@ -259,8 +255,7 @@ class ClientReciveGameInfo extends Thread {
                                 System.out.println("Dostalem widomosc od  gracza: " + point.getX() +";"+ point.getY());
                                 server.setParams(point,isBlack);
 
-                        } catch (IOException e) {
-                        } catch (ClassNotFoundException e) {
+                        } catch (IOException | ClassNotFoundException ignored) {
                         }
                 }
         }

@@ -48,7 +48,7 @@ public class Observer extends Thread{
 
 
     /**Czy ma sie zaczac rozmowa*/
-        boolean startTalk=false;
+    private boolean startTalk=false;
 
     public Observer(WaitingFrameController wfc){
         this.wfc=wfc;
@@ -130,7 +130,7 @@ public class Observer extends Thread{
 
 
 
-        } catch (UnknownHostException e) {
+        } catch (UnknownHostException | ClassNotFoundException | InterruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
             Platform.runLater(() ->  {
@@ -138,10 +138,6 @@ public class Observer extends Thread{
                 wfc.absentServer();           /**wypisuje brak serwera*/
 
             });
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
 
         try{
@@ -160,7 +156,7 @@ public class Observer extends Thread{
 
 
     public void runGame(){
-        startTalk=!true;
+        startTalk= false;
         while (true) {
             a=cc.getPointToPush();
 
@@ -211,7 +207,7 @@ public class Observer extends Thread{
 
 
 
-    public boolean equalsArrayLists(ArrayList<Point> a, ArrayList<Point> b){
+    private boolean equalsArrayLists(ArrayList<Point> a, ArrayList<Point> b){
         if(a.size()!=b.size()){
             return false;
         }

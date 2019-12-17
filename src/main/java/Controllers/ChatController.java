@@ -90,10 +90,7 @@ public class ChatController {
 
 
     public void closeChat() {
-        Platform.runLater(() ->  {
-
-            stage.close();
-        });
+        Platform.runLater(() -> stage.close());
 
     }
 

@@ -24,8 +24,6 @@ public class ClientController {
 
     private Stage stage;
 
-    private int tmpA,tmpB; //zmienne stworzenone aby nie wysylac serverowi info jesli sie klikni np. na srodku kwadratu
-    private int x, y, diffX, diffY;
     private int killedBlack=0;
     private int killedWhite=0;
 
@@ -93,18 +91,19 @@ public class ClientController {
 
         double diffR;
 
-        x = (int) e.getX();
-        y = (int) e.getY();
-        tmpA = (int) (e.getX()) / 40;
-        tmpB = (int) (e.getY()) / 40;
-        diffX = Math.abs(x - (tmpA * 40 + 20));
-        diffY = Math.abs(y - (tmpB * 40 + 20));
+        int x = (int) e.getX();
+        int y = (int) e.getY();
+        int tmpA = (int) (e.getX()) / 40;
+        //zmienne stworzenone aby nie wysylac serverowi info jesli sie klikni np. na srodku kwadratu
+        int tmpB = (int) (e.getY()) / 40;
+        int diffX = Math.abs(x - (tmpA * 40 + 20));
+        int diffY = Math.abs(y - (tmpB * 40 + 20));
         diffR = Math.sqrt(diffX * diffX + diffY * diffY);
         if (diffR > 15) {
             /**clicked out of any points range*/
         }
         else{
-            pointToPush = new Point(tmpA,tmpB,isBlack);
+            pointToPush = new Point(tmpA, tmpB,isBlack);
             isSthToPush = true;
 
             /** wyślij do serwera informacje z "pointToCreate"*/
@@ -165,7 +164,7 @@ public class ClientController {
 
     /**Usuwanie pionka*/
 
-    void removeChecker(int a, int b) {
+    private void removeChecker(int a, int b) {
         if(checkers[a][b]!=null) {
 
             if (checkers[a][b].getFill() == Color.BLACK)
@@ -178,24 +177,24 @@ public class ClientController {
         }
     }
 
-    public void incrementWhitePoints(){
+    private void incrementWhitePoints(){
         killedWhite++;
         pointsWhite.setText(Integer.toString(killedWhite));
     }
 
-    public void incrementBlackPoints(){
+    private void incrementBlackPoints(){
         killedBlack++;
         pointsBlack.setText(Integer.toString(killedBlack));
     }
 
 
 
-    public void setStage(Stage stage) {
+    void setStage(Stage stage) {
         this.stage = stage;
     }
 
 
-    public void hidePassButton(){
+    private void hidePassButton(){
         if(isBlack) {
             lblGraczC.setText("Ja");
             btnPass.setLayoutX(1000);

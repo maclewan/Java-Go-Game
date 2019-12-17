@@ -30,7 +30,7 @@ public class MenuFrameController {
 
 
     public void startGame(int type){  //0 - singleplayer, 1- multiplayer
-        //temp:
+
         if(type==0) {
 
            //todo: bot!
@@ -52,7 +52,9 @@ public class MenuFrameController {
 
 
 
-            } catch (IOException ioe) {}
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
     }
 

@@ -2,7 +2,6 @@ package Observers;
 
 
 import Controllers.ChatController;
-import Observers.Observer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,9 +18,9 @@ public class ChatObserver extends Thread{
 
 
     private boolean isNewMessage=false;
-    private boolean isBlack;
+    private boolean isBlack=false;
 
-    private Observer observer;
+
 
     private Socket chatSocket;
     private ObjectOutputStream oosChat;

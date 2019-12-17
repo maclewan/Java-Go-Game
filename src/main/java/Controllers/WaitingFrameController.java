@@ -17,38 +17,32 @@ public class WaitingFrameController{
 
 
     @FXML
-    private Label textWaiting;
-
-
-
-    @FXML
-    void initialize() throws IOException, ClassNotFoundException {
-
-
+    void initialize() {
 
         Thread observer = new Observer(this);
         observer.start();
-
     }
 
+    @FXML
+    private Label textWaiting;
 
-    public void setStage(Stage stage) {
+
+    void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public Stage getStage() {
-        return stage;
-    }
 
     public synchronized void startGame(ClientController clientController){
 
 
-        //new game
+        /**
+         * New game
+         */
+
         try {
             FXMLLoader loaderG = new FXMLLoader(getClass().getClassLoader().getResource("GUI.fxml"));
-            ClientController gc = clientController;
-            loaderG.setController(gc);
-            gc.setStage(stage);
+            loaderG.setController(clientController);
+            clientController.setStage(stage);
 
             Scene sceneG = new Scene(loaderG.load());
 
