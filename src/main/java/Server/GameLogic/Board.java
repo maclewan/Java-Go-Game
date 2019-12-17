@@ -9,7 +9,6 @@ package Server.GameLogic;
 
 import Server.Server;
 
-import java.awt.desktop.SystemSleepEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -71,9 +70,10 @@ public class Board {
 
 
         checkersToKill.add(tempPoint);
-
-        setPointsList(checkersToKill);  /**wyslanie info do serwera*/
-        server.changePlayer();
+        if(server!=null) {
+            setPointsList(checkersToKill);  /**wyslanie info do serwera*/
+            server.changePlayer();
+        }
 
     }
 
@@ -430,6 +430,10 @@ public class Board {
                 pointsArr[i][j]=2;
             }
         }
+    }
+    public int getChecker(int a, int b){
+        return pointsArr[a][b];
+        //return 1;
     }
 
 

@@ -1,5 +1,6 @@
 package gameRulesTests;
-import Controllers.*;
+
+import Server.GameLogic.Board;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import org.junit.Test;
@@ -13,7 +14,7 @@ public class KillInCornerController{
 
     @Test
     public void test() {
-
+        Board test= new Board(null);
         //GuiController test= new GuiController();
 
         /*temp[0][17].setStroke(Color.WHITE);
