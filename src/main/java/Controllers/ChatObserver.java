@@ -9,24 +9,21 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 class ChatObserver extends Thread{
 
-    public ChatObserver(Socket socket, ObjectOutputStream oss, ObjectInputStream ois, Observer observer){
-        this.socket=socket;
-        this.oos=oss;
-        this.ois=ois;
-        this.observer = observer;
-    }
-    boolean doWePlay=true;
-    boolean isNewMessage=false;
+
+    private boolean isNewMessage=false;
+    private boolean isBlack;
 
     private Observer observer;
-    private Socket socket;
-    private ObjectOutputStream oos;
-    private ObjectInputStream ois;
 
+    private Socket chatSocket;
+    private ObjectOutputStream oosChat;
+    private ObjectInputStream oisChat;
 
     private String mesIn = new String("");
     private String mesOut = new String("");
@@ -36,111 +33,106 @@ class ChatObserver extends Thread{
 
     @Override
     public synchronized void run() {
+
+
+        /**------------------------------------------------//
+         //-------------KLIENTA TWORZENIE ------------------//
+         //------------------------------------------------*/
+        /**zdobadz localhost*/
+        InetAddress host = null;
+        /**DO SOCKETA*/
+        chatSocket=null ;
+        /**DO output*/
+        oosChat = null;
+        /**DO input*/
+        oisChat = null;
+
+        /**Lapanie localHosta*/
         try {
-            oos.writeObject("");
-        } catch (IOException e) {
+            host = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        System.out.println("nowy watek powstal");
-        Platform.runLater(() ->  { startChat(); });
+
+        /**Lacze z serwerrem czatu */
+        try {
+            chatSocket = new Socket(host.getHostName(), 7777);
+
+
+            /**odbierz odpowiedz serwera*/
+            oisChat = new ObjectInputStream(chatSocket.getInputStream());
+            System.out.println("Dolaczylem sb do servera");
+
+            /**napisz do socket uzywajac ObjectOutputStream*/
+            oosChat = new ObjectOutputStream(chatSocket.getOutputStream());
+            oosChat.writeObject(isBlack);
+
+            /**Czekam na 2 gracza*/
+            boolean isSecondChatter = (boolean) oisChat.readObject();       //tu czeka na drugiego gracza
+            boolean uselesstempBoolean = (boolean) oisChat.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
 
+        while(true){
 
-        while(doWePlay) {
-
-            if (isNewMessage) {
-                System.out.println("wysylam wiadomosc: " + mesOut);
-                try {
-                    oos.writeObject(mesOut);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isNewMessage = false;
-            }
-            if(mesOut.equals("Wznawiam gre!"))
-            {
-
-               try {
-                    System.out.println("odbieram wiadomosc");
-                    mesIn = (String) ois.readObject();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                int tmp=21;
-                try {
-                    oos.writeObject(tmp);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("JESTEM TUTaJ");
-
-                observer.continueGame();
-                doWePlay=false;
-                this.interrupt();
-                break;
-
-                //wznowGre();
-               // break;
-            }
-            if (mesIn.equals("Wznawiam gre!") ) {
-                int tmp=21;
-                try {
-                    oos.writeObject(tmp);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("a tera tu");
-                chatController.closeChat();
-
-                observer.continueGame();
-                doWePlay=false;
-                this.interrupt();
-                break;
-            }
-            /**Odbiera wiadomosć*/
             try {
-                mesIn = (String) ois.readObject();
-                if(!(mesIn==null||mesIn.equals(""))){
-                    System.out.println("odbieram wiadomosc");
+
+
+                sleep(100);
+                /**jesli jest nowa wiadomosc to ja wysylam do serwera*/
+                if (isNewMessage) {
+                    System.out.println("wysylam wiadomosc: " + mesOut);
+                    oosChat.writeObject(mesOut);
+                    isNewMessage = false;
+                }
+
+                /**pobieram wiadomosc z serwera*/
+                lastMes=mesIn;
+                mesIn = (String) oisChat.readObject();
+
+                /**wypisuje wiadomosc w konsoli*/
+                if(!lastMes.equals(mesIn)){
+
+                    Platform.runLater(() ->chatController.addLabelChatText(mesIn));
+                }
+
+
+                /**Czy gra nie jest do wznowienia*/
+                if(mesIn.equals("Bialy:\t Wznawiam gre!")||mesIn.equals("Czarny:\t Wznawiam gre!")){
+
+                    setMesOut("");
+                    System.out.println("Zamykam chat");
+                    Platform.runLater(() ->chatController.closeChat());
 
                 }
-            } catch (IOException e)  {
+                else if(mesIn.equals("Koniec gry!")){
+                    //todo: do obgadania jak to ma wygladac
+                }
+
+
+            } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
-
                 e.printStackTrace();
-            } catch ( ClassCastException e){
-                wznowGre();
-                break;
-            }
-
-            if (!(mesIn.equals(lastMes))) {
-                Platform.runLater(() -> chatController.addLabelChatText(mesIn));
-                lastMes=mesIn;
-
-            }
-            if(!(mesIn==null||mesIn.equals(""))) {
-                System.out.println("mesIN: =" + mesIn+"=");
-            }
-            /**temp*/
-            try {
-                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        observer.continueGame();
+
+
     }
 
-    public void endGame(){
-        observer.setEndGame(true);
-    }
+
+
 
     public void startChat() {
         try {
+            System.out.println("Starting chat!");
             Stage stage = new Stage();
             chatController = new ChatController();
             chatController.setCo(this);
@@ -161,41 +153,11 @@ class ChatObserver extends Thread{
 
     }
 
-    public void continueGame(){
-        //mesIn="Wznawiam gre!";
-        this.mesOut="Wznawiam gre!";
-        this.isNewMessage=true;
-        //doWePlay=false;
-        //observer.continueGame();
-        //this.interrupt();  /**Zabijam ten wątek chatu*/
 
-
-    }
 
     public void setMesOut(String mesOut) {
         this.mesOut = mesOut;
         isNewMessage=true;
     }
-    public void setMesIn(String mesIn) {
-        this.mesIn = mesIn;
-    }
 
-    public void wznowGre(){
-
-
-        int tmp=21;
-        try {
-            oos.writeObject(tmp);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        chatController.closeChat();
-        observer.continueGame();
-        doWePlay=false;
-        this.interrupt();
-
-
-    }
 }

@@ -9,18 +9,20 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
+import java.util.ArrayList;
 
 /**Klasa Observer odpowiedzialna za polaczenie z serverem*/
 public class Observer extends Thread{
+
     WaitingFrameController wfc;
     ClientController cc;
     private boolean endGame=false;
     /**Scanner do wymiany informacji po tym jak obaj gracze zdecyduja na zakonczenie gry*/
-    Scanner scanner = new Scanner(System.in);
+
     private boolean continueGames=true;
 
     private boolean isServer=true;
+    private ChatObserver chatObserver;
     private boolean isChatOpen=false;
     /**zdobadz localhost*/
     InetAddress host;
@@ -30,17 +32,18 @@ public class Observer extends Thread{
     ObjectOutputStream oos = null;
     /**DO input*/
     ObjectInputStream ois = null;
-    //ObjectOutputStream oosa = null;//TO1
-    //ObjectInputStream oisa = null;//TO1
-    //ClientController cc;//TO1
-    /**Pozycja pionka do dodania*/
-        int a=21;
-    /**Pozycja pionka do dodania*/
-        int b=21;
-    /**Pozycja ostatniego dodanego pionka*/
-        int lastA=21;
-    /**Pozycja ostatniego dodanego pionka*/
-        int lastB=21;
+
+    /** Lista pionków do dodania*/
+    ArrayList<Point> pointsList = new ArrayList<>();
+
+    /** Ostatnia lista pionków*/
+    ArrayList<Point> lastPointsList = new ArrayList<>();
+
+    /**Pionek do dodania*/
+        Point a = new Point(21,21);
+
+
+
     /**Czy ma sie zaczac rozmowa*/
         boolean startTalk=false;
 
@@ -73,15 +76,14 @@ public class Observer extends Thread{
             System.out.println("Dolaczylem sb do servera");
 
             /**Tutaj sprawdzam czy to byl pierwszy*/
-            cc.isBlack = (boolean) ois.readObject();
-            if (cc.isBlack) {
+            cc.setIsBlack((boolean) ois.readObject());
+            if (cc.isBlack()) {
                 System.out.println("Jestes czarny");
+
             }
             else {
                 System.out.println("Jestes bialy");
-                cc.yourTurn = false;
             }
-
 
 
             /**napisz do socket uzywajac ObjectOutputStream*/
@@ -89,10 +91,16 @@ public class Observer extends Thread{
             oos.writeObject("OK");
 
 
-
             /**Odbierz wiadomosc nt 2 gracza*/
             /**odbierz odpowiedz serwera*/
-            boolean isSecond = (boolean) ois.readObject();       //tu czeka
+            boolean isSecond = (boolean) ois.readObject();       //tu czeka na drugiego gracza
+
+            if(isSecond){
+                Thread.sleep(500);
+            }
+
+            chatObserver = new ChatObserver();
+            chatObserver.start();
 
             Thread.sleep(1000);
 
@@ -103,38 +111,19 @@ public class Observer extends Thread{
                 return;
             });
 
+
+
             /**
              *
              * Etap gry miedzy 2 klientami
              *
              * */
 
-            while (endGame==false) {
-                if (isSecond&&continueGames) {
-                    System.out.println("wszedlem do gry");
-                    /**Otwieramy wymiane wiadomości do obslugi rozgrywki*/
-                    sleep(2000); //czekam az sie watki rozpoczna
-                    runGame();
-                    isChatOpen=false;
-                    continueGames=false;
-                }
-                cc.tempPoint= new Point(21,21,cc.isBlack);
-                /**Zaczynamy chat*/
-                if(!isChatOpen) {
-                     System.out.println("wszedlem do czatu");
-                    isChatOpen=true;
-                    runChat();
-                }
-                sleep(100);
 
-
-                if(endGame){
-                    break;
-                    //todo: wyslij do serwera informacje o checi zakonczenia gry przez
-                }
-
-            }
-
+            System.out.println("\nWszedlem do gry");
+            /**Otwieramy wymiane wiadomości do obslugi rozgrywki*/
+            sleep(1000); //czekam az sie watki rozpoczna
+            runGame();
 
 
 
@@ -154,8 +143,7 @@ public class Observer extends Thread{
 
         try{
             Thread.sleep(3000);        /**odczekuje 3 sekundy i wraca do menu*/
-        }
-        catch (InterruptedException ex) {
+        } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
         if(!isServer)                     /**tylko gdy nie ma serwera*/
@@ -170,48 +158,34 @@ public class Observer extends Thread{
 
     public void runGame(){
         startTalk=!true;
-        while (!startTalk) {
-            a=cc.tempPoint.getX();
-            b=cc.tempPoint.getY();
+        while (true) {
+            a=cc.getPointToPush();
 
             try {
                 /**napisz do socket uzywajac ObjectOutputStream*/
-                if(cc.madeMove) {
-                    a=cc.tempPoint.getX();
-                    b=cc.tempPoint.getY();
+                if(cc.isSthToPush()) {
+
                     oos.writeObject(a);
-                    oos.writeObject(b);
-                    cc.madeMove = false;
-                    System.out.println("Wysylam " + a +";"+ b);
+
+                    cc.setSthToPush(false);
+                    System.out.println("Wysylam zapytanie o punkt " + a.getX() +";"+ a.getY());
                 }
+
 
                 /**odbierz od socket uzywajac ObjectInputStream*/
-                int a1 = (int) ois.readObject();
-                int b1 = (int) ois.readObject();
+                pointsList=new ArrayList<>();
+                pointsList = (ArrayList<Point>) ois.readObject();
 
-                if (a1 == 20 && b1 == 20 && a == 20 && b == 20) {
-                    System.out.println("Rozpoczynam czat");
-                    startTalk = true;
-                    break;
+
+                if(pointsList.size()>0&&pointsList.get(0).getX()>20){
+                    checkSpecialSigns(pointsList.get(0).getX());
                 }
-                //System.out.println("odbieram " + a1 + b1);
-                if(a1==20 && b1==20) { cc.yourTurn=true; lastA=20; lastB=20;}
-                if(lastA!=a1 || lastB!=b1) {
-                    lastA=a1;
-                    lastB=b1;
-                    cc.yourTurn = true;
-                    if (a1 >= 0 && a1 < 20 && b1 >= 0 && b1 < 20) {//ten war. to dod. zabezpieczenie w
-                        cc.cleanAllreadyChecked();
-                        if (cc.checkers[a1][b1] == null) {
-                            System.out.println("otrzymuje: piona " + a1 +";"+ b1);
+                else if(!equalsArrayLists(lastPointsList,pointsList)) {
+                    lastPointsList=pointsList;
 
-                            Platform.runLater(() -> cc.updateTempPoint(a1, b1,!cc.isBlack));
-                            Platform.runLater(() -> cc.addChecker(cc.getTempPoint()));
+                    cc.setArrayOfPoints(pointsList);
+                    Platform.runLater(() ->cc.addArrayOfPoints());
 
-                            Platform.runLater(() -> cc.killer());
-                        }
-                        // else         System.out.println("jestem w else");
-                    }
                 }
 
             } catch (IOException e) {
@@ -220,29 +194,29 @@ public class Observer extends Thread{
                 e.printStackTrace();
             }
 
-
-            //System.out.println("zara odbiere dane");
         }
 
     }
 
-    public void runChat(){
-        System.out.println("Rozpoczynam czat na serio");
-        ChatObserver chatObserver = new ChatObserver(socket,oos,ois,this);
-        chatObserver.setMesOut("");
-        chatObserver.setMesIn("");
-        chatObserver.start();
+    private void checkSpecialSigns(int x) {
+        if(x==69) {
+            Platform.runLater(() ->chatObserver.startChat());
+
+        }
     }
 
-    public void setEndGame(boolean endGame){
 
-        isChatOpen=false;
 
-    }
 
-    public void continueGame(){
-        continueGames=true;
-
+    public boolean equalsArrayLists(ArrayList<Point> a, ArrayList<Point> b){
+        if(a.size()!=b.size()){
+            return false;
+        }
+        for(int i=0;i<a.size();i++){
+            if(a.get(i).getX()!=b.get(i).getX()||a.get(i).getY()!=b.get(i).getY())
+                return false;
+        }
+        return true;
     }
 
 

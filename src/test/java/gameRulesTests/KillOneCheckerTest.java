@@ -14,7 +14,7 @@ public class KillOneCheckerTest {
 
     @Test
     public void test() {
-        GuiController test= new GuiController();
+      /*  GuiController test= new GuiController();
         Ellipse pb = new Ellipse();
         Ellipse pc = new Ellipse();
         pc.setFill(Color.BLACK);
@@ -23,11 +23,11 @@ public class KillOneCheckerTest {
         test.checkers[3][3]=pb;
         test.checkers[1][3]=pb;
         test.checkers[2][4]=pb;
-        test.isBlack=true;
+        test.isBlack=true;*/
         /*nie korzystam z addChecker poniewaz jest tam czesc odpowiedzialna za dodanie do planszy*/
-        test.checkers[2][3]=pc;
+      /*  test.checkers[2][3]=pc;
         assert(test.isSuicide2(2,3));
-
+*/
 
     }
 
