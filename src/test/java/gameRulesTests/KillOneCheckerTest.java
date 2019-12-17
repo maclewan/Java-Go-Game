@@ -24,5 +24,4 @@ public class KillOneCheckerTest {
 
         assert(test.getChecker(2,3)==1);
     }
-
 }
