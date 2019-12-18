@@ -52,10 +52,15 @@ public class Server {
     prywatny „pusty” konstruktor (aby nie można było utworzyć nowego obiektu tej klasy z wykorzystaniem operatora „new”),
     publiczną statyczną metodę „getInstance” bez żadnych parametrów.
 
-    gdy klasa Singleton zostanie załadowana,
-    klasa SingletonHolder nie zostanie wczytana
+    gdy klasa Server zostanie załadowana,
+    klasa ServerHolder nie zostanie wczytana
     do pamięci dopóki nie zostanie wywołana metoda getInstance().
     Takie podejście nie wymaga synchronizacji
+
+    Przestrzegana konw. nazewnictwa:
+    metody male litery
+    klasy duze
+    obikty gui np. przycisk nazywany: btnResume
 
     */
     public static void main(String[] args){
@@ -85,8 +90,6 @@ public class Server {
         /**Czekam na klienta 1*/
         Socket socket1;
         Socket socket2;
-        //ObjectOutputStream oos1;
-        //ObjectOutputStream oos2;
         ObjectInputStream ois1;
         ObjectInputStream ois2;
         try {
@@ -138,7 +141,6 @@ public class Server {
             /******************************************/
 
             /**Pętla uruchamiajaca gre bez resetu serwera*/
-
             s.ServerGame(ois1, ois2, s.oos1, s.oos2);
 
 
