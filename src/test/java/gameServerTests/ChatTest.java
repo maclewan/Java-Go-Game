@@ -81,27 +81,6 @@ public class ChatTest { ;
             e.printStackTrace();
         }
 
-
-      /*  if(send) {
-            Send se = new Send(oosChat);
-            se.start();
-        }
-        else
-        {
-            String mes="";
-            while (true)
-            {
-                try {
-                    mes=(String) oisChat.readObject();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                if(mes.equals("hi"))assert (true);
-            }
-        }*/
-
     }
     public class Chatter2 extends Thread {
         ObjectOutputStream oosChat;

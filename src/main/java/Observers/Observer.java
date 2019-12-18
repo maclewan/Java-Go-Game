@@ -24,6 +24,7 @@ public class Observer extends Thread{
 
     private boolean continueGames=true;
     private boolean bot=false;
+    private boolean isTest=false;
 
     private boolean isServer=true;
     private ChatObserver chatObserver;
@@ -134,11 +135,14 @@ public class Observer extends Thread{
         } catch (UnknownHostException | ClassNotFoundException | InterruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            Platform.runLater(() ->  {
-                isServer=false;
-                wfc.absentServer();           /**wypisuje brak serwera*/
+            if(!isTest) {
+                Platform.runLater(() -> {
+                    isServer = false;
+                    wfc.absentServer();           /**wypisuje brak serwera*/
 
-            });
+                });
+            }
+            else isServer=false;
         }
 
         try{
@@ -146,7 +150,7 @@ public class Observer extends Thread{
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
-        if(!isServer)                     /**tylko gdy nie ma serwera*/
+        if(!isServer && !(isTest))                     /**tylko gdy nie ma serwera*/
             Platform.runLater(() ->  {
                 wfc.backToMenu();
                 return;
@@ -248,4 +252,6 @@ public class Observer extends Thread{
     public void setBot(boolean bot) {
         this.bot = bot;
     }
+    public boolean isThereServer() {return isServer; }
+    public void setTest() {isTest=true; }
 }

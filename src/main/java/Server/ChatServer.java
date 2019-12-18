@@ -161,6 +161,7 @@ public class ChatServer  extends Thread  {
 
 
     }
+    public boolean isGameEnded(){return endGame;}
 
 }
 /**
