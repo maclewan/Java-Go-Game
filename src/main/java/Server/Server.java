@@ -208,10 +208,14 @@ public class Server {
             /**zawieszanie gry*/
             if(oldPoint.getX()==newPoint.getX()&&oldPoint.getX()==69){
                 isGameActive=false;
-
-
+                /**w przypadku gry z botem koniec gry*/
+                if(botGame){
+                    isGameActive=false;
+                    sendSignal(999);
+                    continue;
+                }
+                /**w przypadku gry bez bota otworz chat*/
                 newPoint=new Point(99,99);
-                System.out.println("/*uwaga wysle 69*/");
                 ArrayList<Point> temp =new ArrayList<>();
                 temp.add(new Point(69,69));
                 oos1.writeObject(temp);

@@ -83,7 +83,6 @@ public class ChatObserver extends Thread{
         }
 
 
-
         while(true){
 
             try {
@@ -113,11 +112,15 @@ public class ChatObserver extends Thread{
 
                     setMesOut("");
                     System.out.println("Zamykam chat");
-                    Platform.runLater(() ->chatController.closeChat());
+
+                        Platform.runLater(() -> chatController.closeChat());
 
                 }
                 else if(mesIn.equals("Koniec gry!")){
+
                     chatController.setBtnContinueDisabled();
+
+                    break;
                 }
 
 
@@ -129,6 +132,8 @@ public class ChatObserver extends Thread{
                 e.printStackTrace();
             }
         }
+
+        /**hipotetyczne wyłączanie serwera*/
 
 
     }
