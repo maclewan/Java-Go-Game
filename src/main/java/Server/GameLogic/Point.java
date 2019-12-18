@@ -1,7 +1,7 @@
 package Server.GameLogic;
 
 import java.io.Serializable;
-
+/**Pionki*/
 public class Point implements Serializable {
     private int x,y;
     private int color;

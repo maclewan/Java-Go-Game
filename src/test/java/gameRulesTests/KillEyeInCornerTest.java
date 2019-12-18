@@ -4,9 +4,8 @@
  *
  * */
 package gameRulesTests;
-import Controllers.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
+
+import Server.GameLogic.Board;
 import org.junit.Test;
 
 /**
@@ -16,32 +15,33 @@ import org.junit.Test;
  * */
 public class KillEyeInCornerTest{
 
-
+    //Server s = new Server();
+    boolean isFirst=false;
 
     @Test
     public void test() {
+        Board test= new Board(null);
+        test.startArrayOfCheckers();
+        test.addChecker(0, 1, false);
+        test.addChecker(1, 0, false);
+        test.addChecker(1, 1, false);
+        test.addChecker(2, 0, true);
+        test.addChecker(2, 1, true);
+        test.addChecker(1, 2, true);
+        test.addChecker(0, 2, true);
+        test.addChecker(0, 0, true);
 
-     //   GuiController test= new GuiController();
-
-        /*temp[0][17].setStroke(Color.WHITE);
-        temp[1][18].setStroke(Color.WHITE);*/
-        Ellipse pb = new Ellipse();
-        Ellipse pc = new Ellipse();
-        pc.setFill(Color.BLACK);
-        pb.setFill(Color.WHITE);
-    //    test.checkers[0][1]=pb;
-    //    test.checkers[1][0]=pb;
-    //    test.checkers[1][1]=pb;
-    //    test.checkers[2][0]=pc;
-    //    test.checkers[2][1]=pc;
-    ////    test.checkers[1][2]=pc;
-     //   test.checkers[0][2]=pc;
-
-     //   test.isBlack=true;
-        /*nie korzystam z addChecker poniewaz jest tam czesc odpowiedzialna za dodanie do planszy*/
-     //   test.checkers[0][0]=pc;
-     //   assert(!(test.isSuicide2(0,0)));
+        assert(test.getChecker(0,0)==1) && (test.getChecker(1,1)==2) && (test.getChecker(1,0)==2) && (test.getChecker(0,1)==2);
 
     }
+    /*public class server extends Thread {
+        @Override
+        public synchronized void run() {
+
+            String[] args=null;
+            s.main(args);
+        }
+    }*/
+
 
 }

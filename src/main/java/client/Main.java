@@ -21,7 +21,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.Locale;
-
+/**
+ *
+ * Glowna klasa gry
+ *
+ * */
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {

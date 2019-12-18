@@ -14,7 +14,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-/**Klasa Observer odpowiedzialna za polaczenie z serverem*/
+/**odpowiedzialna za polaczenie z serverem*/
 public class Observer extends Thread{
 
     WaitingFrameController wfc;

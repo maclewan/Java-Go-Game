@@ -13,6 +13,11 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+/**
+ *
+ *odpowiedzialna za polaczenie z serwerem chatu
+ *
+ * */
 
 public class ChatObserver extends Thread{
 
@@ -112,7 +117,6 @@ public class ChatObserver extends Thread{
 
                 }
                 else if(mesIn.equals("Koniec gry!")){
-
                     chatController.setBtnContinueDisabled();
                 }
 

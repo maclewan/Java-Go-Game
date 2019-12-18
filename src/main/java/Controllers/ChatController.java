@@ -10,7 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+/**
+ *
+ * Odpowiada za obslugę chatu
+ *
+ * */
 public class ChatController {
 
     private ChatObserver co;
