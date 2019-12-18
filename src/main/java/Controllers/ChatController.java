@@ -9,7 +9,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+
+import java.awt.event.KeyEvent;
+
+import static javafx.scene.input.KeyCode.ENTER;
+
 /**
  *
  * Odpowiada za obslugę chatu
@@ -53,8 +59,6 @@ public class ChatController {
 
     @FXML
     private Button btnEndGame;
-
-
 
 
     @FXML

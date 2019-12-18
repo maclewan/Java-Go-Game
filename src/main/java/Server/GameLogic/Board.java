@@ -133,11 +133,20 @@ public class Board {
 
         for (int i = 0; i < 19; i++) {           //sprawdznie i zabijanie pojedynczych klocków
             for (int j = 0; j < 19; j++) {
-                if(i==lastAdded.getX()&&j==lastAdded.getY())
+                if(pointsArr[i][j]!=2){
                     continue;
-                if (groupedArr[i][j])
+                }
+
+                //System.out.println("Killer Sim: Sprawdzam punkt "+i+";"+j+"is grouped?"+ groupedArr[i][j]+" Oddechy: "+countBreathsSim(i, j,pointsToKill));
+                if(i==lastAdded.getX()&&j==lastAdded.getY()) {
+                    System.out.println("Sypie 1");
                     continue;
+                }
+                if (groupedArr[i][j]) {
+                    continue;
+                }
                 if (pointsArr[i][j]!=2&&countBreathsSim(i, j,pointsToKill) == 0) {
+                    System.out.println("Killer Sim: dodaje punkt "+i+";"+j);
                     pointsToKill.add(new Point(i,j,5));
 
                 }
@@ -152,6 +161,8 @@ public class Board {
 
 
     }
+
+
 
     /**Grupuje zbite piony w grupy*/
     private void groupCheckers() {
@@ -364,10 +375,12 @@ public class Board {
                 if(pointsArr[i][j]!=2) {
                     continue;
                 }
-
+//
                 if(countBreaths(i,j)==0){
+                    System.out.println("Brak oddechów");
                     continue;
                 }
+
                 pointsArr[i][j]=0;
                 lastAdded=new Point(i,j,0);
 
@@ -382,13 +395,17 @@ public class Board {
                 }
 
                 killPotential[i][j]=pointsToKill.size();
+                /*
                 for (Point point : pointsToKill) {
                     if(!point.isBlack()){
                         killPotential[i][j]=-1;
+
+
                         break;
                     }
-                }
+                }*/
                 pointsArr[i][j]=2;
+                System.out.println("Bot potencjal: "+i+";"+j+";"+ killPotential[i][j]);
 
             }
         }
@@ -422,7 +439,6 @@ public class Board {
         Point botPoint = new Point(randomElement[0],randomElement[1],false);
 
         System.out.println("Bot: dodaje punkt "+botPoint.getX()+";"+botPoint.getY());
-        System.out.println("is this suicide? "+isSuicide2(botPoint.getX(),botPoint.getY()));
         addChecker(botPoint.getX(),botPoint.getY(),botPoint.isBlack());
         /**tutaj wywołuje sie fkcja addChecker*/
     }
