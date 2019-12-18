@@ -49,10 +49,5 @@ public class Player1ConnectTest {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
-
-
     }
 }

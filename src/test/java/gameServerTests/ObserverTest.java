@@ -17,13 +17,8 @@ public class ObserverTest {
         ob1.setTest();
         ob1.start();
         ob1.run();
-
-        Observer ob2 = new Observer(null);
-        ob2.setTest();
-        ob2.start();
-        ob2.run();
-
-        assert(!ob1.isThereServer() && !ob2.isThereServer());
+        //ob1.runGame();
+        assert(!ob1.isThereServer());
 
     }
     public class player extends Thread {

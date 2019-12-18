@@ -150,7 +150,7 @@ public class Observer extends Thread{
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
-        if(!isServer && !(isTest))                     /**tylko gdy nie ma serwera*/
+        if(!isServer && !isTest)                     /**tylko gdy nie ma serwera*/
             Platform.runLater(() ->  {
                 wfc.backToMenu();
                 return;
