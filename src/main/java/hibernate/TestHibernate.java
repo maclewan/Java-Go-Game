@@ -21,11 +21,11 @@ public class TestHibernate {
 
         //Add new Employee object
         GameStateEntity emp = new GameStateEntity();
-        emp.setGameId(1);
-        emp.setMoveId(1);
+        emp.setGameId(2);
+        emp.setMoveId(4);
         emp.setY(1);
         emp.setX(2);
-        emp.setisBlack(true);
+        emp.setisBlack(false);
 
         session.save(emp);
 

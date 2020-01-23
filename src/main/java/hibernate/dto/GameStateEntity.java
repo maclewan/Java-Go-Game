@@ -15,10 +15,10 @@ public class GameStateEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_game", unique = true, nullable = true)
+    @Column(name = "ID_game", unique = false, nullable = true)
     private Integer gameID;
 
-    @Column(name = "ID_move", unique = true, nullable = true, length = 100)
+    @Column(name = "ID_move", unique = false, nullable = true, length = 100)
     private Integer moveID;
 
     @Column(name = "x", unique = false, nullable = true, length = 100)
