@@ -28,7 +28,7 @@ public class Observer extends Thread{
 
     private boolean isServer=true;
     private ChatObserver chatObserver;
-    private boolean isChatOpen=false;
+
     /**zdobadz localhost*/
     InetAddress host;
     /**DO SOCKETA*/
