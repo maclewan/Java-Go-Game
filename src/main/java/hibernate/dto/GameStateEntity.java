@@ -50,7 +50,7 @@ public class GameStateEntity implements Serializable {
     public Integer getX() {
         return x;
     }
-    public void setX(int y) { this.x = x; }
+    public void setX(int x) { this.x = x; }
 
     public Boolean getisBlack() {
         return isBlack;
