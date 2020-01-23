@@ -38,7 +38,7 @@ public class TestHibernate {
 
 
             GameStateEntity emp = new GameStateEntity();
-            emp.setGameId((long)1);
+            emp.setGameId(s1);
             emp.setMoveId(i);
             emp.setY(9+i);
             emp.setX(6+i);

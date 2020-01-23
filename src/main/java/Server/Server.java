@@ -3,6 +3,9 @@ package Server;
 
 import Server.GameLogic.Board;
 import Server.GameLogic.Point;
+import hibernate.HibernateUtil;
+import hibernate.dto.GameStateEntity;
+import org.hibernate.Session;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static java.lang.Thread.sleep;
 
@@ -33,9 +37,14 @@ public class Server {
     private boolean isGameOn=true;
     private boolean isBlack=true;
     private boolean botGame=false;
+    private boolean isSthNewToHibernate=false;
     private ObjectOutputStream oos1;
     private ObjectOutputStream oos2;
     private ArrayList<Point> tempList;
+    public long gameId= new Date().getTime();
+
+
+
 
     private Server() {
     }
@@ -46,7 +55,8 @@ public class Server {
     private static class ServerHolder {
         private static final Server INSTANCE = new Server();
     }
-    /*Pozwala na utworzenie tylko jednego obiektu danej klasy i zapewnienie do niego globalnego dostępu.
+
+    /**Pozwala na utworzenie tylko jednego obiektu danej klasy i zapewnienie do niego globalnego dostępu.
     Zawiera:
     statyczną zmienną przechowującą instancję tej klasy,
     prywatny „pusty” konstruktor (aby nie można było utworzyć nowego obiektu tej klasy z wykorzystaniem operatora „new”),
@@ -64,6 +74,8 @@ public class Server {
 
     */
     public static void main(String[] args){
+
+
 
         ServerSocket server = null;
         /**port socket serwer-a*/
@@ -174,6 +186,7 @@ public class Server {
         client2GameThread.start();
         client1GameThread.start();
 
+
         board = new Board(this);
 
         pointList = new ArrayList<>();
@@ -227,6 +240,10 @@ public class Server {
             }
 
 
+
+
+
+
             tempList=pointList;
 
             if(tempList.size()>0)
@@ -244,6 +261,8 @@ public class Server {
             sleep(100);
         }
     }
+
+
 
 
     public void setParams(Point point, boolean isBlack) {
@@ -293,8 +312,28 @@ public class Server {
         isGameActive=true;
     }
 
-    public void endCurrentGame(){
+    public boolean compareArrayList(ArrayList< Point > l1,ArrayList<Point> l2){
+        ArrayList<Point> cmpList = new ArrayList<>();
+        if(l1.size()!=l2.size())
+            return false;
+        for(int i=0;i<l1.size();i++){
+            for(int j=0;j<l2.size();j++) {
+                if(l1.get(i).getX()==l2.get(j).getX()&&l1.get(i).getY()==l2.get(j).getY()&&l1.get(i).isBlack()==l2.get(j).isBlack()){
+                    cmpList.add(l1.get(i));
+                    continue;
+                }
+            }
+        }
+
+        if(cmpList.size()==l1.size()){
+            return true;
+        }
+        else
+            return false;
     }
+
+
+
 
 }
 

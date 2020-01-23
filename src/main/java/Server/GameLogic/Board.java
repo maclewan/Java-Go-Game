@@ -8,6 +8,9 @@ package Server.GameLogic;
 
 
 import Server.Server;
+import hibernate.HibernateUtil;
+import hibernate.dto.GameStateEntity;
+import org.hibernate.Session;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -27,6 +30,8 @@ public class Board {
     private int[][] pointsArr = new int[19][19];                       /** 0-white, 1-black, 2-empty*/
 
     private boolean[][] groupedArr = new boolean[19][19];
+
+    private int moveCounter =0;
 
     private ArrayList<ArrayList<Point>> groupList = new ArrayList();
     private Point lastAdded = new Point(23,23,5);
@@ -73,7 +78,42 @@ public class Board {
         if(server!=null) {
             setPointsList(checkersToKill);  /**wyslanie info do serwera*/
             server.changePlayer();
+            hibernate(server.gameId,moveCounter,x,y,isBlack);
+            //todo:sprawdź punkty i counter
+            moveCounter++;
         }
+
+    }
+
+    private void hibernate(
+            long gameId,
+            int moveId,
+            int x,
+            int y,
+            boolean isBlack
+    ){
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+
+
+
+
+
+        GameStateEntity emp = new GameStateEntity();
+        emp.setGameId(gameId);
+        emp.setMoveId(moveId);
+        emp.setY(y);
+        emp.setX(x);
+        emp.setisBlack(isBlack);
+        session.save(emp);
+
+
+        session.getTransaction().commit();
+        HibernateUtil.shutdown();
+
+
 
     }
 

@@ -148,7 +148,7 @@ public class ChatServer  extends Thread  {
             s.sendSignal(999);
             endGame=true;
             this.mes1=mes;
-            s.endCurrentGame();
+
 
         }
 
