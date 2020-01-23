@@ -15,34 +15,32 @@ public class GameStateEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_game", unique = true, nullable = false)
+    @Column(name = "ID_game", unique = true, nullable = true)
     private Integer gameID;
 
-    @Column(name = "ID_move", unique = true, nullable = false, length = 100)
+    @Column(name = "ID_move", unique = true, nullable = true, length = 100)
     private Integer moveID;
 
-    @Column(name = "x", unique = false, nullable = false, length = 100)
+    @Column(name = "x", unique = false, nullable = true, length = 100)
     private Integer x;
 
-    @Column(name = "y", unique = false, nullable = false, length = 100)
+    @Column(name = "y", unique = false, nullable = true, length = 100)
     private Integer y;
 
-    @Column(name = "isBlack", unique = false, nullable = false, length = 100)
+    @Column(name = "isBlack", unique = false, nullable = true, length = 100)
     private boolean isBlack;
 
     public Integer getGameId() {
         return gameID;
     }
-    public void setGameId(Integer employeeId) {
-        this.gameID = employeeId;
+    public void setGameId(Integer gameId) {
+        this.gameID = gameId;
     }
 
     public Integer getMoveId() {
         return moveID;
     }
-    public void setMoveId(Integer employeeId) {
-        this.moveID = moveID;
-    }
+    public void setMoveId(Integer moveId) { this.moveID = moveId; }
 
     public Integer getY() {
         return y;
