@@ -23,8 +23,6 @@ public class Player2ConnectTest {
         Socket socket = null;
         ObjectOutputStream oos = null;
         ObjectInputStream ois = null;
-        String kolor;
-        String message;
         boolean isBlack=true;
 
         try {

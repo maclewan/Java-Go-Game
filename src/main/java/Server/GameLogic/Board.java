@@ -375,11 +375,6 @@ public class Board {
                 if(pointsArr[i][j]!=2) {
                     continue;
                 }
-//
-                if(countBreaths(i,j)==0){
-                    System.out.println("Brak oddechów");
-                    continue;
-                }
 
                 pointsArr[i][j]=0;
                 lastAdded=new Point(i,j,0);
@@ -393,19 +388,8 @@ public class Board {
                     killPotential[i][j]=-1;
                     continue;
                 }
-
                 killPotential[i][j]=pointsToKill.size();
-                /*
-                for (Point point : pointsToKill) {
-                    if(!point.isBlack()){
-                        killPotential[i][j]=-1;
-
-
-                        break;
-                    }
-                }*/
                 pointsArr[i][j]=2;
-                System.out.println("Bot potencjal: "+i+";"+j+";"+ killPotential[i][j]);
 
             }
         }
@@ -438,7 +422,6 @@ public class Board {
 
         Point botPoint = new Point(randomElement[0],randomElement[1],false);
 
-        System.out.println("Bot: dodaje punkt "+botPoint.getX()+";"+botPoint.getY());
         addChecker(botPoint.getX(),botPoint.getY(),botPoint.isBlack());
         /**tutaj wywołuje sie fkcja addChecker*/
     }
