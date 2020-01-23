@@ -12,7 +12,7 @@ public class HibernateUtil {
     private static SessionFactory buildSessionFactory() {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
-            return new AnnotationConfiguration().configure(new File("home/michal/IdeaProjects/hibernate-test-project/hibernate.cgf.xml")).buildSessionFactory();
+            return new AnnotationConfiguration().configure(new File("/home/michal/IdeaProjects/projectGO/hibernate.cgf.xml")).buildSessionFactory();
 
         }
         catch (Throwable ex) {
