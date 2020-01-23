@@ -2,7 +2,6 @@ package hibernate;
 
 
 import hibernate.dto.GameStateEntity;
-
 import org.hibernate.Session;
 
 public class TestHibernate {
@@ -18,10 +17,14 @@ public class TestHibernate {
          * tutaj mamy przyklad dodawania czegos do
          * bazy wystarczy to wpisac w odpowiednie miejsca
          */
+        String hql = "SELECT E.x FROM games E";
+        //Query query = session.createQuery(hql);
+        //List results = query.list();
 
         //Add new Employee object
         GameStateEntity emp = new GameStateEntity();
-        emp.setGameId(2);
+        Long a= Long.valueOf(1);
+        emp.setGameId(a);
         emp.setMoveId(4);
         emp.setY(1);
         emp.setX(2);

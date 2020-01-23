@@ -5,9 +5,7 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "games", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "ID_game")
-        })
+@Table(name = "games")
 
 public class GameStateEntity implements Serializable {
 
@@ -15,8 +13,12 @@ public class GameStateEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", unique = true, nullable = false)
+    private int ID;
+
+
     @Column(name = "ID_game", unique = false, nullable = false)
-    private Integer gameID;
+    private Long gameID;
 
     @Column(name = "ID_move", unique = false, nullable = false)
     private Integer moveID;
@@ -30,10 +32,10 @@ public class GameStateEntity implements Serializable {
     @Column(name = "isBlack", unique = false, nullable = true)
     private boolean isBlack;
 
-    public Integer getGameId() {
+    public Long getGameId() {
         return gameID;
     }
-    public void setGameId(Integer gameId) {
+    public void setGameId(Long gameId) {
         this.gameID = gameId;
     }
 
