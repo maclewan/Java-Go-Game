@@ -3,6 +3,7 @@
 * [Technologies](#technologies)
 * [JavaSetup](#java-Setup)
 * [New Maven project](#tworzenie-nowego-projektu-Maven-w-programie-InteliiJ)
+* [Hibernate](#Hibernate)
 	
 	
 ## Java Setup
@@ -80,3 +81,7 @@ src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/IntelliJ_IDEA_Log
 
 Słuzy to temu abysmy mogli kozystac z nowszej bytecode version. Gdybysmy zostawili domyslny kod to musielibyśmy zmienić Target bycode version na 6 
 
+## Hibernate
+W projekcie został zastosowany framework Hibernate. 
+Po każdym ruchu, dane (id gry, współrzędne, kolor) są zapisywane w bazie danych ``checkersdb``. 
+Na potrzeby programu został stworzony user: ``hiber`` o haśle: ``123Hiber#``.
