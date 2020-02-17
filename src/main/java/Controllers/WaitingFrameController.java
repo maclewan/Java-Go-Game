@@ -90,6 +90,7 @@ public class WaitingFrameController{
             stage.setMinHeight(800);
             stage.setX(stage.getX() - 250);
             stage.setY(stage.getY() - 100);
+            clientController.setYourTurnText("Zaczyna czarny");
         } catch (IOException e) {
             e.printStackTrace();
         }

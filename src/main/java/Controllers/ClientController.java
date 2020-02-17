@@ -3,6 +3,7 @@ package Controllers;
 import Server.GameLogic.Point;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -205,12 +206,11 @@ public class ClientController {
         if(isBlack) {
             lblGraczC.setText("Ja");
             btnPass.setLayoutX(1000);
-            lblYourTurn.setLayoutX(1000);
         }
         else {
             lblGraczB.setText("Ja");
-
         }
+        lblYourTurn.setVisible(false);
 
     }
 
@@ -252,7 +252,13 @@ public class ClientController {
     }
 
     public void setYourTurnText(String text){
-        lblYourTurn.setText(text);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Informacja");
+        alert.setHeaderText(null);
+        alert.setContentText(text);
+
+        alert.showAndWait();
+
     }
 
 

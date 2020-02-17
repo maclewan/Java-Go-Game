@@ -218,16 +218,16 @@ public class Observer extends Thread{
                 Platform.runLater(() -> cc.setYourTurnText("Tura Czarnego"));
 
             else if (x==50)
-                Platform.runLater(() -> cc.setYourTurnText("Czarny PASS\nTura Białego"));
+                Platform.runLater(() -> cc.setYourTurnText("Czarny PASS"));
 
             else if (x==51)
-                Platform.runLater(() -> cc.setYourTurnText("Biały PASS\nTura Czarnego"));
+                Platform.runLater(() -> cc.setYourTurnText("Biały PASS"));
 
             else if (x==60)
-                Platform.runLater(() -> cc.setYourTurnText("Biały wznowił grę\nTura Białego"));
+                Platform.runLater(() -> cc.setYourTurnText("Biały wznowił grę"));
 
             else if (x==61)
-                Platform.runLater(() -> cc.setYourTurnText("Czarny wznowił grę\nTura Czarnego"));
+                Platform.runLater(() -> cc.setYourTurnText("Czarny wznowił grę"));
 
             else if (x==999)
                 Platform.runLater(() -> cc.setYourTurnText("Koniec gry!"));
