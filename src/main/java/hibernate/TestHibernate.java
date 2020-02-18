@@ -30,10 +30,6 @@ public class TestHibernate {
 
 
 
-
-        //Add new Employee object
-
-
         for(int i=0;i<100;i++) {
 
 
