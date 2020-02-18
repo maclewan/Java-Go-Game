@@ -209,7 +209,6 @@ public class ClientController {
         }
         else {
             lblGraczB.setText("Ja");
-
         }
 
     }
