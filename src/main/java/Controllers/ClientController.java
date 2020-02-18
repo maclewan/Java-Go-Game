@@ -3,7 +3,6 @@ package Controllers;
 import Server.GameLogic.Point;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -29,8 +28,6 @@ public class ClientController {
 
     private int killedBlack=0;
     private int killedWhite=0;
-
-    private int ignorer=0;
 
     private Ellipse[][] checkers = new Ellipse[19][19];
 
@@ -208,11 +205,12 @@ public class ClientController {
         if(isBlack) {
             lblGraczC.setText("Ja");
             btnPass.setLayoutX(1000);
+            lblYourTurn.setLayoutX(1000);
         }
         else {
             lblGraczB.setText("Ja");
+
         }
-        lblYourTurn.setVisible(false);
 
     }
 
@@ -254,23 +252,7 @@ public class ClientController {
     }
 
     public void setYourTurnText(String text){
-        if(ignorer!=0){
-            ignorer++;
-            return;
-        }
-        if(!bot) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Informacja");
-            alert.setHeaderText(null);
-            alert.setContentText(text);
-
-            alert.showAndWait();
-        }
-    }
-
-    public void ignoreNumberOfDialogs(int number){
-        System.out.println("Ignorer set on -"+number+" moves");
-        ignorer=0-number;
+        lblYourTurn.setText(text);
     }
 
 
