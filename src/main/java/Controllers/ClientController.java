@@ -30,6 +30,8 @@ public class ClientController {
     private int killedBlack=0;
     private int killedWhite=0;
 
+    private int ignorer=0;
+
     private Ellipse[][] checkers = new Ellipse[19][19];
 
     private Point pointToPush;
@@ -252,13 +254,23 @@ public class ClientController {
     }
 
     public void setYourTurnText(String text){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Informacja");
-        alert.setHeaderText(null);
-        alert.setContentText(text);
+        if(ignorer!=0){
+            ignorer++;
+            return;
+        }
+        if(!bot) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Informacja");
+            alert.setHeaderText(null);
+            alert.setContentText(text);
 
-        alert.showAndWait();
+            alert.showAndWait();
+        }
+    }
 
+    public void ignoreNumberOfDialogs(int number){
+        System.out.println("Ignorer set on -"+number+" moves");
+        ignorer=0-number;
     }
 
 

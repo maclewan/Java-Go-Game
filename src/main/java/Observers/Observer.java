@@ -29,6 +29,7 @@ public class Observer extends Thread{
     private boolean isServer=true;
     private ChatObserver chatObserver;
 
+
     /**zdobadz localhost*/
     InetAddress host;
     /**DO SOCKETA*/
@@ -204,10 +205,14 @@ public class Observer extends Thread{
     }
 
     private void checkSpecialSigns(int x){
+        if(endGame){
+            return;
+        }
         if(!bot) {
             /**Mozliwosc rozszerzenia funkcjonalnosci o nowe sygnały itp*/
             if (x == 69) {
                 Platform.runLater(() -> cc.setYourTurnText("Obaj gracze PASS"));
+
                 Platform.runLater(() -> chatObserver.startChat());
             }
 
@@ -229,8 +234,12 @@ public class Observer extends Thread{
             else if (x==61)
                 Platform.runLater(() -> cc.setYourTurnText("Czarny wznowił grę"));
 
-            else if (x==999)
-                Platform.runLater(() -> cc.setYourTurnText("Koniec gry!"));
+            else if (x==999) {
+                if (!endGame) {
+                    Platform.runLater(() -> cc.setYourTurnText("Koniec gry!"));
+                    endGame = true;
+                }
+            }
 
         }
     }
