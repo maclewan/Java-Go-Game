@@ -252,6 +252,7 @@ public class ClientController {
 
     public void setYourTurnText(String text){
         lblYourTurn.setText(text);
+        System.out.println("Różnica");
     }
 
 
