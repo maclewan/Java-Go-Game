@@ -29,7 +29,6 @@ public class Observer extends Thread{
     private boolean isServer=true;
     private ChatObserver chatObserver;
 
-
     /**zdobadz localhost*/
     InetAddress host;
     /**DO SOCKETA*/
@@ -205,14 +204,10 @@ public class Observer extends Thread{
     }
 
     private void checkSpecialSigns(int x){
-        if(endGame){
-            return;
-        }
         if(!bot) {
             /**Mozliwosc rozszerzenia funkcjonalnosci o nowe sygnały itp*/
             if (x == 69) {
                 Platform.runLater(() -> cc.setYourTurnText("Obaj gracze PASS"));
-
                 Platform.runLater(() -> chatObserver.startChat());
             }
 
@@ -223,23 +218,19 @@ public class Observer extends Thread{
                 Platform.runLater(() -> cc.setYourTurnText("Tura Czarnego"));
 
             else if (x==50)
-                Platform.runLater(() -> cc.setYourTurnText("Czarny PASS"));
+                Platform.runLater(() -> cc.setYourTurnText("Czarny PASS\nTura Białego"));
 
             else if (x==51)
-                Platform.runLater(() -> cc.setYourTurnText("Biały PASS"));
+                Platform.runLater(() -> cc.setYourTurnText("Biały PASS\nTura Czarnego"));
 
             else if (x==60)
-                Platform.runLater(() -> cc.setYourTurnText("Biały wznowił grę"));
+                Platform.runLater(() -> cc.setYourTurnText("Biały wznowił grę\nTura Białego"));
 
             else if (x==61)
-                Platform.runLater(() -> cc.setYourTurnText("Czarny wznowił grę"));
+                Platform.runLater(() -> cc.setYourTurnText("Czarny wznowił grę\nTura Czarnego"));
 
-            else if (x==999) {
-                if (!endGame) {
-                    Platform.runLater(() -> cc.setYourTurnText("Koniec gry!"));
-                    endGame = true;
-                }
-            }
+            else if (x==999)
+                Platform.runLater(() -> cc.setYourTurnText("Koniec gry!"));
 
         }
     }

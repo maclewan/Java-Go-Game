@@ -227,7 +227,6 @@ public class Server {
                 if(botGame){
                     isGameActive=false;
                     sendSignal(999);
-                    System.out.println("End game!");
                     continue;
                 }
                 /**w przypadku gry bez bota otworz chat*/
